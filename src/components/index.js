@@ -6,3 +6,4 @@ export * from './login-form/LoginForm';
 export * from './reset-form/ResetForm';
 export * from './container/Container';
 export * from './button/Button';
+export * from './hero-head/HeroHead';

@@ -47,7 +47,7 @@ export default function Navbar() {
 		}
 
     return (
-        <ScrollView>
+        // <ScrollView>
 					<Nav>
 						<Navs>
 							<Container>
@@ -105,6 +105,6 @@ export default function Navbar() {
 							</Collapse>
 						)}
 					</Nav>
-        </ScrollView>
+        // </ScrollView>
     )
 }
