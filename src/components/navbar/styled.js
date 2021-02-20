@@ -39,7 +39,6 @@ export const CollapseItemDropdown = styled.View`
     width: 100%;
     justify-content: center;
     align-items: center;
-    height: ${props => props.height ? props.height : '60px'};
     border-bottom-color: #DEDEDE;
     border-bottom-width: 0.5px;
     border-style: solid;
@@ -47,6 +46,7 @@ export const CollapseItemDropdown = styled.View`
 
 export const DropdownHead = styled.View`
     flex-direction: row;
+    align-items: center;
 `;
 
 export const CollapseTopItem = styled.View`
@@ -65,12 +65,24 @@ export const Form = styled.View`
 `;
 
 export const DropdownList = styled.View`
-    width: 90%;
-    height: 100%;
+    justify-content: center;
+`;
+
+export const DropdownItem = styled.View`
+    height: 30px;
 `;
 
 export const styles = StyleSheet.create({
     textMarginRight: {
         marginRight: 10
+    },
+    dropdownHead: {
+        marginBottom: 15
+    },
+    dropdownPadding: {
+        paddingVertical: 30
+    },
+    dropdownHeight: {
+        height: 60
     }
 })

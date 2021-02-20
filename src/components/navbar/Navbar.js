@@ -1,7 +1,7 @@
 // ===== Navbar
 // import all modules
-import React, {Fragment, useState} from 'react';
-import {View, TouchableWithoutFeedback, Text} from 'react-native'
+import React, {useState} from 'react';
+import {View, TouchableWithoutFeedback, Text, ScrollView} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 // import all components
@@ -19,7 +19,8 @@ import {
 	CollapseTopItem, 
 	styles,
 	DropdownList,
-	CollapseItemDropdown
+	CollapseItemDropdown,
+	DropdownItem
 } from './styled';
 
 // import img
@@ -28,13 +29,18 @@ import Burger from '../../assets/img/burger.svg';
 
 export default function Navbar() {
 		const [show, setShow] = useState(false)
+		const [dropdown, setDropdown] = useState(false)
 
 		const handleToggle = () => {
 			setShow(show => !show)
 		}
 
+		const handleDropdown = () => {
+			setDropdown(show => !show)
+		}
+
     return (
-        <Fragment>
+        <ScrollView>
 					<Nav>
 						<Navs>
 							<Container>
@@ -57,15 +63,25 @@ export default function Navbar() {
 										<SearchField keyboardType="web-search" placeholder="Search..." placeholderColor="#A0A3BD" />
 									</Form>
 								</CollapseTopItem>
-								<CollapseItemDropdown height={'200px'}>
-									<DropdownHead>
-										<Text style={styles.textMarginRight}>Location</Text>
-										<Icon name="angle-down" size={15} />
-									</DropdownHead>
-									<DropdownList>
-										<Text>Jakarta</Text>
-										<Text>Surabaya</Text>
-									</DropdownList>
+								<CollapseItemDropdown style={dropdown ? styles.dropdownPadding : styles.dropdownHeight}>
+									<TouchableWithoutFeedback onPress={handleDropdown}>
+										<DropdownHead style={dropdown && styles.dropdownHead}>
+											<Text style={styles.textMarginRight}>Location</Text>
+											<Icon name="angle-down" size={15} />
+										</DropdownHead>
+									</TouchableWithoutFeedback>
+									{
+										dropdown && (
+											<DropdownList>
+												<DropdownItem>
+													<Text>Jakarta</Text>
+												</DropdownItem>
+												<DropdownItem>
+													<Text>Surabaya</Text>
+												</DropdownItem>
+											</DropdownList>
+										)
+									}
 								</CollapseItemDropdown>
 								<CollapseItem>
 									<Text>Movies</Text>
@@ -79,6 +95,6 @@ export default function Navbar() {
 							</Collapse>
 						)}
 					</Nav>
-        </Fragment>
+        </ScrollView>
     )
 }
