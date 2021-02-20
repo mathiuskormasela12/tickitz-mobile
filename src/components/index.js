@@ -11,3 +11,4 @@ export * from './now-showing/NowShowing';
 export * from './card-now-showing/CardNowShowing';
 export * from './card-upcoming/CardUpcoming';
 export * from './upcoming-movies/UpcomingMovie';
+export * from './moviegoers/Moviegoers';

@@ -4,7 +4,7 @@ import React, {Fragment} from 'react';
 import {ScrollView} from 'react-native';
 
 // import all components
-import {HeroHead, NowShowing, UpcomingMovie} from '../components';
+import {HeroHead, NowShowing, UpcomingMovie, Movigoers} from '../components';
 import Navbar from '../components/navbar/Navbar';
 
 function Home() {
@@ -15,6 +15,7 @@ function Home() {
 						<HeroHead />
 						<NowShowing />
 						<UpcomingMovie />
+						<Movigoers />
 					</ScrollView>
         </Fragment>
     )
