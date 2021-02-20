@@ -11,6 +11,7 @@ import persistedStore from './src/redux/store';
 import Register from './src/screens/Register';
 import Login from './src/screens/Login';
 import Home from './src/screens/Home';
+import MovieDetail from './src/screens/MovieDetail';
 import ResetPassword from './src/screens/ResetPassword';
 
 // create stack
@@ -24,9 +25,14 @@ export default function App() {
         <PersistGate persistor={persistor}>
           <NavigationContainer>
             <Stack.Navigator>
-            <Stack.Screen
+              <Stack.Screen
                 name="Home"
                 component={Home}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="Detail"
+                component={MovieDetail}
                 options={{headerShown: false}}
               />
               <Stack.Screen

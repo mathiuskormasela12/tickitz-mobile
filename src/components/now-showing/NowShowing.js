@@ -26,7 +26,7 @@ class NowShowing extends Component {
               <Main>
                 {[...Array(10)].map((item, index) => (
                   <Fragment key={String(index)}>
-                    <CardNowShowing style={styled.card} />
+                    <CardNowShowing style={styled.card} {...this.props} />
                   </Fragment>
                 ))}
               </Main>
