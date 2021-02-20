@@ -64,12 +64,24 @@ export const Form = styled.View`
     height: 100%;
 `;
 
+export const TextFoot = styled.Text`
+    color: #6E7191;
+`;
+
 export const DropdownList = styled.View`
     justify-content: center;
 `;
 
 export const DropdownItem = styled.View`
     height: 30px;
+`;
+
+export const CollapseFoot = styled.View`
+    width: 100%;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
 `;
 
 export const styles = StyleSheet.create({

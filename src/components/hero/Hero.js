@@ -9,7 +9,7 @@ class Hero extends Component {
   render() {
     return (
       <Fragment>
-        <HeroStyle>{this.props.children}</HeroStyle>
+        <HeroStyle {...this.props}>{this.props.children}</HeroStyle>
       </Fragment>
     );
   }

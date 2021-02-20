@@ -13,9 +13,6 @@ import Login from './src/screens/Login';
 import Home from './src/screens/Home';
 import ResetPassword from './src/screens/ResetPassword';
 
-// import navbar
-import Navbar from './src/components/navbar/Navbar'
-
 // create stack
 const Stack = createStackNavigator();
 
@@ -30,7 +27,7 @@ export default function App() {
             <Stack.Screen
                 name="Home"
                 component={Home}
-                options={{header: () => <Navbar />}}
+                options={{headerShown: false}}
               />
               <Stack.Screen
                 name="Register"

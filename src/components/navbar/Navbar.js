@@ -1,8 +1,12 @@
 // ===== Navbar
 // import all modules
 import React, {useState} from 'react';
-import {View, TouchableWithoutFeedback, Text, ScrollView} from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import {View, TouchableWithoutFeedback, Text, ScrollView} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
+// import actions
+import {showToggle} from '../../redux/actions/home';
 
 // import all components
 import Container from '../container/Container';
@@ -20,7 +24,9 @@ import {
 	styles,
 	DropdownList,
 	CollapseItemDropdown,
-	DropdownItem
+	DropdownItem,
+	CollapseFoot,
+	TextFoot
 } from './styled';
 
 // import img
@@ -28,11 +34,12 @@ import logo from '../../assets/img/logo.png';
 import Burger from '../../assets/img/burger.svg';
 
 export default function Navbar() {
-		const [show, setShow] = useState(false)
+		const dispatch = useDispatch();
+		const toggle = useSelector(toggle => toggle.home.toggle)
 		const [dropdown, setDropdown] = useState(false)
 
 		const handleToggle = () => {
-			setShow(show => !show)
+			dispatch(showToggle())
 		}
 
 		const handleDropdown = () => {
@@ -56,7 +63,7 @@ export default function Navbar() {
 								</Row>
 							</Container>
 						</Navs>
-						{show && (
+						{toggle && (
 							<Collapse>
 								<CollapseTopItem>
 									<Form>
@@ -92,6 +99,9 @@ export default function Navbar() {
 								<CollapseItem>
 									<Text>Buy Ticket</Text>
 								</CollapseItem>
+								<CollapseFoot>
+									<TextFoot>© 2021 Tickitz. All Rights Reserved.</TextFoot>
+								</CollapseFoot>
 							</Collapse>
 						)}
 					</Nav>
