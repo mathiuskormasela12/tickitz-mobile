@@ -6,22 +6,21 @@ import * as variables from '../../style/variable';
 export const Card = styled.View`
   border: 1px solid white;
   padding: 25px;
-  padding-bottom: ${(props) => props.color ? '10px' : '30px'};
   border-radius: 10px;
   width: 280px;
-  ${(props) => props.color && `background-color: ${variables.light};`}
-  ${(props) => props.color && `elevation: 1;`}
+  background-color: ${variables.light};
+  elevation: 1;
 `;
 
 export const CardHead = styled.View`
-  ${(props) => props.color && `height: ${(61/100) * 600}px;`}
+  height: ${(70/100) * 500}px;
   width: 100%;
   background-color:blue;
 `;
 export const CardFooter = styled.View`
-  height: ${(39/100) * 600}px;
+  height: ${(30/100) * 500}px;
   width: 100%;
-  padding-top: 20px;
+  margin-top: 40px;
 `;
 
 export const Image = styled.Image`

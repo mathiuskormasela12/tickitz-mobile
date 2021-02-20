@@ -22,7 +22,7 @@ class NowShowing extends Component {
                 View All
               </Subtitle>
             </Header>
-            <ScrollView horizontal>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <Main>
                 {[...Array(10)].map((item, index) => (
                   <Fragment key={String(index)}>

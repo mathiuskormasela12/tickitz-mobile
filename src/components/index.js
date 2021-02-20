@@ -9,3 +9,5 @@ export * from './button/Button';
 export * from './hero-head/HeroHead';
 export * from './now-showing/NowShowing';
 export * from './card-now-showing/CardNowShowing';
+export * from './card-upcoming/CardUpcoming';
+export * from './upcoming-movies/UpcomingMovie';

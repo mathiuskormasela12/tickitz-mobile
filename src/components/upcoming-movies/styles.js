@@ -1,10 +1,10 @@
-// ===== Header Styles
 // import all modules
 import styled from 'styled-components/native';
 import * as variables from '../../style/variable';
 
-export const NowShowingStyle = styled.View`
+export const UpcomingStyle = styled.View`
   padding-vertical: 50px;
+  background-color: ${variables.light};
 `;
 
 export const Header = styled.View`
