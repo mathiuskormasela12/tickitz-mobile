@@ -9,8 +9,9 @@ export const Warpper = styled.TouchableOpacity`
   height: ${(props) => props.height && props.height};
   width: ${(props) => props.width && props.width};
   border-radius: 6px;
-  background-color: ${(props) => (props.primary ? variables.primary : 'red')};
+  background-color: ${(props) => (props.primary ? variables.primary : 'transparent')};
   align-items: center;
+  border: 1px solid ${variables.primary};
   justify-content: center;
 `;
 
