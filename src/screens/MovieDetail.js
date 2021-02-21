@@ -7,7 +7,8 @@ import {ScrollView} from 'react-native';
 import {Footer} from '../components';
 import Navbar from '../components/navbar/Navbar';
 import {
-	Details
+	Details,
+	ShowTimes
 } from '../components';
 
 function MovieDetail() {
@@ -16,6 +17,7 @@ function MovieDetail() {
 					<ScrollView>
 						<Navbar />
 						<Details />
+						<ShowTimes />
 						<Footer />
 					</ScrollView>
         </Fragment>
