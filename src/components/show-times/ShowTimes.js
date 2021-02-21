@@ -18,9 +18,12 @@ import {
   DateText,
   Column,
   AppendIcon,
-  AppendText
+  AppendText,
+  Row,
+  Col
 } from './styles';
 import Container from '../container/Container';
+import {ShowTimeCard} from '../';
 
 // import img
 import Calendar from '../../assets/img/calendar.svg';
@@ -98,6 +101,15 @@ class ShowTimes extends Component {
                 </View>
               </Column>
             </Form>
+            <Row>
+              {
+								[...Array(10)].map((item, index) => (
+									<Col key={String(index)}>
+										<ShowTimeCard />		
+									</Col>
+								))
+							}
+            </Row>
           </Container>
         </ShowTime>
       </Fragment>

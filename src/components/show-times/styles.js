@@ -55,6 +55,17 @@ export const DateText = styled.Text`
   font-weight: 600;
 `;
 
+export const Row = styled.View`
+  margin-top: 20px;
+  align-content: space-between;
+  width: 100%;
+`;
+
+export const Col = styled.View`
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
 export const styles = StyleSheet.create({
   icon: {
     textAlign: 'right',
