@@ -1,9 +1,10 @@
 // ===== Container
 // import all modules
 import React, {Fragment, Component} from 'react';
-import {TouchableWithoutFeedback} from 'react-native'
+import {TouchableWithoutFeedback, View} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {Picker} from '@react-native-picker/picker';
 import moment from 'moment';
 
 // import all components
@@ -23,11 +24,13 @@ import Container from '../container/Container';
 
 // import img
 import Calendar from '../../assets/img/calendar.svg';
+import Location from '../../assets/img/location.svg';
 
 class ShowTimes extends Component {
   state = {
     isVisible: false,
-    selectedDate: null
+    selectedDate: null,
+    location: 'Jakarta'
   }
 
   showDatePicker = () => {
@@ -78,6 +81,21 @@ class ShowTimes extends Component {
                   onConfirm={this.handleConfirm}
                   onCancel={this.hideDatePicker}
                 />
+              </Column>
+              <Column>
+                <View style={styles.pickerContainer}>
+                  <Location style={styles.location} width="18" height="18" />
+                  <Picker
+                    dropdownIconColor="#A0A3BD"
+                    selectedValue={this.state.location}
+                    style={styles.picker}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({location: itemValue})
+                    }>
+                    <Picker.Item label="Jakarta"  style={styles.item} alue="Jakarta" />
+                    <Picker.Item label="Bogor" value="Bogor" />
+                  </Picker>
+                </View>
               </Column>
             </Form>
           </Container>

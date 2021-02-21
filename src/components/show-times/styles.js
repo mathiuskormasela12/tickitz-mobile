@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import * as variables from '../../style/variable';
 
 export const ShowTime = styled.View`
-  background-color: ${variables.light};
+  background-color: #F5F6F8;
   padding-vertical: 30px;
 `;
 
@@ -59,5 +59,24 @@ export const styles = StyleSheet.create({
   icon: {
     textAlign: 'right',
     color: '#A0A3BD'
+  },
+  picker: {
+    width: '100%',
+    height: 55,
+    color: '#4E4B66',
+  },
+  pickerContainer: {
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#EFF0F6',
+    borderStyle:'solid',
+    backgroundColor: '#EFF0F6',
+    width: '100%',
+    paddingLeft: 55,
+  },
+  location: {
+    position: 'absolute',
+    top: 18,
+    left: 20
   }
 })
