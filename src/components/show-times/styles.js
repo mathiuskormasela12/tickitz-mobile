@@ -66,6 +66,13 @@ export const Col = styled.View`
   margin-bottom: 20px;
 `;
 
+export const Pagination = styled.View`
+  width: 100%;
+  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 20px;
+`;
+
 export const styles = StyleSheet.create({
   icon: {
     textAlign: 'right',
@@ -89,5 +96,8 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: 18,
     left: 20
+  },
+  button: {
+    marginRight: 10
   }
 })

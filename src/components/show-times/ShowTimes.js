@@ -20,10 +20,12 @@ import {
   AppendIcon,
   AppendText,
   Row,
-  Col
+  Col,
+  Pagination
 } from './styles';
 import Container from '../container/Container';
 import {ShowTimeCard} from '../';
+import Button from '../button/Button';
 
 // import img
 import Calendar from '../../assets/img/calendar.svg';
@@ -110,6 +112,15 @@ class ShowTimes extends Component {
 								))
 							}
             </Row>
+            <Pagination>
+              {[...Array(5)].map((item, index) => (
+                <View key={String(index)} style={styles.button}>
+                  <Button height="30px" width="30px">
+                    {index + 1}
+                  </Button>
+                </View>
+              ))}
+            </Pagination>
           </Container>
         </ShowTime>
       </Fragment>
