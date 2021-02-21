@@ -1,9 +1,10 @@
 // ===== Container
 // import all modules
 import React, {Fragment, Component} from 'react';
-import {Alert, TouchableWithoutFeedback} from 'react-native'
+import {TouchableWithoutFeedback} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from 'moment';
 
 // import all components
 import {
@@ -43,7 +44,7 @@ class ShowTimes extends Component {
 
   handleConfirm = (date) => {
     this.setState({
-      selectedDate: date
+      selectedDate: moment(date).format('YYYY-MM-DD')
     })
     this.hideDatePicker();
   };
@@ -64,7 +65,7 @@ class ShowTimes extends Component {
                       <Calendar width="22" height="22"  />
                     </AppendIcon>
                     <AppendText>
-                      <DateText>Set a Date</DateText>
+                      <DateText>{this.state.selectedDate ? this.state.selectedDate : 'Set a Date'}</DateText>
                     </AppendText>
                     <AppendIcon>
                       <Icon name="angle-down" size={15} style={styles.icon} />
