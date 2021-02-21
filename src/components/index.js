@@ -13,3 +13,5 @@ export * from './card-upcoming/CardUpcoming';
 export * from './upcoming-movies/UpcomingMovie';
 export * from './moviegoers/Moviegoers';
 export * from './footer/Footer';
+export * from './card-movie-plain/CardMoviePlain';
+export * from './details/Details';
