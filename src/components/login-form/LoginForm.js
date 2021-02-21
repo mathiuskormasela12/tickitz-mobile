@@ -25,7 +25,7 @@ import Line from '../line/Line';
 import SocialMedia from '../social-media/SocialMedia';
 
 class LoginForm extends Component {
-  handlePush = () => this.props.navigation.navigate('ResetPassword');
+  handlePush = (screen) => this.props.navigation.navigate(screen);
 
   render() {
     return (
@@ -56,14 +56,16 @@ class LoginForm extends Component {
               </Field>
             </Control>
             <Control>
-              <Button primary width="100%" height="62px">
-                Sign In
-              </Button>
+              <TouchableWithoutFeedback onPress={() => this.handlePush('Home')}>
+                <Button primary width="100%" height="62px">
+                  Sign In
+                </Button>
+              </TouchableWithoutFeedback>
             </Control>
             <Control>
               <LinkControl>
                 <TextGray>Forgot your password?</TextGray>
-                <TouchableWithoutFeedback onPress={this.handlePush}>
+                <TouchableWithoutFeedback onPress={() => this.handlePush('ResetPassword')}>
                   <Link>Reset now</Link>
                 </TouchableWithoutFeedback>
               </LinkControl>
