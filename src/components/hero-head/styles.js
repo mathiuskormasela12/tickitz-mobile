@@ -6,7 +6,7 @@ import * as variables from '../../style/variable';
 
 export const Hero = styled.View`
   flex: 1;
-  height: ${Dimensions.get('screen').height - 80}px;
+  height: ${Dimensions.get('window').height - 80}px;
   align-items: center;
   align-content: center;
   justify-content: center;
@@ -35,10 +35,8 @@ export const Image = styled.Image`
 `;
 
 export const styles = StyleSheet.create({
-  customizeCol: {
-   
-  },
+  customizeCol: {},
   colFlex: {
-    alignItems: 'center'
-  }
-})
+    alignItems: 'center',
+  },
+});

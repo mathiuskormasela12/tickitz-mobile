@@ -1,6 +1,7 @@
 // ===== Container
 // import all modules
 import React, {Fragment, Component} from 'react';
+import push from '../../helpers/push';
 
 // import all components
 import {
@@ -17,14 +18,18 @@ import {
   Col,
   Price,
   PriceLabel,
-  styles
+  styles,
 } from './styles';
 import Button from '../button/Button';
 
 // import images
-import ebv from '../../assets/img/hiflix.png';
+import ebv from '../../assets/img/ebv.png';
 
 class ShowTimeCard extends Component {
+  navigate = () => {
+    push(this.props, 'Order');
+  };
+
   render() {
     return (
       <Fragment>
@@ -32,9 +37,7 @@ class ShowTimeCard extends Component {
           <Container>
             <Header>
               <Image source={ebv} />
-              <Subtitle>
-                Whatever street No.12, South Purwokerto
-              </Subtitle>
+              <Subtitle>Whatever street No.12, South Purwokerto</Subtitle>
             </Header>
             <Main>
               {[...Array(8)].map((item, index) => (
@@ -54,7 +57,11 @@ class ShowTimeCard extends Component {
               </Row>
               <Row style={styles.footer}>
                 <Col>
-                  <Button height="43px" width="100%" primary>
+                  <Button
+                    height="43px"
+                    width="100%"
+                    primary
+                    onPress={this.navigate}>
                     Book Now
                   </Button>
                 </Col>

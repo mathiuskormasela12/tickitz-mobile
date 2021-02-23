@@ -1,7 +1,7 @@
 // ===== Header
 // import all modules
 import React, {Component} from 'react';
-import {View, TouchableWithoutFeedback} from 'react-native';
+import {View} from 'react-native';
 
 // import styles
 import {

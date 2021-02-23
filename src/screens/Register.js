@@ -16,7 +16,7 @@ function Register(props) {
         </Hero>
       </ScrollView>
     </Fragment>
-  )
+  );
 }
 
 export default Register;

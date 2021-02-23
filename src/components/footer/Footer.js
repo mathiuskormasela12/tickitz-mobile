@@ -17,7 +17,7 @@ import {
   ListFollow,
   ListSponsor,
   Follow,
-  Text
+  Text,
 } from './styles';
 
 // import img
@@ -39,14 +39,12 @@ class Footer extends Component {
             <Header>
               <Image source={logo} />
               <Subtitle>
-                Stop waiting in line. Buy tickets
-                conveniently, watch movies quietly.
+                Stop waiting in line. Buy tickets conveniently, watch movies
+                quietly.
               </Subtitle>
             </Header>
             <Section>
-              <TitleList>
-                Explorer
-              </TitleList>
+              <TitleList>Explorer</TitleList>
               <List>
                 <ListItems>Cinemas</ListItems>
                 <ListItems>Movies List</ListItems>
@@ -55,19 +53,15 @@ class Footer extends Component {
               </List>
             </Section>
             <Section>
-              <TitleList>
-                Our Sponsor
-              </TitleList>
+              <TitleList>Our Sponsor</TitleList>
               <ListSponsor>
-                <Sponsor width="80px" height="29px" source={ebv} />
-                <Sponsor width="130px" height="21px" source={cineone} />
+                <Sponsor width="80px" height="25px" source={ebv} />
+                <Sponsor width="80px" height="25px" source={cineone} />
                 <Sponsor width="80px" height="25px" source={hiflix} />
               </ListSponsor>
             </Section>
             <Section>
-              <TitleList>
-                Follow Us
-              </TitleList>
+              <TitleList>Follow Us</TitleList>
               <ListFollow>
                 <Follow width="12px" height="20px" source={fb} />
                 <Follow width="20px" height="20px" source={ig} />
@@ -75,9 +69,7 @@ class Footer extends Component {
                 <Follow width="20px" height="20px" source={yt} />
               </ListFollow>
             </Section>
-            <Text>
-              © 2021 Tickitz. All Rights Reserved.
-            </Text>
+            <Text>© 2021 Tickitz. All Rights Reserved.</Text>
           </Container>
         </FooterStyle>
       </Fragment>

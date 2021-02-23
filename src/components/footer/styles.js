@@ -24,13 +24,14 @@ export const Image = styled.Image`
 `;
 
 export const Sponsor = styled.Image`
-  height:${(props) => props.height};
-  width: ${(props) => props.width};
+  width: 28%;
+  resize-mode: contain;
 `;
 
 export const Follow = styled.Image`
-  height:${(props) => props.height};
+  height: ${(props) => props.height};
   width: ${(props) => props.width};
+  resize-mode: contain;
   margin-right: 30px;
 `;
 
@@ -43,7 +44,7 @@ export const Subtitle = styled.Text`
   margin-top: 20px;
   width: 250px;
   font-size: 16px;
-  color: #6E7191;
+  color: #6e7191;
 `;
 
 export const Section = styled.View`
@@ -66,24 +67,23 @@ export const List = styled.View`
 export const ListSponsor = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  align-items:center;
+  align-items: center;
 `;
 
 export const ListFollow = styled.View`
   flex-direction: row;
-  align-items:center;
+  align-items: center;
 `;
 
 export const ListItems = styled.Text`
   font-size: 16px;
-  color: #6E7191;
+  color: #6e7191;
   width: 33%;
   margin-bottom: 15px;
 `;
 
 export const Text = styled.Text`
-font-size: 16px;
-color: #6E7191;
-margin-top: 50px;
-`
-
+  font-size: 16px;
+  color: #6e7191;
+  margin-top: 50px;
+`;

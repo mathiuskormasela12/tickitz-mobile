@@ -3,21 +3,21 @@ import styled from 'styled-components/native';
 import * as variables from '../../style/variable';
 
 export const Card = styled.View`
-  border: 1px solid white;
-  padding: 25px;
-  padding-bottom: 30px;
+  border: 1px solid #dedede;
+  padding: 20px;
   border-radius: 10px;
-  width: 280px;
+  width: 220px;
+  height: 300px;
   background-color: ${variables.light};
-  elevation: 1;
 `;
 
 export const CardHead = styled.View`
-  height: 370px;
+  height: 100%;
   width: 100%;
-  background-color:blue;
 `;
 
 export const Image = styled.Image`
-    width: 100%;
+  width: 100%;
+  height: 100%;
+  resize-mode: stretch;
 `;

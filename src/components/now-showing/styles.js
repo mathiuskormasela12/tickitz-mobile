@@ -1,5 +1,6 @@
 // ===== Header Styles
 // import all modules
+import {StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 import * as variables from '../../style/variable';
 
@@ -17,13 +18,13 @@ export const Header = styled.View`
 
 export const Title = styled.Text`
   font-weight: bold;
-  color:  ${variables.primary};
+  color: ${variables.primary};
   font-size: 23px;
 `;
 
 export const Subtitle = styled.Text`
   font-weight: normal;
-  color:  ${variables.primary};
+  color: ${variables.primary};
   font-size: 19px;
 `;
 
@@ -32,3 +33,9 @@ export const Main = styled.View`
   overflow: scroll;
   flex-direction: row;
 `;
+
+export const style = StyleSheet.create({
+  card: {
+    marginRight: 20,
+  },
+});

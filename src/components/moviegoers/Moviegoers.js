@@ -3,14 +3,14 @@ import React, {Fragment, Component} from 'react';
 
 // import all components
 import {
-  MovigoersStyle, 
-  Subtitle, 
-  Title, 
-  Header, 
-  Form, 
+  MovigoersStyle,
+  Subtitle,
+  Title,
+  Header,
+  Form,
   Control,
   Footer,
-  Text
+  Text,
 } from './styles';
 import Container from '../container/Container';
 import TextField from '../text-field/TextField';
@@ -23,16 +23,16 @@ class Movigoers extends Component {
         <MovigoersStyle>
           <Container>
             <Header>
-              <Subtitle>
-                Be the vanguard of the
-              </Subtitle>
-              <Title>
-                Movigoers
-              </Title>
+              <Subtitle>Be the vanguard of the</Subtitle>
+              <Title>Movigoers</Title>
             </Header>
             <Form>
               <Control>
-                <TextField placeholder="Type your email" keyboardType="email-address" height="55px"  />
+                <TextField
+                  placeholder="Type your email"
+                  keyboardType="email-address"
+                  height="55px"
+                />
               </Control>
               <Control>
                 <Button height="55px" primary width="100%">
@@ -42,8 +42,7 @@ class Movigoers extends Component {
             </Form>
             <Footer>
               <Text>
-                By joining you as a Tickitz member,
-                we will always send you the
+                By joining you as a Tickitz member, we will always send you the
                 latest updates via email .
               </Text>
             </Footer>

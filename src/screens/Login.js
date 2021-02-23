@@ -1,6 +1,6 @@
 // ===== Home
 // import all modules
-import React, {Fragment, Component} from 'react';
+import React, {Fragment} from 'react';
 import {ScrollView} from 'react-native';
 
 // import all components

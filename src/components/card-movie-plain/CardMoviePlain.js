@@ -17,7 +17,7 @@ function CardNowMoviePlain(props) {
         </CardHead>
       </Card>
     </Fragment>
-  )
+  );
 }
 
 export {CardNowMoviePlain};

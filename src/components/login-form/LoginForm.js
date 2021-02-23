@@ -2,6 +2,7 @@
 // import all modules
 import React, {Component} from 'react';
 import {View, TouchableWithoutFeedback} from 'react-native';
+import push from '../../helpers/push';
 
 // import styles
 import {
@@ -25,7 +26,7 @@ import Line from '../line/Line';
 import SocialMedia from '../social-media/SocialMedia';
 
 class LoginForm extends Component {
-  handlePush = (screen) => this.props.navigation.navigate(screen);
+  handlePush = (screen) => push(this.props, 'Home');
 
   render() {
     return (
@@ -56,16 +57,19 @@ class LoginForm extends Component {
               </Field>
             </Control>
             <Control>
-              <TouchableWithoutFeedback onPress={() => this.handlePush('Home')}>
-                <Button primary width="100%" height="62px">
-                  Sign In
-                </Button>
-              </TouchableWithoutFeedback>
+              <Button
+                primary
+                width="100%"
+                height="62px"
+                onPress={this.handlePush}>
+                Sign In
+              </Button>
             </Control>
             <Control>
               <LinkControl>
                 <TextGray>Forgot your password?</TextGray>
-                <TouchableWithoutFeedback onPress={() => this.handlePush('ResetPassword')}>
+                <TouchableWithoutFeedback
+                  onPress={() => this.handlePush('ResetPassword')}>
                   <Link>Reset now</Link>
                 </TouchableWithoutFeedback>
               </LinkControl>

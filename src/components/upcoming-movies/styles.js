@@ -17,13 +17,13 @@ export const Header = styled.View`
 
 export const Title = styled.Text`
   font-weight: bold;
-  color:  ${variables.primary};
+  color: ${variables.primary};
   font-size: 23px;
 `;
 
 export const Subtitle = styled.Text`
   font-weight: normal;
-  color:  ${variables.primary};
+  color: ${variables.primary};
   font-size: 19px;
 `;
 

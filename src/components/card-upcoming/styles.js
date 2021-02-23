@@ -4,40 +4,41 @@ import styled from 'styled-components/native';
 import * as variables from '../../style/variable';
 
 export const Card = styled.View`
-  border: 1px solid white;
-  padding: 25px;
+  border: 1px solid #dedede;
   border-radius: 10px;
-  width: 280px;
+  width: 220px;
+  height: 500px;
+  padding: 20px;
   background-color: ${variables.light};
-  elevation: 1;
 `;
 
 export const CardHead = styled.View`
-  height: ${(70/100) * 500}px;
   width: 100%;
-  background-color:blue;
+  height: 60%;
 `;
 export const CardFooter = styled.View`
-  height: ${(30/100) * 500}px;
   width: 100%;
-  margin-top: 40px;
+  height: 40%;
+  margin-top: 28px;
 `;
 
 export const Image = styled.Image`
-    width: 100%;
+  width: 100%;
+  height: 100%;
+  resize-mode: stretch;
 `;
 
 export const Title = styled.Text`
-  color: #14142B;
-  font-size: 22px;
+  color: #14142b;
+  font-size: 20px;
   font-family: Mulish-Bold;
   text-align: center;
   margin-bottom: 10px;
 `;
 
 export const Subtitle = styled.Text`
-  color: #A0A3BD;
+  color: #a0a3bd;
   text-align: center;
-  font-size: 19px;
+  font-size: 18px;
   font-family: Mulish-Regular;
 `;

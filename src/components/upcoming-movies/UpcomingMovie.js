@@ -7,53 +7,49 @@ import Container from '../container/Container';
 import {Header, Title, UpcomingStyle, Subtitle, Main} from './styles';
 import {CardUpcoming} from '../';
 import Button from '../button/Button';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 
 class UpcomingMovie extends Component {
   render() {
     const months = [
-      'September', 
-      'October', 
-      'November', 
-      'December', 
-      'January', 
-      'February', 
-      'March', 
-      'April', 
-      'May', 
-      'June', 
-      'July', 
-      'August'
-    ]
+      'September',
+      'October',
+      'November',
+      'December',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+    ];
 
     return (
       <Fragment>
         <UpcomingStyle>
           <Container>
             <Header>
-              <Title>
-                Upcoming Movie
-              </Title>
-              <Subtitle>
-                View All
-              </Subtitle>
+              <Title>Upcoming Movie</Title>
+              <Subtitle>View All</Subtitle>
             </Header>
             <Header>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {
-                  months.map((item, index) => (
-                    <View key={String(index)} style={styled.button}>
-                      <Button height="40px" width="120px">{item}</Button>
-                    </View>
-                  ))
-                }
+                {months.map((item, index) => (
+                  <View key={String(index)} style={styled.button}>
+                    <Button height="40px" width="120px">
+                      {item}
+                    </Button>
+                  </View>
+                ))}
               </ScrollView>
             </Header>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <Main>
                 {[...Array(10)].map((item, index) => (
                   <Fragment key={String(index)}>
-                    <CardUpcoming style={styled.card} />
+                    <CardUpcoming style={styled.card} {...this.props} />
                   </Fragment>
                 ))}
               </Main>
@@ -70,8 +66,8 @@ const styled = StyleSheet.create({
     marginRight: 20,
   },
   button: {
-    marginRight: 10
-  }
-})
+    marginRight: 10,
+  },
+});
 
 export {UpcomingMovie};

@@ -15,12 +15,10 @@ import {
   LittleTitle,
   Footer,
   Synopsis,
-  SynopsisTitle
+  SynopsisTitle,
 } from './styles';
 import Container from '../container/Container';
-import {
-  CardNowMoviePlain
-} from '../';
+import {CardNowMoviePlain} from '../';
 
 class Details extends Component {
   render() {
@@ -28,7 +26,7 @@ class Details extends Component {
       <Fragment>
         <Detail>
           <Container style={styles.container}>
-            <CardNowMoviePlain  />
+            <CardNowMoviePlain />
             <Header>
               <Title>Spider-Man: Homecoming</Title>
               <Subtitle>Adventure, Action, Sci-Fi</Subtitle>
@@ -56,18 +54,13 @@ class Details extends Component {
             <Footer>
               <SynopsisTitle>Synopsis</SynopsisTitle>
               <Synopsis>
-                Thrilled by his experience with the Avengers, 
-                Peter returns home, where he lives with his 
-                Aunt May, under the watchful eye of 
-                his new mentor Tony Stark, Peter 
-                tries to fall back into his normal 
-                daily routine - distracted by thoughts 
-                of proving himself to be more than 
-                just your friendly neighborhood 
-                Spider-Man - but when the Vulture 
-                emerges as a new villain, everything 
-                that Peter holds most important will 
-                be threatened. 
+                Thrilled by his experience with the Avengers,Peter returns home,
+                where he lives with his Aunt May, under the watchful eye of his
+                new mentor Tony Stark, Peter tries to fall back into his normal
+                daily routine - distracted by thoughts of proving himself to be
+                more than just your friendly neighborhood Spider-Man - but when
+                the Vulture emerges as a new villain, everything that Peter
+                holds most important will be threatened.
               </Synopsis>
             </Footer>
           </Container>

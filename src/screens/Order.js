@@ -5,18 +5,14 @@ import {ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
 
 // import all components
-import {
-  HeroHead,
-  NowShowing,
-  UpcomingMovie,
-  Movigoers,
-  Footer,
-} from '../components';
+import {Footer} from '../components';
 import Navbar from '../components/navbar/Navbar';
 import Hidden from '../components/hidden/Hidden';
 import HiddenWrapper from '../components/hidden-wrapper/HiddenWrapper';
+import HeroGray from '../components/hero-gray/HeroGray';
+import Seat from '../components/seat/Seat';
 
-function Home(props) {
+function Order(props) {
   const toggle = useSelector((state) => state.home.toggle);
 
   return (
@@ -25,10 +21,9 @@ function Home(props) {
         <Navbar />
         <HiddenWrapper>
           {toggle && <Hidden />}
-          <HeroHead />
-          <NowShowing {...props} />
-          <UpcomingMovie {...props} />
-          <Movigoers />
+          <HeroGray>
+            <Seat />
+          </HeroGray>
           <Footer />
         </HiddenWrapper>
       </ScrollView>
@@ -36,4 +31,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default Order;

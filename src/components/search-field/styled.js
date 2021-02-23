@@ -10,7 +10,7 @@ export const Container = styled.View`
   height: 55%;
   border-radius: 4px;
   flex-direction: row-reverse;
-  border: 0.5px solid #DEDEDE;
+  border: 0.5px solid #dedede;
 `;
 
 export const Edge = styled.View`

@@ -9,7 +9,9 @@ export default function Button(props) {
   return (
     <Fragment>
       <Warpper {...props}>
-        <Text {...props}>{props.children}</Text>
+        <Text primary={props.primary} outline={props.outline}>
+          {props.children}
+        </Text>
       </Warpper>
     </Fragment>
   );

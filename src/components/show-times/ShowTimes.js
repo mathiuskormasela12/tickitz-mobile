@@ -1,9 +1,9 @@
 // ===== Container
 // import all modules
 import React, {Fragment, Component} from 'react';
-import {TouchableWithoutFeedback, View} from 'react-native'
+import {TouchableWithoutFeedback, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {Picker} from '@react-native-picker/picker';
 import moment from 'moment';
 
@@ -21,7 +21,7 @@ import {
   AppendText,
   Row,
   Col,
-  Pagination
+  Pagination,
 } from './styles';
 import Container from '../container/Container';
 import {ShowTimeCard} from '../';
@@ -35,25 +35,25 @@ class ShowTimes extends Component {
   state = {
     isVisible: false,
     selectedDate: null,
-    location: 'Jakarta'
-  }
+    location: 'Jakarta',
+  };
 
   showDatePicker = () => {
     this.setState({
-      isVisible: true
-    })
+      isVisible: true,
+    });
   };
 
   hideDatePicker = () => {
     this.setState({
-      isVisible: false
-    })
+      isVisible: false,
+    });
   };
 
   handleConfirm = (date) => {
     this.setState({
-      selectedDate: moment(date).format('YYYY-MM-DD')
-    })
+      selectedDate: moment(date).format('YYYY-MM-DD'),
+    });
     this.hideDatePicker();
   };
 
@@ -70,10 +70,14 @@ class ShowTimes extends Component {
                 <TouchableWithoutFeedback onPress={this.showDatePicker}>
                   <Date>
                     <AppendIcon>
-                      <Calendar width="22" height="22"  />
+                      <Calendar width="22" height="22" />
                     </AppendIcon>
                     <AppendText>
-                      <DateText>{this.state.selectedDate ? this.state.selectedDate : 'Set a Date'}</DateText>
+                      <DateText>
+                        {this.state.selectedDate
+                          ? this.state.selectedDate
+                          : 'Set a Date'}
+                      </DateText>
                     </AppendText>
                     <AppendIcon>
                       <Icon name="angle-down" size={15} style={styles.icon} />
@@ -97,20 +101,22 @@ class ShowTimes extends Component {
                     onValueChange={(itemValue, itemIndex) =>
                       this.setState({location: itemValue})
                     }>
-                    <Picker.Item label="Jakarta"  style={styles.item} alue="Jakarta" />
+                    <Picker.Item
+                      label="Jakarta"
+                      style={styles.item}
+                      alue="Jakarta"
+                    />
                     <Picker.Item label="Bogor" value="Bogor" />
                   </Picker>
                 </View>
               </Column>
             </Form>
             <Row>
-              {
-								[...Array(10)].map((item, index) => (
-									<Col key={String(index)}>
-										<ShowTimeCard />		
-									</Col>
-								))
-							}
+              {[...Array(10)].map((item, index) => (
+                <Col key={String(index)}>
+                  <ShowTimeCard {...this.props} />
+                </Col>
+              ))}
             </Row>
             <Pagination>
               {[...Array(5)].map((item, index) => (

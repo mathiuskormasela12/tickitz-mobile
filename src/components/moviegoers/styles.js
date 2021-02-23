@@ -1,5 +1,4 @@
 // import all modules
-import {Dimensions} from 'react-native';
 import styled from 'styled-components/native';
 import * as variables from '../../style/variable';
 
@@ -28,21 +27,21 @@ export const Form = styled.View`
 
 export const Subtitle = styled.Text`
   font-size: 19px;
-  color:#4E4B66;
-  text-align:center;
+  color: #4e4b66;
+  text-align: center;
   margin-bottom: 10px;
 `;
 
 export const Title = styled.Text`
   font-size: 29px;
   color: ${variables.primary};
-  text-align:center;
+  text-align: center;
   font-weight: bold;
   letter-spacing: 1px;
 `;
 
 export const Text = styled.Text`
   font-size: 18px;
-  color:#6E7191;
+  color: #6e7191;
   text-align: center;
 `;

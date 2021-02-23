@@ -25,7 +25,7 @@ export const Main = styled.View`
   width: 100%;
   margin-top: 30px;
   border-bottom-width: 0.5px;
-  border-color: #D6D8E7;
+  border-color: #d6d8e7;
   border-style: solid;
   padding-vertical: 20px;
   flex-direction: row;
@@ -52,32 +52,31 @@ export const LittleSubtitle = styled.Text`
 
 export const LittleTitle = styled.Text`
   font-size: 16px;
-  color: #8692A6;
+  color: #8692a6;
 `;
 
 export const Subtitle = styled.Text`
   margin-top: 15px;
   font-size: 19px;
-  color: #4E4B66;
+  color: #4e4b66;
   text-align: center;
 `;
 
 export const SynopsisTitle = styled.Text`
   margin-top: 14px;
   font-size: 20px;
-  color: #14142B;
+  color: #14142b;
 `;
 
 export const Synopsis = styled.Text`
   margin-top: 15px;
   font-size: 16px;
-  color: #4E4B66;
+  color: #4e4b66;
   line-height: 25px;
 `;
 
-
 export const styles = StyleSheet.create({
   container: {
-    alignItems: 'center'
-  }
-})
+    alignItems: 'center',
+  },
+});
