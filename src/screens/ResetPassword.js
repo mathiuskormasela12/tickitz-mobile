@@ -10,7 +10,7 @@ function ResetPassword(props) {
   return (
     <Fragment>
       <ScrollView>
-        <Hero>
+        <Hero fluid>
           <AuthHeader />
           <ResetForm {...props} />
         </Hero>

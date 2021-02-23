@@ -16,8 +16,9 @@ import Button from '../button/Button';
 
 export default class Seat extends Component {
   state = {
-    selectedSeat: [],
+    selectedSeat: ['A1', 'C2'],
     seat: null,
+    soldSeat: ['A2', 'F1', 'D2'],
   };
 
   getValue = (seat) => {
@@ -26,6 +27,10 @@ export default class Seat extends Component {
     });
   };
   render() {
+    const seatNum = [1, 2, 3, 4, 5, 6, 7];
+    const seatNumRight = ['8', '9', '10', '11', '12', '13', '14'];
+    const seatAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
     return (
       <Fragment>
         <View style={styles.container}>
@@ -38,26 +43,186 @@ export default class Seat extends Component {
               <View style={styles.row}>
                 <View style={styles.col}>
                   <View style={styles.boxContainer}>
-                    {[...Array(49)].map((item, index) => (
-                      <View style={styles.boxCol} key={String(index)}>
-                        <TouchableWithoutFeedback
-                          onPress={() => this.getValue('row + col')}>
-                          <View style={[styles.box, styles.normal]} />
-                        </TouchableWithoutFeedback>
-                      </View>
+                    {seatAlphabet.map((row, rowIndex) => (
+                      <Fragment key={rowIndex}>
+                        {seatNum.map((col, colIndex) => (
+                          <Fragment key={colIndex}>
+                            {this.state.soldSeat.some(
+                              (item) => item === `${row}${col}`,
+                            ) ? (
+                              <Fragment>
+                                <View style={styles.boxCol}>
+                                  <TouchableWithoutFeedback
+                                    onPress={() => this.getValue(row + col)}>
+                                    <View
+                                      style={[styles.box, styles.disabled]}
+                                    />
+                                  </TouchableWithoutFeedback>
+                                </View>
+                              </Fragment>
+                            ) : !this.state.selectedSeat.some(
+                                (item) => item === `${row}${col}`,
+                              ) ? (
+                              <Fragment>
+                                <View style={styles.boxCol}>
+                                  <TouchableWithoutFeedback
+                                    onPress={() => this.getValue(row + col)}>
+                                    <View style={[styles.box, styles.normal]} />
+                                  </TouchableWithoutFeedback>
+                                </View>
+                              </Fragment>
+                            ) : (
+                              <Fragment>
+                                <View style={styles.boxCol}>
+                                  <TouchableWithoutFeedback
+                                    onPress={() => this.getValue(row + col)}>
+                                    <View
+                                      style={[styles.box, styles.checked]}
+                                    />
+                                  </TouchableWithoutFeedback>
+                                </View>
+                              </Fragment>
+                            )}
+                          </Fragment>
+                        ))}
+                      </Fragment>
                     ))}
                   </View>
                   <View style={styles.thinLine} />
                 </View>
                 <View style={styles.col}>
                   <View style={styles.boxContainer}>
-                    {[...Array(49)].map((item, index) => (
-                      <View style={styles.boxCol} key={String(index)}>
-                        <TouchableWithoutFeedback
-                          onPress={() => this.getValue('row + col')}>
-                          <View style={[styles.box, styles.normal]} />
-                        </TouchableWithoutFeedback>
-                      </View>
+                    {seatAlphabet.map((row, rowIndex) => (
+                      <Fragment key={String(rowIndex)}>
+                        {seatNumRight.map((col, colIndex) => (
+                          <Fragment key={colIndex}>
+                            {row === 'F' && Number(col) === 10 ? (
+                              this.state.soldSeat.some(
+                                (item) => item === `${row}${col}`,
+                              ) ? (
+                                <View style={styles.doubleBoxCol}>
+                                  <TouchableWithoutFeedback
+                                    onPress={() =>
+                                      this.getValue(
+                                        `${row + col},${
+                                          row + (Number(col) + 1)
+                                        }`,
+                                      )
+                                    }>
+                                    <View
+                                      style={[
+                                        styles.doubleBox,
+                                        styles.disabled,
+                                      ]}
+                                    />
+                                  </TouchableWithoutFeedback>
+                                </View>
+                              ) : !this.state.selectedSeat.some(
+                                  (item) => item === `${row}${col}`,
+                                ) ? (
+                                <Fragment>
+                                  <View style={styles.doubleBoxCol}>
+                                    <TouchableWithoutFeedback
+                                      onPress={() =>
+                                        this.getValue(
+                                          `${row + col},${
+                                            row + (Number(col) + 1)
+                                          }`,
+                                        )
+                                      }>
+                                      <View
+                                        style={[
+                                          styles.doubleBox,
+                                          styles.loveNest,
+                                        ]}
+                                      />
+                                    </TouchableWithoutFeedback>
+                                  </View>
+                                </Fragment>
+                              ) : (
+                                <Fragment>
+                                  <View style={styles.doubleBoxCol}>
+                                    <TouchableWithoutFeedback
+                                      onPress={() =>
+                                        this.getValue(
+                                          `${row + col},${
+                                            row + (Number(col) + 1)
+                                          }`,
+                                        )
+                                      }>
+                                      <View
+                                        style={[
+                                          styles.doubleBox,
+                                          styles.checked,
+                                        ]}
+                                      />
+                                    </TouchableWithoutFeedback>
+                                  </View>
+                                </Fragment>
+                              )
+                            ) : row === 'F' && Number(col) === 11 ? null : (
+                              <Fragment>
+                                {this.state.soldSeat.some(
+                                  (item) => item === `${row}${col}`,
+                                ) ? (
+                                  <Fragment>
+                                    <View style={styles.boxCol}>
+                                      <TouchableWithoutFeedback
+                                        onPress={() =>
+                                          this.getValue(
+                                            `${row + col},${
+                                              row + (Number(col) + 1)
+                                            }`,
+                                          )
+                                        }>
+                                        <View
+                                          style={[styles.box, styles.disabled]}
+                                        />
+                                      </TouchableWithoutFeedback>
+                                    </View>
+                                  </Fragment>
+                                ) : !this.state.selectedSeat.some(
+                                    (item) => item === `${row}${col}`,
+                                  ) ? (
+                                  <Fragment>
+                                    <View style={styles.boxCol}>
+                                      <TouchableWithoutFeedback
+                                        onPress={() =>
+                                          this.getValue(
+                                            `${row + col},${
+                                              row + (Number(col) + 1)
+                                            }`,
+                                          )
+                                        }>
+                                        <View
+                                          style={[styles.box, styles.normal]}
+                                        />
+                                      </TouchableWithoutFeedback>
+                                    </View>
+                                  </Fragment>
+                                ) : (
+                                  <Fragment>
+                                    <View style={styles.boxCol}>
+                                      <TouchableWithoutFeedback
+                                        onPress={() =>
+                                          this.getValue(
+                                            `${row + col},${
+                                              row + (Number(col) + 1)
+                                            }`,
+                                          )
+                                        }>
+                                        <View
+                                          style={[styles.box, styles.checked]}
+                                        />
+                                      </TouchableWithoutFeedback>
+                                    </View>
+                                  </Fragment>
+                                )}
+                              </Fragment>
+                            )}
+                          </Fragment>
+                        ))}
+                      </Fragment>
                     ))}
                   </View>
                   <View style={styles.thinLine} />
@@ -295,8 +460,18 @@ const styles = StyleSheet.compose({
     height: 16,
     borderRadius: 2,
   },
+  doubleBox: {
+    width: 32,
+    height: 16,
+    borderRadius: 2,
+  },
   boxCol: {
     width: '10%',
+    marginRight: 4,
+    marginBottom: 4,
+  },
+  doubleBoxCol: {
+    width: '20%',
     marginRight: 4,
     marginBottom: 4,
   },
