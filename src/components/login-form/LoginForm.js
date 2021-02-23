@@ -26,7 +26,7 @@ import Line from '../line/Line';
 import SocialMedia from '../social-media/SocialMedia';
 
 class LoginForm extends Component {
-  handlePush = (screen) => push(this.props, 'Home');
+  handlePush = (screen) => push(this.props, screen);
 
   render() {
     return (
@@ -61,7 +61,7 @@ class LoginForm extends Component {
                 primary
                 width="100%"
                 height="62px"
-                onPress={this.handlePush}>
+                onPress={() => this.handlePush('Home')}>
                 Sign In
               </Button>
             </Control>

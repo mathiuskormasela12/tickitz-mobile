@@ -20,6 +20,5 @@ export const Text = styled.Text`
   font-size: 16px;
   font-family: 'Mulish-Regular';
   font-weight: 700;
-  color: ${(props) =>
-    props.primary ? '#F7F7FC' : props.outline ? '' : variables.primary};
+  color: ${(props) => (props.primary ? '#F7F7FC' : variables.primary)};
 `;

@@ -104,7 +104,7 @@ class ShowTimes extends Component {
                     <Picker.Item
                       label="Jakarta"
                       style={styles.item}
-                      alue="Jakarta"
+                      value="Jakarta"
                     />
                     <Picker.Item label="Bogor" value="Bogor" />
                   </Picker>

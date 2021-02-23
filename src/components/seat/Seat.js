@@ -8,9 +8,11 @@ import {
   Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {Picker} from '@react-native-picker/picker';
 
 // import all components
 import {SimpleCard} from '../';
+import Button from '../button/Button';
 
 export default class Seat extends Component {
   state = {
@@ -74,7 +76,7 @@ export default class Seat extends Component {
                       size={20}
                       color="#14142B"
                     />
-                    <Text style={styles.text}>A - G</Text>
+                    <Text style={styles.text}>1 - 14</Text>
                   </View>
                   <View style={styles.cols}>
                     <View style={[styles.square, styles.normal]} />
@@ -96,6 +98,132 @@ export default class Seat extends Component {
               </View>
             </View>
           </SimpleCard>
+          <SimpleCard style={styles.cardChoosed}>
+            <View style={styles.containerPercentage}>
+              <View style={styles.rowCard}>
+                <View style={styles.colCard}>
+                  <Text style={styles.choosed}>Choosed</Text>
+                </View>
+                <View style={styles.colCard}>
+                  <Text style={styles.seats}>C4, C5, C6</Text>
+                </View>
+              </View>
+            </View>
+          </SimpleCard>
+          <SimpleCard style={styles.cardSelect}>
+            <View style={styles.containerPercentage}>
+              <View style={styles.rowForm}>
+                <View style={styles.colForm}>
+                  <View style={styles.pickerContainer}>
+                    <Picker
+                      dropdownIconColor="#A0A3BD"
+                      selectedValue={this.state.location}
+                      style={styles.picker}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({seat: itemValue})
+                      }>
+                      <Picker.Item label="C" style={styles.item} value="C" />
+                      <Picker.Item label="D" value="D" />
+                    </Picker>
+                  </View>
+                </View>
+                <View style={styles.colForm}>
+                  <View style={styles.pickerContainer}>
+                    <Picker
+                      dropdownIconColor="#A0A3BD"
+                      selectedValue={this.state.location}
+                      style={styles.picker}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({seat: itemValue})
+                      }>
+                      <Picker.Item label="4" style={styles.item} value="4" />
+                      <Picker.Item label="5" value="5" />
+                    </Picker>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </SimpleCard>
+          <SimpleCard style={styles.cardSelect}>
+            <View style={styles.containerPercentage}>
+              <View style={styles.rowForm}>
+                <View style={styles.colForm}>
+                  <View style={styles.pickerContainer}>
+                    <Picker
+                      dropdownIconColor="#A0A3BD"
+                      selectedValue={this.state.location}
+                      style={styles.picker}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({seat: itemValue})
+                      }>
+                      <Picker.Item label="C" style={styles.item} value="C" />
+                      <Picker.Item label="D" value="D" />
+                    </Picker>
+                  </View>
+                </View>
+                <View style={styles.colForm}>
+                  <View style={styles.pickerContainer}>
+                    <Picker
+                      dropdownIconColor="#A0A3BD"
+                      selectedValue={this.state.location}
+                      style={styles.picker}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({seat: itemValue})
+                      }>
+                      <Picker.Item label="4" style={styles.item} value="4" />
+                      <Picker.Item label="5" value="5" />
+                    </Picker>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </SimpleCard>
+          <SimpleCard style={styles.cardSelect}>
+            <View style={styles.containerPercentage}>
+              <View style={styles.rowForm}>
+                <View style={styles.colForm}>
+                  <View style={styles.pickerContainer}>
+                    <Picker
+                      dropdownIconColor="#A0A3BD"
+                      selectedValue={this.state.location}
+                      style={styles.picker}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({seat: itemValue})
+                      }>
+                      <Picker.Item label="C" style={styles.item} value="C" />
+                      <Picker.Item label="D" value="D" />
+                    </Picker>
+                  </View>
+                </View>
+                <View style={styles.colForm}>
+                  <View style={styles.pickerContainer}>
+                    <Picker
+                      dropdownIconColor="#A0A3BD"
+                      selectedValue={this.state.location}
+                      style={styles.picker}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({seat: itemValue})
+                      }>
+                      <Picker.Item label="4" style={styles.item} value="4" />
+                      <Picker.Item label="5" value="5" />
+                    </Picker>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </SimpleCard>
+          <View style={styles.rowBtn}>
+            <View style={styles.colBtn}>
+              <Button outline height="55px" width="100%">
+                Add New Seat
+              </Button>
+            </View>
+            <View style={styles.colBtn}>
+              <Button primary height="55px" width="100%">
+                Checkout Now
+              </Button>
+            </View>
+          </View>
         </View>
       </Fragment>
     );
@@ -214,5 +342,56 @@ const styles = StyleSheet.compose({
   },
   loveNest: {
     backgroundColor: '#F589D7',
+  },
+  choosed: {
+    color: '#4E4B66',
+    fontSize: 19,
+  },
+  cardChoosed: {
+    marginTop: 20,
+    paddingVertical: 19,
+  },
+  cardSelect: {
+    marginTop: 20,
+    paddingVertical: 19,
+  },
+  rowCard: {
+    flexDirection: 'row',
+  },
+  colCard: {
+    width: '50%',
+  },
+  rowForm: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  colForm: {
+    width: '48%',
+  },
+  seats: {
+    color: 'black',
+    fontSize: 21,
+    textAlign: 'right',
+  },
+  picker: {
+    width: '100%',
+    height: 55,
+    color: '#4E4B66',
+  },
+  pickerContainer: {
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#EFF0F6',
+    borderStyle: 'solid',
+    backgroundColor: '#EFF0F6',
+    width: '100%',
+    paddingLeft: 5,
+  },
+  rowBtn: {
+    flexDirection: 'column',
+    marginTop: 10,
+  },
+  colBtn: {
+    width: '100%',
   },
 });
