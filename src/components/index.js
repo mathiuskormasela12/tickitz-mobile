@@ -21,3 +21,4 @@ export * from './simple-card/SimpleCard';
 export * from './payment-method/PaymentMethod';
 export * from './payment-personal/PaymentPersonal';
 export * from './price-nav/PriceNav';
+export * from './ticket-result/TicketResult';

@@ -5,18 +5,14 @@ import {ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
 
 // import all components
-import {
-  Footer,
-  PaymentMethod,
-  PriceNavbar,
-  PaymentPersonal,
-} from '../components';
+import {Footer} from '../components';
 import Navbar from '../components/navbar/Navbar';
 import Hidden from '../components/hidden/Hidden';
 import HiddenWrapper from '../components/hidden-wrapper/HiddenWrapper';
 import HeroGray from '../components/hero-gray/HeroGray';
+import {TicketResult} from '../components';
 
-function Order(props) {
+function Ticket(props) {
   const toggle = useSelector((state) => state.home.toggle);
 
   return (
@@ -26,9 +22,7 @@ function Order(props) {
         <HiddenWrapper>
           {toggle && <Hidden />}
           <HeroGray>
-            <PriceNavbar />
-            <PaymentMethod {...props} />
-            <PaymentPersonal {...props} />
+            <TicketResult {...props} />
           </HeroGray>
           <Footer />
         </HiddenWrapper>
@@ -37,4 +31,4 @@ function Order(props) {
   );
 }
 
-export default Order;
+export default Ticket;

@@ -11,8 +11,9 @@ import Button from '../button/Button';
 
 // import img
 import Warning from '../../assets/img/warning.svg';
+import push from '../../helpers/push';
 
-export function PaymentPersonal() {
+export function PaymentPersonal(props) {
   return (
     <Fragment>
       <View style={style.container}>
@@ -83,7 +84,11 @@ export function PaymentPersonal() {
         </View>
         <View style={[style.row, style.btnMargin]}>
           <View style={style.col}>
-            <Button height="55px" width="100%" primary>
+            <Button
+              height="55px"
+              width="100%"
+              primary
+              onPress={() => push(props, 'Ticket')}>
               Pay Your Order
             </Button>
           </View>
