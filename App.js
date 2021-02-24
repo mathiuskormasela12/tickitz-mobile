@@ -14,6 +14,7 @@ import Home from './src/screens/Home';
 import MovieDetail from './src/screens/MovieDetail';
 import ResetPassword from './src/screens/ResetPassword';
 import Order from './src/screens/Order';
+import Payment from './src/screens/Payment';
 
 // create stack
 const Stack = createStackNavigator();
@@ -49,6 +50,11 @@ export default function App() {
               <Stack.Screen
                 name="Detail"
                 component={MovieDetail}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="Payment"
+                component={Payment}
                 options={{headerShown: false}}
               />
               <Stack.Screen

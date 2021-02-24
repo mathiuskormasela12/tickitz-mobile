@@ -12,7 +12,8 @@ export default (props) => {
 
 const styled = StyleSheet.compose({
   hero: {
-    backgroundColor: '#D6D8E7',
+    backgroundColor: '#F7F7FC',
     paddingVertical: 30,
+    position: 'relative',
   },
 });

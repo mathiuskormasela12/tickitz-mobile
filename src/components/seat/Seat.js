@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Picker} from '@react-native-picker/picker';
+import push from '../../helpers/push';
 
 // import all components
 import {SimpleCard} from '../';
@@ -26,6 +27,7 @@ export default class Seat extends Component {
       seat,
     });
   };
+
   render() {
     const seatNum = [1, 2, 3, 4, 5, 6, 7];
     const seatNumRight = ['8', '9', '10', '11', '12', '13', '14'];
@@ -384,7 +386,11 @@ export default class Seat extends Component {
               </Button>
             </View>
             <View style={styles.colBtn}>
-              <Button primary height="55px" width="100%">
+              <Button
+                primary
+                height="55px"
+                width="100%"
+                onPress={() => push(this.props, 'Payment')}>
                 Checkout Now
               </Button>
             </View>

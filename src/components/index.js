@@ -18,3 +18,6 @@ export * from './details/Details';
 export * from './show-times/ShowTimes';
 export * from './show-time-card/ShowTimeCard';
 export * from './simple-card/SimpleCard';
+export * from './payment-method/PaymentMethod';
+export * from './payment-personal/PaymentPersonal';
+export * from './price-nav/PriceNav';
