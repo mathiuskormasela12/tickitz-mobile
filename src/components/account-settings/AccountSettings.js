@@ -7,6 +7,7 @@ import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {SimpleCard} from '../';
 import TextField from '../text-field/TextField';
 import PhoneField from '../phone-field/PhoneField';
+import PasswordField from '../password-field/PasswordField';
 import Button from '../button/Button';
 
 class AccountSettings extends Component {
@@ -77,52 +78,32 @@ class AccountSettings extends Component {
                   <Text style={style.title}>Account and Privacy</Text>
                 </View>
               </View>
-              <View style={style.row}>
-                <View style={style.col}>
-                  <View style={style.control}>
-                    <Text style={style.label}>Full Name</Text>
-                    <View style={style.field}>
-                      <TextField
-                        placeholder="Write Your Full Name"
-                        placeholderColor="#A0A3BD"
-                        height="50px"
-                        value="Mathius Kormasela"
-                      />
-                    </View>
-                  </View>
+              <View style={[style.control, style.passwordField]}>
+                <Text style={style.label}>New Password</Text>
+                <View style={style.field}>
+                  <PasswordField
+                    height="60px"
+                    secureTextEntry
+                    placeholderTextColor="#A0A3BD"
+                    placeholder="Write your password"
+                  />
                 </View>
-                <View style={style.col}>
-                  <View style={style.control}>
-                    <Text style={style.label}>Email</Text>
-                    <View style={style.field}>
-                      <TextField
-                        placeholder="Write Your Email"
-                        placeholderColor="#A0A3BD"
-                        height="50px"
-                        keyboardType="email-address"
-                        value="mathiuskormasela12@gmail.com"
-                      />
-                    </View>
-                  </View>
+              </View>
+              <View style={[style.control, style.passwordField]}>
+                <Text style={style.label}>Confirm</Text>
+                <View style={style.field}>
+                  <PasswordField
+                    height="60px"
+                    secureTextEntry
+                    placeholderTextColor="#A0A3BD"
+                    placeholder="Write your password"
+                  />
                 </View>
-                <View style={style.col}>
-                  <View style={style.control}>
-                    <Text style={style.label}>Phone Number</Text>
-                    <View style={style.field}>
-                      <PhoneField
-                        placeholder="Write Your Phone Number"
-                        placeholderColor="#A0A3BD"
-                        height={50}
-                        value="8953251765440"
-                      />
-                    </View>
-                  </View>
-                </View>
-                <View style={style.col}>
-                  <Button height="55px" width="100%" primary>
-                    Update Changes
-                  </Button>
-                </View>
+              </View>
+              <View style={style.control}>
+                <Button height="55px" width="100%" primary>
+                  Update Changes
+                </Button>
               </View>
             </View>
           </SimpleCard>
@@ -188,5 +169,8 @@ const style = StyleSheet.create({
   },
   cardMargin: {
     marginBottom: 40,
+  },
+  passwordField: {
+    marginBottom: 25,
   },
 });
