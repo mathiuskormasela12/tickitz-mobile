@@ -4,7 +4,7 @@ import home from './home';
 
 const reducers = combineReducers({
   auth,
-  home
+  home,
 });
 
 export default reducers;

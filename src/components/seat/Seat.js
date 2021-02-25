@@ -459,7 +459,7 @@ const styles = StyleSheet.compose({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignContent: 'space-between',
-    height: 130,
+    height: 140,
   },
   box: {
     width: 16,
@@ -467,19 +467,15 @@ const styles = StyleSheet.compose({
     borderRadius: 2,
   },
   doubleBox: {
-    width: 32,
+    width: 38,
     height: 16,
     borderRadius: 2,
   },
   boxCol: {
-    width: '10%',
-    marginRight: 4,
-    marginBottom: 4,
+    width: '14%',
   },
   doubleBoxCol: {
-    width: '20%',
-    marginRight: 4,
-    marginBottom: 4,
+    width: '28%',
   },
   checked: {
     backgroundColor: '#5F2EEA',
