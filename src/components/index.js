@@ -23,3 +23,4 @@ export * from './payment-personal/PaymentPersonal';
 export * from './price-nav/PriceNav';
 export * from './ticket-result/TicketResult';
 export * from './profile-header/ProfileHeader';
+export * from './order-history-content/OrderHistoryContent';

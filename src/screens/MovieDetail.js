@@ -6,7 +6,6 @@ import {useSelector} from 'react-redux';
 
 // import all components
 import {Footer} from '../components';
-import Navbar from '../components/navbar/Navbar';
 import {Details, ShowTimes} from '../components';
 import Hidden from '../components/hidden/Hidden';
 import HiddenWrapper from '../components/hidden-wrapper/HiddenWrapper';
@@ -17,7 +16,6 @@ function MovieDetail(props) {
   return (
     <Fragment>
       <ScrollView>
-        <Navbar />
         <HiddenWrapper>
           {toggle && <Hidden />}
           <Details />

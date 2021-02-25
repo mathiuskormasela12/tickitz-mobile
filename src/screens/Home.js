@@ -12,7 +12,6 @@ import {
   Movigoers,
   Footer,
 } from '../components';
-import Navbar from '../components/navbar/Navbar';
 import Hidden from '../components/hidden/Hidden';
 import HiddenWrapper from '../components/hidden-wrapper/HiddenWrapper';
 
@@ -22,7 +21,6 @@ function Home(props) {
   return (
     <Fragment>
       <ScrollView>
-        <Navbar />
         <HiddenWrapper>
           {toggle && <Hidden />}
           <HeroHead />

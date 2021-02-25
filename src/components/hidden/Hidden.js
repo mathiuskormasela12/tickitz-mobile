@@ -13,7 +13,7 @@ export default () => {
 const styled = StyleSheet.compose({
   hero: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    zIndex: 10000,
+    zIndex: 100,
     position: 'absolute',
     left: 0,
     right: 0,

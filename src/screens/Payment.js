@@ -11,7 +11,6 @@ import {
   PriceNavbar,
   PaymentPersonal,
 } from '../components';
-import Navbar from '../components/navbar/Navbar';
 import Hidden from '../components/hidden/Hidden';
 import HiddenWrapper from '../components/hidden-wrapper/HiddenWrapper';
 import HeroGray from '../components/hero-gray/HeroGray';
@@ -22,7 +21,6 @@ function Order(props) {
   return (
     <Fragment>
       <ScrollView>
-        <Navbar />
         <HiddenWrapper>
           {toggle && <Hidden />}
           <HeroGray>

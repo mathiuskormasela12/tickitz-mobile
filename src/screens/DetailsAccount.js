@@ -1,26 +1,26 @@
-// ===== Home
+// ===== Details Account
 // import all modules
 import React, {Fragment} from 'react';
-import {ScrollView} from 'react-native';
+import {StyleSheet, ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
 
 // import all components
-import {Footer} from '../components';
+import {Footer, ProfileHeader} from '../components';
 import Hidden from '../components/hidden/Hidden';
 import HiddenWrapper from '../components/hidden-wrapper/HiddenWrapper';
 import HeroGray from '../components/hero-gray/HeroGray';
-import {TicketResult} from '../components';
+import AccountSettings from '../components/account-settings/AccountSettings';
 
-function Ticket(props) {
+export default function DetailsAccount(props) {
   const toggle = useSelector((state) => state.home.toggle);
-
   return (
     <Fragment>
       <ScrollView>
-        <HiddenWrapper>
+        <HiddenWrapper style={style.hero}>
           {toggle && <Hidden />}
           <HeroGray>
-            <TicketResult {...props} />
+            <ProfileHeader {...props} />
+            <AccountSettings {...props} />
           </HeroGray>
           <Footer />
         </HiddenWrapper>
@@ -29,4 +29,6 @@ function Ticket(props) {
   );
 }
 
-export default Ticket;
+const style = StyleSheet.create({
+  hero: 100,
+});

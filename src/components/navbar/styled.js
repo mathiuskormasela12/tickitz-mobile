@@ -5,6 +5,9 @@ import * as variables from '../../style/variable';
 
 export const Nav = styled.View`
   background-color: ${variables.light};
+  position: relative;
+  z-index: 500;
+  width: 100%;
 `;
 
 export const Brand = styled.Image`

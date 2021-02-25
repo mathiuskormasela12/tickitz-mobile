@@ -19,6 +19,7 @@ import Order from './src/screens/Order';
 import Payment from './src/screens/Payment';
 import Ticket from './src/screens/Ticket';
 import Profile from './src/screens/Profile';
+import Navbar from './src/components/navbar/Navbar';
 
 // create stack
 const Stack = createStackNavigator();
@@ -48,32 +49,32 @@ export default function App() {
               <Stack.Screen
                 name="Home"
                 component={Home}
-                options={{headerShown: false}}
+                options={{header: () => <Navbar />}}
               />
               <Stack.Screen
                 name="Order"
                 component={Order}
-                options={{headerShown: false}}
+                options={{header: () => <Navbar />}}
               />
               <Stack.Screen
                 name="Ticket"
                 component={Ticket}
-                options={{headerShown: false}}
+                options={{header: () => <Navbar />}}
               />
               <Stack.Screen
                 name="Detail"
                 component={MovieDetail}
-                options={{headerShown: false}}
+                options={{header: () => <Navbar />}}
               />
               <Stack.Screen
                 name="Payment"
                 component={Payment}
-                options={{headerShown: false}}
+                options={{header: () => <Navbar />}}
               />
               <Stack.Screen
                 name="Profile"
                 component={Profile}
-                options={{headerShown: false}}
+                options={{header: () => <Navbar />}}
               />
               <Stack.Screen
                 name="ResetPassword"

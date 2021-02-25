@@ -1,35 +1,62 @@
 // ===== Home
 // import all modules
 import React, {Fragment} from 'react';
-import {ScrollView} from 'react-native';
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {ScrollView, Dimensions, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 
 // import all components
-import {Footer, ProfileHeader} from '../components';
-import Navbar from '../components/navbar/Navbar';
 import Hidden from '../components/hidden/Hidden';
 import HiddenWrapper from '../components/hidden-wrapper/HiddenWrapper';
-import HeroGray from '../components/hero-gray/HeroGray';
-import AccountSettings from '../components/account-settings/AccountSettings';
+import DetailsAccount from './DetailsAccount';
+import OrderHistory from './OrderHistory';
 
-function Order(props) {
+const initialLayout = {width: Dimensions.get('window').width};
+
+function Profile() {
   const toggle = useSelector((state) => state.home.toggle);
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    {key: 'details', title: 'Details Account'},
+    {key: 'order', title: 'Order History'},
+  ]);
+
+  const renderScene = SceneMap({
+    details: DetailsAccount,
+    order: OrderHistory,
+  });
 
   return (
     <Fragment>
-      <ScrollView>
-        <Navbar />
-        <HiddenWrapper>
-          {toggle && <Hidden />}
-          <HeroGray>
-            <ProfileHeader {...props} />
-            <AccountSettings {...props} />
-          </HeroGray>
-          <Footer />
-        </HiddenWrapper>
-      </ScrollView>
+      <TabView
+        navigationState={{index, routes}}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={initialLayout}
+        renderTabBar={(props) => (
+          <TabBar
+            {...props}
+            style={styles.nav}
+            inactiveColor="#AAAAAA"
+            activeColor="#14142B"
+            indicatorStyle={styles.indicatorStyle}
+          />
+        )}
+      />
     </Fragment>
   );
 }
 
-export default Order;
+const styles = StyleSheet.create({
+  scene: {
+    flex: 1,
+  },
+  nav: {
+    backgroundColor: 'white',
+  },
+  indicatorStyle: {
+    backgroundColor: '#5F2EEA',
+  },
+});
+
+export default Profile;
