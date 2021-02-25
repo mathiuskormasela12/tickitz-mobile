@@ -10,7 +10,7 @@ import Navbar from '../components/navbar/Navbar';
 import Hidden from '../components/hidden/Hidden';
 import HiddenWrapper from '../components/hidden-wrapper/HiddenWrapper';
 import HeroGray from '../components/hero-gray/HeroGray';
-import Seat from '../components/seat/Seat';
+import AccountSettings from '../components/account-settings/AccountSettings';
 
 function Order(props) {
   const toggle = useSelector((state) => state.home.toggle);
@@ -23,6 +23,7 @@ function Order(props) {
           {toggle && <Hidden />}
           <HeroGray>
             <ProfileHeader {...props} />
+            <AccountSettings {...props} />
           </HeroGray>
           <Footer />
         </HiddenWrapper>
