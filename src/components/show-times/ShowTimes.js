@@ -34,7 +34,7 @@ import Location from '../../assets/img/location.svg';
 class ShowTimes extends Component {
   state = {
     isVisible: false,
-    selectedDate: null,
+    selectedDate: 'Set a Date',
     location: 'Jakarta',
   };
 
@@ -73,11 +73,7 @@ class ShowTimes extends Component {
                       <Calendar width="22" height="22" />
                     </AppendIcon>
                     <AppendText>
-                      <DateText>
-                        {this.state.selectedDate
-                          ? this.state.selectedDate
-                          : 'Set a Date'}
-                      </DateText>
+                      <DateText>{this.state.selectedDate}</DateText>
                     </AppendText>
                     <AppendIcon>
                       <Icon name="angle-down" size={15} style={styles.icon} />
