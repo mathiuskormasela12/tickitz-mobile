@@ -16,6 +16,7 @@ import ResetPassword from './src/screens/ResetPassword';
 import Order from './src/screens/Order';
 import Payment from './src/screens/Payment';
 import Ticket from './src/screens/Ticket';
+import Profile from './src/screens/Profile';
 
 // create stack
 const Stack = createStackNavigator();
@@ -61,6 +62,11 @@ export default function App() {
               <Stack.Screen
                 name="Payment"
                 component={Payment}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="Profile"
+                component={Profile}
                 options={{headerShown: false}}
               />
               <Stack.Screen

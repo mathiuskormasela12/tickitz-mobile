@@ -4,6 +4,8 @@ import React, {useState, Fragment} from 'react';
 import {View, TouchableWithoutFeedback, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import push from '../../helpers/push';
+import {useNavigation} from '@react-navigation/native';
 
 // import actions
 import {showToggle} from '../../redux/actions/home';
@@ -35,6 +37,7 @@ import Burger from '../../assets/img/burger.svg';
 
 export default function Navbar() {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const toggle = useSelector((currentToggle) => currentToggle.home.toggle);
   const [dropdown, setDropdown] = useState(false);
 
@@ -97,10 +100,13 @@ export default function Navbar() {
               <Text>Movies</Text>
             </CollapseItem>
             <CollapseItem>
-              <Text>Cinemas</Text>
+              <TouchableWithoutFeedback
+                onPress={() => push({navigation}, 'Profile')}>
+                <Text>Profile</Text>
+              </TouchableWithoutFeedback>
             </CollapseItem>
             <CollapseItem>
-              <Text>Buy Ticket</Text>
+              <Text>Logout</Text>
             </CollapseItem>
             <CollapseFoot>
               <TextFoot>© 2021 Tickitz. All Rights Reserved.</TextFoot>
