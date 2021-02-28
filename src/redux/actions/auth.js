@@ -1,7 +1,12 @@
-export const peekPassword = () => {
-  return async (dispatch) => {
-    dispatch({
-      type: 'PEEK_PASSWORD',
-    });
-  };
-};
+export const setToken = (token) => ({
+  type: 'SET_TOKEN',
+  payload: {
+    token
+  }
+})
+
+export const logout = () => {
+  return {
+    type: 'LOGOUT',
+  }
+}

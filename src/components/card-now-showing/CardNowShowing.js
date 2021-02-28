@@ -6,9 +6,6 @@ import {TouchableWithoutFeedback} from 'react-native';
 // import all components
 import {Card, CardHead, Image} from './styles';
 
-// import images
-import superman from '../../assets/img/superman.png';
-
 function CardNowShowing(props) {
   const push = () => {
     props.navigation.navigate('Detail');
@@ -18,7 +15,9 @@ function CardNowShowing(props) {
     <TouchableWithoutFeedback onPress={push}>
       <Card {...props}>
         <CardHead>
-          <Image source={superman} />
+          <Image source={{
+            uri: props.poster
+          }} />
         </CardHead>
       </Card>
     </TouchableWithoutFeedback>

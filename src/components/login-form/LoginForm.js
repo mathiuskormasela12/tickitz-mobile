@@ -2,7 +2,15 @@
 // import all modules
 import React, {Component} from 'react';
 import {View, TouchableWithoutFeedback} from 'react-native';
+import {connect} from 'react-redux';
 import push from '../../helpers/push';
+import { showMessage } from "react-native-flash-message";
+import http from '../../services/Services'
+import append from '../../helpers/append';
+
+// import actions
+import loading from '../../redux/actions/loading';
+import {setToken} from '../../redux/actions/auth';
 
 // import styles
 import {
@@ -25,8 +33,61 @@ import Button from '../button/Button';
 import Line from '../line/Line';
 import SocialMedia from '../social-media/SocialMedia';
 
-class LoginForm extends Component {
-  handlePush = (screen) => push(this.props, screen);
+class LoginFormComponent extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: '',
+      type: null,
+      message: null,
+    }
+    this.handlePush = this.handlePush.bind(this)
+    this.handleInput = this.handleInput.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handlePush(screen) {
+    push(this.props, screen);
+  }
+
+  handleInput(name, value) {
+    this.setState({
+      [name]: value
+    })
+  }
+
+  async handleSubmit() {
+    this.props.loading()
+    const formData = new FormData()
+    append(formData, {
+      email: this.state.email,
+      password: this.state.password,
+    })
+    try {
+      const {data} = await http.login(formData)
+      this.props.loading()
+      this.props.setToken(data.results.token)
+      showMessage({
+        message: data.message,
+        type: data.success ? 'success' : 'warning',
+        duration: 2000,
+        hideOnPress: true
+      })
+      setTimeout(() => {
+        push(this.props, 'Home')
+      }, 2000)
+    } catch (err) {
+      this.props.loading()
+      console.log(err)
+      showMessage({
+        message: err.response.data.message,
+        type: err.response.data.success ? 'success' : 'warning',
+        duration: 3000,
+        hideOnPress: true
+      })
+    }
+  }
 
   render() {
     return (
@@ -42,6 +103,7 @@ class LoginForm extends Component {
                   keyboardType="email-address"
                   placeholderTextColor="#A0A3BD"
                   placeholder="Write your email"
+                  onChangeText={(event) => this.handleInput('email', event)}
                 />
               </Field>
             </Control>
@@ -53,6 +115,7 @@ class LoginForm extends Component {
                   secureTextEntry
                   placeholderTextColor="#A0A3BD"
                   placeholder="Write your password"
+                  onChangeText={(event) => this.handleInput('password', event)}
                 />
               </Field>
             </Control>
@@ -61,7 +124,7 @@ class LoginForm extends Component {
                 primary
                 width="100%"
                 height="62px"
-                onPress={() => this.handlePush('Home')}>
+                onPress={this.handleSubmit}>
                 Sign In
               </Button>
             </Control>
@@ -83,4 +146,14 @@ class LoginForm extends Component {
   }
 }
 
-export {LoginForm};
+const mapStateToProps = (state) => ({
+  ...state.loading,
+  ...state.auth
+})
+
+const mapDispatchToProps = {
+  loading,
+  setToken
+}
+
+export const LoginForm = connect(mapStateToProps, mapDispatchToProps)(LoginFormComponent)

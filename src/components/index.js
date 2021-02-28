@@ -24,3 +24,6 @@ export * from './price-nav/PriceNav';
 export * from './ticket-result/TicketResult';
 export * from './profile-header/ProfileHeader';
 export * from './order-history-content/OrderHistoryContent';
+export * from './loading/Loading';
+export * from './mini-loading/MiniLoading';
+export * from './mini-message/MiniMessage';

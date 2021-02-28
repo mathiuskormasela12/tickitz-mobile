@@ -1,15 +1,22 @@
 // ===== Auth Reducer
 const initialState = {
-  showPassword: false,
+  token: null
 };
 
 const auth = (state = initialState, action) => {
   switch (action.type) {
-    case 'PEEK_PASSWORD': {
+    case 'SET_TOKEN': {
       return {
         ...state,
-        showPassword: !state.showPassword,
+        token: action.payload.token
       };
+    }
+
+    case 'LOGOUT': {
+      return {
+        ...state,
+        token: null
+      }
     }
 
     default: {

@@ -1,20 +1,16 @@
 // ===== TextField Style
 // import styled component
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import {TouchableWithoutFeedback} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {peekPassword} from '../../redux/actions/auth';
 
 // import styles
 import {PasswordFieldStyle, Container, Edge} from './styled';
 
 export default function PasswordField(props) {
-  const dispatch = useDispatch();
-  const shown = useSelector((state) => state.auth.showPassword);
-
+  const [shown, setShown] = useState(false)
   const handlePeekPassword = () => {
-    dispatch(peekPassword());
+    setShown(shown => !shown)
   };
 
   return (

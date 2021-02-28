@@ -8,6 +8,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import persistedStore from './src/redux/store';
 import RNBootSplash from 'react-native-bootsplash';
+import FlashMessage from "react-native-flash-message";
 
 // import all screens
 import Register from './src/screens/Register';
@@ -36,17 +37,7 @@ export default function App() {
         <PersistGate persistor={persistor}>
           <NavigationContainer>
             <Stack.Navigator>
-              <Stack.Screen
-                name="Register"
-                component={Register}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
+            <Stack.Screen
                 name="Home"
                 component={Home}
                 options={{header: () => <Navbar />}}
@@ -77,12 +68,23 @@ export default function App() {
                 options={{header: () => <Navbar />}}
               />
               <Stack.Screen
+                name="Register"
+                component={Register}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
                 name="ResetPassword"
                 component={ResetPassword}
                 options={{headerShown: false}}
               />
             </Stack.Navigator>
           </NavigationContainer>
+          <FlashMessage position="top" />
         </PersistGate>
       </Provider>
     </Fragment>

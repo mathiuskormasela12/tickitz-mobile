@@ -9,6 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 
 // import actions
 import {showToggle} from '../../redux/actions/home';
+import {logout} from '../../redux/actions/auth';
 
 // import all components
 import Container from '../container/Container';
@@ -39,10 +40,16 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const toggle = useSelector((currentToggle) => currentToggle.home.toggle);
+  const token = useSelector((state) => state.auth.token);
   const [dropdown, setDropdown] = useState(false);
 
   const handleToggle = () => {
     dispatch(showToggle());
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    push({navigation}, 'Login')
   };
 
   const handleDropdown = () => {
@@ -55,9 +62,9 @@ export default function Navbar() {
         <Navs>
           <Container>
             <Row>
-              <View>
+              <TouchableWithoutFeedback onPress={() => push({navigation}, 'Home')}>
                 <Brand source={logo} />
-              </View>
+              </TouchableWithoutFeedback>
               <View>
                 <TouchableWithoutFeedback onPress={handleToggle}>
                   <Burger width="30" height="30" />
@@ -99,15 +106,35 @@ export default function Navbar() {
             <CollapseItem>
               <Text>Movies</Text>
             </CollapseItem>
-            <CollapseItem>
-              <TouchableWithoutFeedback
-                onPress={() => push({navigation}, 'Profile')}>
-                <Text>Profile</Text>
-              </TouchableWithoutFeedback>
-            </CollapseItem>
-            <CollapseItem>
-              <Text>Logout</Text>
-            </CollapseItem>
+            {!token && (
+              <Fragment>
+                <CollapseItem>
+                  <TouchableWithoutFeedback onPress={() => push({navigation}, 'Login')}>
+                    <Text>Login</Text>
+                  </TouchableWithoutFeedback>
+                </CollapseItem>
+                <CollapseItem>
+                  <TouchableWithoutFeedback onPress={() => push({navigation}, 'Register')}>
+                    <Text>Register</Text>
+                  </TouchableWithoutFeedback>
+                </CollapseItem>
+              </Fragment>
+            )}
+            {token && (
+              <Fragment>
+                <CollapseItem>
+                  <TouchableWithoutFeedback
+                    onPress={() => push({navigation}, 'Profile')}>
+                    <Text>Profile</Text>
+                  </TouchableWithoutFeedback>
+                </CollapseItem>
+                <CollapseItem>
+                  <TouchableWithoutFeedback onPress={handleLogout}>
+                    <Text>Logout</Text>
+                  </TouchableWithoutFeedback>
+                </CollapseItem>
+              </Fragment>
+            )}
             <CollapseFoot>
               <TextFoot>© 2021 Tickitz. All Rights Reserved.</TextFoot>
             </CollapseFoot>
