@@ -25,7 +25,6 @@ class NowShowingComponent extends Component {
     }))
     try {
       const {data} = await http.getNowShowing()
-      this.props.loading()
       setTimeout(() => {
         this.setState((state) => ({
           nowShowing: data.results,
@@ -33,7 +32,6 @@ class NowShowingComponent extends Component {
         }))
       }, 500)
     } catch (err) {
-      this.props.loading()
       console.log(err);
       this.setState((state) => ({
         message: err.response.data.message,

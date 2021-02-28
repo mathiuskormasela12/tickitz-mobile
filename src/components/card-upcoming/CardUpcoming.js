@@ -7,9 +7,6 @@ import push from '../../helpers/push';
 import {Card, CardHead, Image, CardFooter, Title, Subtitle} from './styles';
 import Button from '../button/Button';
 
-// import images
-import superman from '../../assets/img/superman.png';
-
 function CardUpcoming(props) {
   const navigate = () => {
     push(props, 'Detail');
@@ -18,11 +15,13 @@ function CardUpcoming(props) {
     <Fragment>
       <Card {...props}>
         <CardHead>
-          <Image source={superman} />
+          <Image source={{
+            uri: props.poster
+          }} />
         </CardHead>
         <CardFooter>
-          <Title>Spider-Man : H...</Title>
-          <Subtitle>Action, Adventure, Sci-Fi</Subtitle>
+          <Title>{props.title}</Title>
+          <Subtitle>{props.genres}</Subtitle>
           <Button height="40px" width="100%" onPress={navigate}>
             Details
           </Button>

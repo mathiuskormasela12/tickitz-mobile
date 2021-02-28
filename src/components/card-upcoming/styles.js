@@ -7,24 +7,25 @@ export const Card = styled.View`
   border: 1px solid #dedede;
   border-radius: 10px;
   width: 220px;
-  height: 500px;
+  min-height: 500px;
   padding: 20px;
   background-color: ${variables.light};
 `;
 
 export const CardHead = styled.View`
   width: 100%;
-  height: 60%;
+  min-height: ${60 / 100 * 500}px;
 `;
 export const CardFooter = styled.View`
   width: 100%;
-  height: 40%;
+  height: auto;
   margin-top: 28px;
+  padding-vertical: 20px;
 `;
 
 export const Image = styled.Image`
   width: 100%;
-  height: 100%;
+  height: ${60 / 100 * 500}px;
   resize-mode: stretch;
 `;
 
