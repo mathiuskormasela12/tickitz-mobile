@@ -19,6 +19,7 @@ export const Footer = styled.View`
 
 export const Column = styled.View`
   width: 45%;
+  margin-bottom: 15px;
 `;
 
 export const Main = styled.View`
@@ -60,6 +61,7 @@ export const Subtitle = styled.Text`
   font-size: 19px;
   color: #4e4b66;
   text-align: center;
+  text-transform: capitalize;
 `;
 
 export const SynopsisTitle = styled.Text`

@@ -7,12 +7,12 @@ import {TouchableWithoutFeedback} from 'react-native';
 import {Card, CardHead, Image} from './styles';
 
 function CardNowShowing(props) {
-  const push = () => {
-    props.navigation.navigate('Detail');
+  const push = (id) => {
+    props.navigation.navigate('Detail', { id });
   };
 
   return (
-    <TouchableWithoutFeedback onPress={push}>
+    <TouchableWithoutFeedback onPress={() => push(props.id)}>
       <Card {...props}>
         <CardHead>
           <Image source={{

@@ -18,7 +18,7 @@ function MovieDetail(props) {
       <ScrollView>
         <HiddenWrapper>
           {toggle && <Hidden />}
-          <Details />
+          <Details {...props} />
           <ShowTimes {...props} />
           <Footer />
         </HiddenWrapper>

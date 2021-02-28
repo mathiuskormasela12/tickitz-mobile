@@ -1,6 +1,9 @@
 // ===== Container
 // import all modules
 import React, {Fragment, Component} from 'react';
+import {connect} from 'react-redux';
+import {showMessage} from 'react-native-flash-message';
+import http from '../../services/Services';
 
 // import all components
 import {
@@ -20,47 +23,64 @@ import {
 import Container from '../container/Container';
 import {CardNowMoviePlain} from '../';
 
-class Details extends Component {
+class DetailsComponent extends Component {
+  state = {
+    details: [],
+    message: null,
+  }
+
+  async componentDidMount() {
+    try {
+      const {data} = await http.getMovieDetails(this.props.route.params.id)
+      console.log(data)
+      this.setState(() => ({
+        details: data.results[0],
+      }))
+    } catch (err) {
+      console.log(err);
+      showMessage({
+        message: data.message,
+        type: 'warning',
+        duration: 2000,
+        hideOnPress: true
+      })
+    }
+  }
+
   render() {
     return (
       <Fragment>
         <Detail>
           <Container style={styles.container}>
-            <CardNowMoviePlain />
+            <CardNowMoviePlain poster={this.state.details.poster} />
             <Header>
-              <Title>Spider-Man: Homecoming</Title>
-              <Subtitle>Adventure, Action, Sci-Fi</Subtitle>
+              <Title>{this.state.details.title}</Title>
+              <Subtitle>{this.state.details.genres}</Subtitle>
             </Header>
             <Main>
               <Column>
                 <LittleTitle>Release date</LittleTitle>
-                <LittleSubtitle>June 28, 2017</LittleSubtitle>
+                <LittleSubtitle>{this.state.details.releaseDate}</LittleSubtitle>
               </Column>
               <Column>
                 <LittleTitle>Directed by</LittleTitle>
-                <LittleSubtitle>Jon Watss</LittleSubtitle>
+                <LittleSubtitle>{this.state.details.direct}</LittleSubtitle>
               </Column>
               <Column>
                 <LittleTitle>Duration</LittleTitle>
-                <LittleSubtitle>2 hrs 13 min</LittleSubtitle>
+                <LittleSubtitle>{this.state.details.duration}</LittleSubtitle>
               </Column>
               <Column>
                 <LittleTitle>Casts</LittleTitle>
                 <LittleSubtitle>
-                  Tom Holland, Robert Downey Jr. ,etc.
+                  {this.state.details.casts}
                 </LittleSubtitle>
               </Column>
             </Main>
             <Footer>
               <SynopsisTitle>Synopsis</SynopsisTitle>
               <Synopsis>
-                Thrilled by his experience with the Avengers,Peter returns home,
-                where he lives with his Aunt May, under the watchful eye of his
-                new mentor Tony Stark, Peter tries to fall back into his normal
-                daily routine - distracted by thoughts of proving himself to be
-                more than just your friendly neighborhood Spider-Man - but when
-                the Vulture emerges as a new villain, everything that Peter
-                holds most important will be threatened.
+              {this.state.details.synopsis}
               </Synopsis>
             </Footer>
           </Container>
@@ -70,4 +90,10 @@ class Details extends Component {
   }
 }
 
-export {Details};
+const mapStateToProps = (state) => ({
+  ...state.home,
+});
+
+const mapDispatchToProps = {}
+
+export const Details = connect(mapStateToProps, mapDispatchToProps)(DetailsComponent);

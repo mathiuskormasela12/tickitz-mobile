@@ -1,6 +1,7 @@
 // ===== Container
 // import all modules
 import React, {Fragment, Component} from 'react';
+import {connect} from 'react-redux';
 import push from '../../helpers/push';
 
 // import all components
@@ -21,28 +22,54 @@ import {
   styles,
 } from './styles';
 import Button from '../button/Button';
+import { TouchableWithoutFeedback } from 'react-native';
 
-// import images
-import ebv from '../../assets/img/ebv.png';
 
-class ShowTimeCard extends Component {
+class ShowTimeCardComponent extends Component {
+  state = {
+    selectedTime: null
+  }
   navigate = () => {
-    push(this.props, 'Order');
+    if(!this.props.token) {
+      push(this.props, 'Login');
+    } else {
+      push(this.props, 'Order');
+    }
   };
 
+  selectTime = (time) => {
+    this.setState({
+      selectedTime: time
+    })
+  }
+
   render() {
+    console.log('====== TIMES --========')
+    console.log(this.props.times)
     return (
       <Fragment>
         <Card>
           <Container>
             <Header>
-              <Image source={ebv} />
-              <Subtitle>Whatever street No.12, South Purwokerto</Subtitle>
+              <Image source={{
+                uri: this.props.cinemaPoster
+              }} />
+              <Subtitle>{this.props.address}</Subtitle>
             </Header>
             <Main>
-              {[...Array(8)].map((item, index) => (
+              {this.props.times.map((item, index) => (
                 <Times key={String(index)}>
-                  <TimesText>08:30am</TimesText>
+                  {
+                    item === this.state.selectedTime ? (
+                      <TouchableWithoutFeedback onPress={() => this.selectTime(item)}>
+                        <TimesText checked>{item}</TimesText>
+                      </TouchableWithoutFeedback>
+                    ) : (
+                      <TouchableWithoutFeedback onPress={() => this.selectTime(item)}>
+                        <TimesText>{item}</TimesText>
+                      </TouchableWithoutFeedback>
+                    )
+                  }
                 </Times>
               ))}
             </Main>
@@ -52,7 +79,7 @@ class ShowTimeCard extends Component {
                   <PriceLabel>Price</PriceLabel>
                 </Col>
                 <Col>
-                  <Price>$10.00/seat</Price>
+                  <Price>${this.props.price}/seat</Price>
                 </Col>
               </Row>
               <Row style={styles.footer}>
@@ -79,4 +106,10 @@ class ShowTimeCard extends Component {
   }
 }
 
-export {ShowTimeCard};
+const mapStateToProps = (state) => ({
+  ...state.auth,
+});
+
+const mapDispatchToProps = {}
+
+export const ShowTimeCard = connect(mapStateToProps, mapDispatchToProps)(ShowTimeCardComponent);
