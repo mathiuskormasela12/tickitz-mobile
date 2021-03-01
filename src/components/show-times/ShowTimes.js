@@ -16,7 +16,7 @@ import {
   Header,
   Title,
   Form,
-  Date,
+  InputDate,
   DateText,
   Column,
   AppendIcon,
@@ -36,35 +36,54 @@ import Location from '../../assets/img/location.svg';
 class ShowTimesComponent extends Component {
   state = {
     isVisible: false,
-    selectedDate: null,
+    selectedDate: moment(Date.now()).format('YYYY-MM-DD'),
     location: 'Jakarta',
     showTimes: [],
     loading: false,
     message: null,
-    times: []
+    times: [],
+    activeTimes: [],
+    cities: [],
   };
 
+  getAllCities = async () => {
+    try {
+      const {data: cities } = await http.getAllCities(); 
+      this.setState({
+        cities: cities.results
+      })
+    } catch (error) {
+      this.setState((state) => ({
+        message: err.response.data.message
+      }))
+    }
+  }
+
   async componentDidMount() {
+    this.getAllCities()
     this.setState((state) => ({
-      loading: !state.loading
+      loading: !state.loading,
     }))
     try {
       const {data} = await http.getShowTimes(this.props.token, this.props.route.params.id, this.state.selectedDate, this.state.location)
       const {data: times} = await http.getAllTimes(this.props.token)
-      console.log('====== DATA SHOW TIME ======')
-      console.log(data)
       setTimeout(() => {
-        const modifiedTime = times.results.map((item, index) => `${item.showTime.slice(0, 5)}${Number(item.showTime.slice(0, 2)) >= 0 && item.showTime.slice(0, 2) < 12 ? 'am' : 'pm'}`)
-        this.setState((state) => ({
-          showTimes: data.results,
-          times: modifiedTime,
-          loading: !state.loading
-        }));
+        const modifiedTime = times.results.map((item, index) => ({
+          id: item.id,
+          time: `${item.showTime.slice(0, 5)}${Number(item.showTime.slice(0, 2)) >= 0 && item.showTime.slice(0, 2) < 12 ? 'am' : 'pm'}`,
+        }))
         if(data.results.length < 1) {
           this.setState((state) => ({
             loading: !state.loading,
-            message: data.results.message
+            message: 'There is not show time',
           }))
+        } else {
+          this.setState((state) => ({
+            showTimes: data.results,
+            times: modifiedTime,
+            loading: !state.loading,
+            activeTimes: data.results[0].time,
+          }));
         }
       }, 2000)
     } catch (err) {
@@ -91,17 +110,22 @@ class ShowTimesComponent extends Component {
             loading: !state.loading
           }));
         } else {
-          const modifiedTime = times.results.map((item, index) => `${item.showTime.slice(0, 5)}${Number(item.showTime.slice(0, 2)) >= 0 && item.showTime.slice(0, 2) < 12 ? 'am' : 'pm'}`)
+          const modifiedTime = times.results.map((item, index) => ({
+            id: item.id,
+            time: `${item.showTime.slice(0, 5)}${Number(item.showTime.slice(0, 2)) >= 0 && item.showTime.slice(0, 2) < 12 ? 'am' : 'pm'}`,
+          }))
+          console.log('======== MOD =====')
+          console.log(data.results[0].time)
           this.setState((state) => ({
             showTimes: data.results,
             loading: !state.loading,
-            times: modifiedTime
+            times: modifiedTime,
+            activeTimes: data.results[0].time
           }));
         }
       } catch (err) {
         console.log(err);
         this.setState((state) => ({
-          showTimes: data.results,
           loading: !state.loading,
           message: err.response.data.message
         }));
@@ -139,7 +163,7 @@ class ShowTimesComponent extends Component {
             <Form>
               <Column>
                 <TouchableWithoutFeedback onPress={this.showDatePicker}>
-                  <Date>
+                  <InputDate>
                     <AppendIcon>
                       <Calendar width="22" height="22" />
                     </AppendIcon>
@@ -149,7 +173,7 @@ class ShowTimesComponent extends Component {
                     <AppendIcon>
                       <Icon name="angle-down" size={15} style={styles.icon} />
                     </AppendIcon>
-                  </Date>
+                  </InputDate>
                 </TouchableWithoutFeedback>
                 <DateTimePickerModal
                   isVisible={this.state.isVisible}
@@ -168,12 +192,16 @@ class ShowTimesComponent extends Component {
                     onValueChange={(itemValue, itemIndex) =>
                       this.setState({location: itemValue})
                     }>
-                    <Picker.Item
-                      label="Jakarta"
-                      style={styles.item}
-                      value="Jakarta"
-                    />
-                    <Picker.Item label="Bogor" value="Bogor" />
+                    {
+                      this.state.cities.map((item, index) => (
+                        <Picker.Item
+                          key={String(index)}
+                          label={item.substr(0, 1).toUpperCase().concat(item.substr(1))}
+                          style={styles.item}
+                          value={item.toLowerCase()}
+                        />
+                      ))
+                    }
                   </Picker>
                 </View>
               </Column>
@@ -184,7 +212,7 @@ class ShowTimesComponent extends Component {
                   <Fragment>
                     {this.state.showTimes.map((item, index) => (
                       <Col key={String(index)}>
-                        <ShowTimeCard cinemaPoster={item.cinemaPoster} price={item.pricePerSeat} address={item.address} times={this.state.times} {...this.props} />
+                        <ShowTimeCard cinemaPoster={item.cinemaPoster} cinemaId={item.cinemaId} activeTimes={this.state.activeTimes} price={item.pricePerSeat} address={item.address} times={this.state.times} selectedDate={this.state.selectedDate} movieId={this.props.route.params.id}  {...this.props} />
                       </Col>
                     ))}
                   </Fragment>

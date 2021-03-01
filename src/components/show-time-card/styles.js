@@ -53,7 +53,7 @@ export const Times = styled.View`
 `;
 
 export const TimesText = styled.Text`
-  color: ${(props) => (props.checked ? '#4E4B66' : '#A0A3BD')};
+  color: ${(props) => (props.enabled ? '#4E4B66' : (props.checked) ? variables.primary : '#A0A3BD')};
   font-size: 15px;
 `;
 

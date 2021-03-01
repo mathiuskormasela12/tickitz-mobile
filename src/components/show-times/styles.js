@@ -29,7 +29,7 @@ export const Column = styled.View`
   margin-bottom: 20px;
 `;
 
-export const Date = styled.View`
+export const InputDate = styled.View`
   width: 100%;
   background-color: #eff0f6;
   height: 55px;

@@ -7,26 +7,72 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
 } from 'react-native';
+import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Picker} from '@react-native-picker/picker';
+import {showMessage} from 'react-native-flash-message';
 import push from '../../helpers/push';
+import http from '../../services/Services';
+import loading from '../../redux/actions/loading';
 
 // import all components
 import {SimpleCard} from '../';
 import Button from '../button/Button';
 
-export default class Seat extends Component {
+class SeatComponent extends Component {
   state = {
-    selectedSeat: ['A1', 'C2'],
+    selectedSeat: [],
     seat: null,
-    soldSeat: ['A2', 'F1', 'D2'],
+    soldSeat: [],
   };
 
   getValue = (seat) => {
-    this.setState({
-      seat,
+    this.setState((state) => {
+      console.log(seat.split(','))
+      if(state.selectedSeat.indexOf(seat) === -1) {
+        if(seat.includes('F10')) {
+          if(state.selectedSeat.indexOf('F10') === -1) {
+            return {
+              selectedSeat: [
+                ...state.selectedSeat,
+                ...seat.split(',')
+              ]
+            }
+          } else {
+            const modifiedSeat = [...state.selectedSeat];
+            modifiedSeat.splice(state.selectedSeat.indexOf('F10'), 2);
+            return {
+              selectedSeat: modifiedSeat
+            }
+          }
+        } else {
+          return {
+            selectedSeat: [
+              ...state.selectedSeat,
+              seat
+            ]
+          }
+        }
+      } else {
+        const modifiedSeat = [...state.selectedSeat];
+        modifiedSeat.splice(state.selectedSeat.indexOf(seat), 1);
+        return {
+          selectedSeat: modifiedSeat
+        }
+      }
     });
   };
+
+  async componentDidMount() {
+    try {
+      const {data} = await http.getSoldSeat(this.props.token, this.props.showTimeId)
+      this.setState({
+        soldSeat: data.results
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   render() {
     const seatNum = [1, 2, 3, 4, 5, 6, 7];
@@ -120,7 +166,7 @@ export default class Seat extends Component {
                                   </TouchableWithoutFeedback>
                                 </View>
                               ) : !this.state.selectedSeat.some(
-                                  (item) => item === `${row}${col}`,
+                                  (item) => item.toLowerCase() === `${row.toLowerCase()}${col}`,
                                 ) ? (
                                 <Fragment>
                                   <View style={styles.doubleBoxCol}>
@@ -172,9 +218,7 @@ export default class Seat extends Component {
                                       <TouchableWithoutFeedback
                                         onPress={() =>
                                           this.getValue(
-                                            `${row + col},${
-                                              row + (Number(col) + 1)
-                                            }`,
+                                            `${row + col}`,
                                           )
                                         }>
                                         <View
@@ -191,9 +235,7 @@ export default class Seat extends Component {
                                       <TouchableWithoutFeedback
                                         onPress={() =>
                                           this.getValue(
-                                            `${row + col},${
-                                              row + (Number(col) + 1)
-                                            }`,
+                                            `${row + col}`,
                                           )
                                         }>
                                         <View
@@ -208,9 +250,7 @@ export default class Seat extends Component {
                                       <TouchableWithoutFeedback
                                         onPress={() =>
                                           this.getValue(
-                                            `${row + col},${
-                                              row + (Number(col) + 1)
-                                            }`,
+                                            `${row + col}`,
                                           )
                                         }>
                                         <View
@@ -272,7 +312,7 @@ export default class Seat extends Component {
                   <Text style={styles.choosed}>Choosed</Text>
                 </View>
                 <View style={styles.colCard}>
-                  <Text style={styles.seats}>C4, C5, C6</Text>
+                  <Text style={styles.seats}>{this.state.selectedSeat.join(', ')}</Text>
                 </View>
               </View>
             </View>
@@ -572,3 +612,14 @@ const styles = StyleSheet.compose({
     width: '100%',
   },
 });
+
+const mapStateToProps = (state) => ({
+  ...state.transaction,
+  ...state.auth,
+});
+
+const mapDispatchToProps = {
+  loading
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SeatComponent)

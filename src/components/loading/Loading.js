@@ -3,7 +3,7 @@ import React, {Fragment, useEffect} from 'react';
 import {View, StyleSheet, ActivityIndicator, BackHandler} from 'react-native';
 import {useSelector} from 'react-redux'
 
-export function Loading() {
+export default function Loading() {
   const loading = useSelector(state => state.loading.loading);
 
   useEffect(() => {
@@ -25,19 +25,15 @@ export function Loading() {
     }
   })
 
-  if(loading) {
-    return (
-      <Fragment>
-        <View style={style.hero}>
-          <View style={style.box}>
-            <ActivityIndicator size="large" color="#5F2EEA" />
-          </View>
+  return (
+    <Fragment>
+      <View style={style.hero}>
+        <View style={style.box}>
+          <ActivityIndicator size="large" color="#5F2EEA" />
         </View>
-      </Fragment>
-    )
-  } else {
-    return <Fragment />
-  }
+      </View>
+    </Fragment>
+  );
 }
 
 const style = StyleSheet.create({

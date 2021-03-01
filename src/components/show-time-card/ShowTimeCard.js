@@ -2,7 +2,14 @@
 // import all modules
 import React, {Fragment, Component} from 'react';
 import {connect} from 'react-redux';
+import loading from '../../redux/actions/loading';
 import push from '../../helpers/push';
+import http from '../../services/Services';
+import moment from 'moment';
+import {showMessage} from 'react-native-flash-message';
+
+// import actions
+import {setShowTimeId} from '../../redux/actions/transaction';
 
 // import all components
 import {
@@ -27,25 +34,52 @@ import { TouchableWithoutFeedback } from 'react-native';
 
 class ShowTimeCardComponent extends Component {
   state = {
-    selectedTime: null
+    selectedTime: null,
+    timeId: null,
   }
-  navigate = () => {
-    if(!this.props.token) {
+  navigate = async () => {
+    if(!this.state.timeId) {
+      showMessage({
+        message: 'Please select your show time',
+        type: 'warning',
+        duration: 2000,
+        hideOnPress: true
+      })
+    }
+    else if(!this.props.token) {
       push(this.props, 'Login');
     } else {
-      push(this.props, 'Order');
+      this.props.loading()
+      try {
+        const {data} = await http.getSelectedShowTimeId(this.props.selectedDate, this.props.movieId, this.state.timeId, this.props.cinemaId);
+        this.props.loading();
+        console.log('======= DATA +++++++++')
+        console.log(data.results.showTimeId)
+        this.props.setShowTimeId(data.results.showTimeId);
+        push(this.props, 'Order');
+      } catch (err) {
+        console.log(err);
+        showMessage({
+          message: err.response.data.message,
+          type: 'warning',
+          duration: 2000,
+          hideOnPress: true
+        })
+      }
     }
   };
 
-  selectTime = (time) => {
+  selectTime = (time, timeId) => {
     this.setState({
-      selectedTime: time
+      selectedTime: time,
+      timeId
     })
   }
 
   render() {
-    console.log('====== TIMES --========')
-    console.log(this.props.times)
+    const modifiedActiveTimes = this.props.activeTimes.map((item) => `${item.slice(0, 5)}${Number(item.slice(0, 2)) >= 0 && item.slice(0, 2) < 12 ? 'am' : 'pm'}`)
+    console.log('===== MODIFIED ======')
+    console.log(modifiedActiveTimes)
     return (
       <Fragment>
         <Card>
@@ -60,14 +94,22 @@ class ShowTimeCardComponent extends Component {
               {this.props.times.map((item, index) => (
                 <Times key={String(index)}>
                   {
-                    item === this.state.selectedTime ? (
-                      <TouchableWithoutFeedback onPress={() => this.selectTime(item)}>
-                        <TimesText checked>{item}</TimesText>
+                    item.time === this.state.selectedTime ? (
+                      <TouchableWithoutFeedback onPress={() => this.selectTime(item.time, item.id)}>
+                        <TimesText checked>{item.time}</TimesText>
                       </TouchableWithoutFeedback>
+                    ) : modifiedActiveTimes.indexOf(item.time) !== -1 ? (
+                      (
+                        <TouchableWithoutFeedback onPress={() => this.selectTime(item.time, item.id)}>
+                          <TimesText enabled>{item.time}</TimesText>
+                        </TouchableWithoutFeedback>
+                      )
                     ) : (
-                      <TouchableWithoutFeedback onPress={() => this.selectTime(item)}>
-                        <TimesText>{item}</TimesText>
-                      </TouchableWithoutFeedback>
+                      (
+                        <TouchableWithoutFeedback>
+                          <TimesText>{item.time}</TimesText>
+                        </TouchableWithoutFeedback>
+                      )
                     )
                   }
                 </Times>
@@ -108,8 +150,12 @@ class ShowTimeCardComponent extends Component {
 
 const mapStateToProps = (state) => ({
   ...state.auth,
+  ...state.transaction
 });
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  loading,
+  setShowTimeId
+}
 
 export const ShowTimeCard = connect(mapStateToProps, mapDispatchToProps)(ShowTimeCardComponent);

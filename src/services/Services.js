@@ -47,12 +47,16 @@ class Services {
         return http(token).get('/times')
     }
 
-    getSoldSeat(token, movieId, cinemaId, time) {
-        return http(token).get(`/soldseats/${movieId}/${cinemaId}/${time}`)
+    getSoldSeat(token, id) {
+        return http(token).get(`/soldseats/${id}`)
     }
 
     getAllCities() {
         return http().get('/cities')
+    }
+
+    getSelectedShowTimeId(showTimeDate, movieId, timeId, cinemaId) {
+        return http().get(`/selectedShowTime/${showTimeDate}/${movieId}/${timeId}/${cinemaId}`)
     }
 }
 

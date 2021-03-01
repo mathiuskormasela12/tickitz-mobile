@@ -8,9 +8,10 @@ import {Card, CardHead, Image, CardFooter, Title, Subtitle} from './styles';
 import Button from '../button/Button';
 
 function CardUpcoming(props) {
-  const navigate = () => {
-    push(props, 'Detail');
+  const push = (id) => {
+    props.navigation.navigate('Detail', { id });
   };
+
   return (
     <Fragment>
       <Card {...props}>
@@ -22,7 +23,7 @@ function CardUpcoming(props) {
         <CardFooter>
           <Title>{props.title}</Title>
           <Subtitle>{props.genres}</Subtitle>
-          <Button height="40px" width="100%" onPress={navigate}>
+          <Button height="40px" width="100%" onPress={() => push(props.id)}>
             Details
           </Button>
         </CardFooter>
