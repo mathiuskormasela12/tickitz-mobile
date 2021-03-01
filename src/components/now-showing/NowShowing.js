@@ -34,7 +34,7 @@ class NowShowingComponent extends Component {
     } catch (err) {
       console.log(err);
       this.setState((state) => ({
-        message: err.response.data.message,
+        messageNowShowing: err.response.data.message,
         loading: !state.loading
       }))
     }
