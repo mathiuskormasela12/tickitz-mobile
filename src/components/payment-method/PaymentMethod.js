@@ -10,6 +10,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import * as variables from '../../style/variable';
+import {useDispatch} from 'react-redux';
+
+// import actions
+import {setPaymentMethod} from '../../redux/actions/transaction';
 
 // import all components
 import {SimpleCard} from '../';
@@ -24,6 +28,12 @@ import ovo from '../../assets/img/ovo.png';
 import visa from '../../assets/img/visa.png';
 
 export function PaymentMethod() {
+  const dispatch = useDispatch();
+
+  const setPayment = (value) => {
+    dispatch(setPaymentMethod(value));
+  }
+
   return (
     <Fragment>
       <View style={style.container}>
@@ -35,42 +45,42 @@ export function PaymentMethod() {
             <View style={style.containerStatic}>
               <View style={style.row}>
                 <View style={style.col}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => setPayment('Google Pay')}>
                     <SimpleCard style={style.cardImg}>
                       <Image style={style.img} source={googlepay} />
                     </SimpleCard>
                   </TouchableOpacity>
                 </View>
                 <View style={style.col}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => setPayment('Visa')}>
                     <SimpleCard style={style.cardImg}>
                       <Image style={style.img} source={visa} />
                     </SimpleCard>
                   </TouchableOpacity>
                 </View>
                 <View style={style.col}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => setPayment('GoPay')}>
                     <SimpleCard style={style.cardImg}>
                       <Image style={style.img} source={gopay} />
                     </SimpleCard>
                   </TouchableOpacity>
                 </View>
                 <View style={style.col}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => setPayment('PayPal')}>
                     <SimpleCard style={style.cardImg}>
                       <Image style={style.img} source={paypal} />
                     </SimpleCard>
                   </TouchableOpacity>
                 </View>
                 <View style={style.col}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => setPayment('Ovo')}>
                     <SimpleCard style={style.cardImg}>
                       <Image style={style.img} source={ovo} />
                     </SimpleCard>
                   </TouchableOpacity>
                 </View>
                 <View style={style.col}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => setPayment('Dana')}>
                     <SimpleCard style={style.cardImg}>
                       <Image style={style.img} source={dana} />
                     </SimpleCard>
@@ -128,6 +138,7 @@ const style = StyleSheet.create({
     marginRight: 'auto',
   },
   header: {
+    marginTop: 70,
     marginBottom: 20,
   },
   title: {

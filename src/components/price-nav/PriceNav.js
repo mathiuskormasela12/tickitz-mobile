@@ -2,8 +2,11 @@
 // import all modules
 import React, {Fragment} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {useSelector} from 'react-redux';
 
 export function PriceNavbar() {
+  const totalPayment = useSelector(state => state.transaction.totalPayment);
+
   return (
     <Fragment>
       <View style={style.navbar}>
@@ -13,7 +16,7 @@ export function PriceNavbar() {
               <Text style={style.navTitle}>Total Payment</Text>
             </View>
             <View style={style.navbarCol}>
-              <Text style={style.navPrice}>$30.00</Text>
+              <Text style={style.navPrice}>${totalPayment}</Text>
             </View>
           </View>
         </View>

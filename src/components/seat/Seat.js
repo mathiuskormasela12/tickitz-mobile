@@ -14,6 +14,7 @@ import {showMessage} from 'react-native-flash-message';
 import push from '../../helpers/push';
 import http from '../../services/Services';
 import loading from '../../redux/actions/loading';
+import {setSeat} from '../../redux/actions/transaction';
 
 // import all components
 import {SimpleCard} from '../';
@@ -25,6 +26,20 @@ class SeatComponent extends Component {
     seat: null,
     soldSeat: [],
   };
+
+  navigate = () => {
+    if(this.state.selectedSeat.length > 0) {
+      this.props.setSeat(this.state.selectedSeat);
+      push(this.props, 'Payment');
+    } else {
+      showMessage({
+        message: 'Please select your seat',
+        type: 'warning',
+        duration: 2000,
+        hideOnPress: true
+      })
+    }
+  }
 
   getValue = (seat) => {
     this.setState((state) => {
@@ -100,8 +115,7 @@ class SeatComponent extends Component {
                             ) ? (
                               <Fragment>
                                 <View style={styles.boxCol}>
-                                  <TouchableWithoutFeedback
-                                    onPress={() => this.getValue(row + col)}>
+                                  <TouchableWithoutFeedback>
                                     <View
                                       style={[styles.box, styles.disabled]}
                                     />
@@ -149,14 +163,7 @@ class SeatComponent extends Component {
                                 (item) => item === `${row}${col}`,
                               ) ? (
                                 <View style={styles.doubleBoxCol}>
-                                  <TouchableWithoutFeedback
-                                    onPress={() =>
-                                      this.getValue(
-                                        `${row + col},${
-                                          row + (Number(col) + 1)
-                                        }`,
-                                      )
-                                    }>
+                                  <TouchableWithoutFeedback>
                                     <View
                                       style={[
                                         styles.doubleBox,
@@ -312,7 +319,7 @@ class SeatComponent extends Component {
                   <Text style={styles.choosed}>Choosed</Text>
                 </View>
                 <View style={styles.colCard}>
-                  <Text style={styles.seats}>{this.state.selectedSeat.join(', ')}</Text>
+                  <Text style={styles.seats}>{this.state.selectedSeat.length < 1 ? '-' : this.state.selectedSeat.join(', ')}</Text>
                 </View>
               </View>
             </View>
@@ -430,7 +437,7 @@ class SeatComponent extends Component {
                 primary
                 height="55px"
                 width="100%"
-                onPress={() => push(this.props, 'Payment')}>
+                onPress={this.navigate}>
                 Checkout Now
               </Button>
             </View>
@@ -619,7 +626,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  loading
+  loading,
+  setSeat
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SeatComponent)

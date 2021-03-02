@@ -2,6 +2,10 @@
 // import all modules
 import React, {Fragment} from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+
+// import actions
+import {setInput, setMessage} from '../../redux/actions/transaction';
 
 // import all components
 import {SimpleCard} from '../';
@@ -14,6 +18,25 @@ import Warning from '../../assets/img/warning.svg';
 import push from '../../helpers/push';
 
 export function PaymentPersonal(props) {
+  const state = useSelector(state => state.transaction);
+  const dispatch = useDispatch();
+
+  const handleInput = (name, value) => {
+    dispatch(setInput(name, value));
+  }
+
+  const order = () => {
+    if(!state.fullName || !state.email || !state.phoneNumber) {
+      dispatch(setMessage("Form can't be empty", 'warning'));
+    } else if (state.email.match(/[^@$a-z0-9.]/gi) || !state.email.match(/@\b/g) || state.email.match(/\s/) || state.email.match(/\b[0-9]/) || !state.email.split('@').pop().includes('.')) {
+      dispatch(setMessage("Incorrect email", 'warning')); 
+    } else if(state.phoneNumber.match(/[a-z]/gi) || state.phoneNumber.match(/[^0-9]/gi)) {
+      dispatch(setMessage("Incorrect phone number", 'warning')); 
+    } else {
+      dispatch(setMessage(null, null))
+      push(props, 'Ticket');
+    }
+  }
   return (
     <Fragment>
       <View style={style.container}>
@@ -32,7 +55,7 @@ export function PaymentPersonal(props) {
                         placeholder="Write Your Full Name"
                         placeholderColor="#A0A3BD"
                         height="50px"
-                        value="Mathius Kormasela"
+                        onChangeText={(value) => handleInput('fullName', value)}
                       />
                     </View>
                   </View>
@@ -46,7 +69,7 @@ export function PaymentPersonal(props) {
                         placeholderColor="#A0A3BD"
                         height="50px"
                         keyboardType="email-address"
-                        value="mathiuskormasela12@gmail.com"
+                        onChangeText={(value) => handleInput('email', value)}
                       />
                     </View>
                   </View>
@@ -59,26 +82,28 @@ export function PaymentPersonal(props) {
                         placeholder="Write Your Phone Number"
                         placeholderColor="#A0A3BD"
                         height={50}
-                        value="8953251765440"
+                        onChangeText={(value) => handleInput('phoneNumber', value)}
                       />
                     </View>
                   </View>
                 </View>
               </View>
-              <View style={[style.row, style.alertMargin]}>
-                <View style={style.col}>
-                  <View style={style.alert}>
-                    <View style={style.alertIcon}>
-                      <Warning size={14} />
-                    </View>
-                    <View style={style.alertContent}>
-                      <Text style={style.alertText}>
-                        Fill your data correctly.
-                      </Text>
+              {(state.message) && (
+                <View style={[style.row, style.alertMargin]}>
+                  <View style={style.col}>
+                    <View style={style.alert}>
+                      <View style={style.alertIcon}>
+                        <Warning size={14} />
+                      </View>
+                      <View style={style.alertContent}>
+                        <Text style={style.alertText}>
+                          {state.message || 'Please fill the form'}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
+              )}
             </View>
           </SimpleCard>
         </View>
@@ -88,7 +113,7 @@ export function PaymentPersonal(props) {
               height="55px"
               width="100%"
               primary
-              onPress={() => push(props, 'Ticket')}>
+              onPress={order}>
               Pay Your Order
             </Button>
           </View>

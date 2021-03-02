@@ -70,6 +70,7 @@ class ShowTimesComponent extends Component {
       setTimeout(() => {
         const modifiedTime = times.results.map((item, index) => ({
           id: item.id,
+          realTime: item.showTime,
           time: `${item.showTime.slice(0, 5)}${Number(item.showTime.slice(0, 2)) >= 0 && item.showTime.slice(0, 2) < 12 ? 'am' : 'pm'}`,
         }))
         if(data.results.length < 1) {
@@ -112,10 +113,15 @@ class ShowTimesComponent extends Component {
         } else {
           const modifiedTime = times.results.map((item, index) => ({
             id: item.id,
+            realTime: item.showTime,
             time: `${item.showTime.slice(0, 5)}${Number(item.showTime.slice(0, 2)) >= 0 && item.showTime.slice(0, 2) < 12 ? 'am' : 'pm'}`,
           }))
           console.log('======== MOD =====')
-          console.log(data.results[0].time)
+          console.log(data.results)
+          console.log('======== ACTIVE ======')
+        console.log(data.results)
+        console.log('======== ALL ======')
+        console.log(times.results)
           this.setState((state) => ({
             showTimes: data.results,
             loading: !state.loading,
@@ -212,7 +218,7 @@ class ShowTimesComponent extends Component {
                   <Fragment>
                     {this.state.showTimes.map((item, index) => (
                       <Col key={String(index)}>
-                        <ShowTimeCard cinemaPoster={item.cinemaPoster} cinemaId={item.cinemaId} activeTimes={this.state.activeTimes} price={item.pricePerSeat} address={item.address} times={this.state.times} selectedDate={this.state.selectedDate} movieId={this.props.route.params.id}  {...this.props} />
+                        <ShowTimeCard cinemaPosterProps={item.cinemaPoster} cinema={item.cinema} city={item.city} movieTitleProps={item.movieTitle} movieIdProps={item.movieId} categoryProps={item.category} cinemaIdProps={item.cinemaId} activeTimes={item.time} price={item.pricePerSeat} address={item.address} times={this.state.times} selectedDate={this.state.selectedDate} movieId={this.props.route.params.id}  {...this.props} />
                       </Col>
                     ))}
                   </Fragment>

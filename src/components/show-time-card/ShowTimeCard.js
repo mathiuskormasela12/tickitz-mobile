@@ -9,7 +9,7 @@ import moment from 'moment';
 import {showMessage} from 'react-native-flash-message';
 
 // import actions
-import {setShowTimeId} from '../../redux/actions/transaction';
+import {setTransaction} from '../../redux/actions/transaction';
 
 // import all components
 import {
@@ -35,6 +35,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 class ShowTimeCardComponent extends Component {
   state = {
     selectedTime: null,
+    selectedRealTime: null,
     timeId: null,
   }
   navigate = async () => {
@@ -51,11 +52,22 @@ class ShowTimeCardComponent extends Component {
     } else {
       this.props.loading()
       try {
-        const {data} = await http.getSelectedShowTimeId(this.props.selectedDate, this.props.movieId, this.state.timeId, this.props.cinemaId);
+        const {data} = await http.getSelectedShowTimeId(this.props.selectedDate, this.props.movieIdProps, this.state.timeId, this.props.cinemaIdProps);
         this.props.loading();
-        console.log('======= DATA +++++++++')
-        console.log(data.results.showTimeId)
-        this.props.setShowTimeId(data.results.showTimeId);
+        this.props.setTransaction({
+          showTimeId: data.results.showTimeId,
+          time: this.state.selectedRealTime,
+          timeId: this.state.timeId,
+          movieId: this.props.movieIdProps,
+          cinemaPoster: this.props.cinemaPosterProps,
+          category: this.props.categoryProps,
+          movieTitle: this.props.movieTitleProps,
+          pricePerSeat: this.props.price,
+          showTimeDate: this.props.selectedDate,
+          cinemaId: this.props.cinemaIdProps,
+          cinemaCity: this.props.city,
+          cinemaName: this.props.cinema,
+        });
         push(this.props, 'Order');
       } catch (err) {
         console.log(err);
@@ -65,28 +77,29 @@ class ShowTimeCardComponent extends Component {
           duration: 2000,
           hideOnPress: true
         })
+        this.props.loading()
       }
     }
   };
 
-  selectTime = (time, timeId) => {
+  selectTime = (time, realTime, timeId) => {
     this.setState({
       selectedTime: time,
+      selectedRealTime: realTime,
       timeId
     })
   }
 
   render() {
-    const modifiedActiveTimes = this.props.activeTimes.map((item) => `${item.slice(0, 5)}${Number(item.slice(0, 2)) >= 0 && item.slice(0, 2) < 12 ? 'am' : 'pm'}`)
-    console.log('===== MODIFIED ======')
-    console.log(modifiedActiveTimes)
+    const modifiedActiveTimes = this.props.activeTimes.map((item) => `${item.slice(0, 5)}${Number(item.slice(0, 2)) >= 0 && item.slice(0, 2) < 12 ? 'am' : 'pm'}`);
+    
     return (
       <Fragment>
         <Card>
           <Container>
             <Header>
               <Image source={{
-                uri: this.props.cinemaPoster
+                uri: this.props.cinemaPosterProps
               }} />
               <Subtitle>{this.props.address}</Subtitle>
             </Header>
@@ -95,12 +108,12 @@ class ShowTimeCardComponent extends Component {
                 <Times key={String(index)}>
                   {
                     item.time === this.state.selectedTime ? (
-                      <TouchableWithoutFeedback onPress={() => this.selectTime(item.time, item.id)}>
+                      <TouchableWithoutFeedback onPress={() => this.selectTime(item.time, item.realTime, item.id)}>
                         <TimesText checked>{item.time}</TimesText>
                       </TouchableWithoutFeedback>
                     ) : modifiedActiveTimes.indexOf(item.time) !== -1 ? (
                       (
-                        <TouchableWithoutFeedback onPress={() => this.selectTime(item.time, item.id)}>
+                        <TouchableWithoutFeedback onPress={() => this.selectTime(item.time, item.realTime, item.id)}>
                           <TimesText enabled>{item.time}</TimesText>
                         </TouchableWithoutFeedback>
                       )
@@ -155,7 +168,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   loading,
-  setShowTimeId
+  setTransaction
 }
 
 export const ShowTimeCard = connect(mapStateToProps, mapDispatchToProps)(ShowTimeCardComponent);
