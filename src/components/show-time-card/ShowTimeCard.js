@@ -91,8 +91,8 @@ class ShowTimeCardComponent extends Component {
   }
 
   render() {
-    const modifiedActiveTimes = this.props.activeTimes.map((item) => `${item.slice(0, 5)}${Number(item.slice(0, 2)) >= 0 && item.slice(0, 2) < 12 ? 'am' : 'pm'}`);
-    
+    const modifiedActiveTimes = this.props.activeTimes.map((item) => moment(new Date(2021, 3, 1, `${item.split(':')[0]}`, `${item.split(':')[1]}`, `${item.split(':')[2]}`, '00')).format('hh:mma'));
+
     return (
       <Fragment>
         <Card>

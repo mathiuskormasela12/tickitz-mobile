@@ -3,6 +3,8 @@
 import React, {Fragment} from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import Dash from 'react-native-dash';
+import moment from 'moment';
+import {useSelector} from 'react-redux';
 
 // import all components
 import {SimpleCard} from '../';
@@ -11,6 +13,8 @@ import {SimpleCard} from '../';
 import Barcode from '../../assets/img/barcode.svg';
 
 export function TicketResult() {
+  const state = useSelector(state => state.transaction);
+  const time = state.time ? new Date(2021, 3, 1, state.time.split(':')[0], state.time.split(':')[1], state.time.split(':')[2], 0).getTime() : null;
   return (
     <Fragment>
       <View style={style.container}>
@@ -27,27 +31,27 @@ export function TicketResult() {
                 <View style={style.row}>
                   <View style={style.col}>
                     <Text style={style.title}>Movie</Text>
-                    <Text style={style.subtitle}>Spider-Man: ..</Text>
+                    <Text style={style.subtitle}>{state.movieTitle}</Text>
                   </View>
                   <View style={style.col}>
                     <Text style={style.title}>Category</Text>
-                    <Text style={style.subtitle}>PG-18</Text>
+                    <Text style={style.subtitle}>{state.category}</Text>
                   </View>
                   <View style={style.col}>
                     <Text style={style.title}>Date</Text>
-                    <Text style={style.subtitle}>07 July</Text>
+                    <Text style={style.subtitle}>{moment(state.showTimeDate).format('DD MMM')}</Text>
                   </View>
                   <View style={style.col}>
                     <Text style={style.title}>Time</Text>
-                    <Text style={style.subtitle}>2:00 pm</Text>
+                    <Text style={style.subtitle}>{moment(time).format('hh:mma')}</Text>
                   </View>
                   <View style={style.col}>
                     <Text style={style.title}>Count</Text>
-                    <Text style={style.subtitle}>3 pcs</Text>
+                    <Text style={style.subtitle}>{state.count} pcs</Text>
                   </View>
                   <View style={style.col}>
                     <Text style={style.title}>Seats</Text>
-                    <Text style={style.subtitle}>C4, C5, C6</Text>
+                    <Text style={style.subtitle}>{state.seats.join(', ')}</Text>
                   </View>
                 </View>
                 <View style={style.box}>
@@ -56,7 +60,7 @@ export function TicketResult() {
                       <Text style={style.total}>Total</Text>
                     </View>
                     <View style={style.item}>
-                      <Text style={style.price}>$30.00</Text>
+                      <Text style={style.price}>${state.totalPayment}</Text>
                     </View>
                   </View>
                 </View>

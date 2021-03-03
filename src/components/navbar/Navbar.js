@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 // import actions
 import {showToggle} from '../../redux/actions/home';
 import {logout} from '../../redux/actions/auth';
+import {resetTransaction} from '../../redux/actions/transaction';
 
 // import all components
 import Container from '../container/Container';
@@ -49,7 +50,13 @@ export default function Navbar() {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(resetTransaction());
     push({navigation}, 'Login')
+  };
+
+  const handlePush = () => {
+    push({navigation}, 'Home');
+    dispatch(resetTransaction());
   };
 
   const handleDropdown = () => {
@@ -62,7 +69,7 @@ export default function Navbar() {
         <Navs>
           <Container>
             <Row>
-              <TouchableWithoutFeedback onPress={() => push({navigation}, 'Home')}>
+              <TouchableWithoutFeedback onPress={handlePush}>
                 <Brand source={logo} />
               </TouchableWithoutFeedback>
               <View>

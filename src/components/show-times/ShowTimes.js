@@ -68,17 +68,17 @@ class ShowTimesComponent extends Component {
       const {data} = await http.getShowTimes(this.props.token, this.props.route.params.id, this.state.selectedDate, this.state.location)
       const {data: times} = await http.getAllTimes(this.props.token)
       setTimeout(() => {
-        const modifiedTime = times.results.map((item, index) => ({
-          id: item.id,
-          realTime: item.showTime,
-          time: `${item.showTime.slice(0, 5)}${Number(item.showTime.slice(0, 2)) >= 0 && item.showTime.slice(0, 2) < 12 ? 'am' : 'pm'}`,
-        }))
         if(data.results.length < 1) {
           this.setState((state) => ({
             loading: !state.loading,
             message: 'There is not show time',
           }))
         } else {
+          const modifiedTime = times.results.map((item, index) => ({
+            id: item.id,
+            realTime: item.showTime,
+            time: moment(new Date(2021, 3, 1, `${item.showTime.split(':')[0]}`, `${item.showTime.split(':')[1]}`, `${item.showTime.split(':')[2]}`, '00')).format('hh:mma'),
+          }))
           this.setState((state) => ({
             showTimes: data.results,
             times: modifiedTime,
@@ -114,7 +114,7 @@ class ShowTimesComponent extends Component {
           const modifiedTime = times.results.map((item, index) => ({
             id: item.id,
             realTime: item.showTime,
-            time: `${item.showTime.slice(0, 5)}${Number(item.showTime.slice(0, 2)) >= 0 && item.showTime.slice(0, 2) < 12 ? 'am' : 'pm'}`,
+            time: moment(new Date(2021, 3, 1, `${item.showTime.split(':')[0]}`, `${item.showTime.split(':')[1]}`, `${item.showTime.split(':')[2]}`, '00')).format('hh:mma'),
           }))
           console.log('======== MOD =====')
           console.log(data.results)

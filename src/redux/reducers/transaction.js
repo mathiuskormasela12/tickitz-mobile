@@ -83,7 +83,7 @@ const transaction = (state = initialState, action) => {
       }
     }
 
-    case 'RESET': {
+    case 'RESET_TRANSACTION': {
       return {
         seats: [],
         showTimeId: null,

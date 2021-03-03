@@ -4,6 +4,7 @@ import React, {Fragment, Component} from 'react';
 import {connect} from 'react-redux';
 import {showMessage} from 'react-native-flash-message';
 import http from '../../services/Services';
+import loading from '../../redux/actions/loading';
 
 // import all components
 import {
@@ -30,12 +31,16 @@ class DetailsComponent extends Component {
   }
 
   async componentDidMount() {
+    this.props.loading();
     try {
       const {data} = await http.getMovieDetails(this.props.route.params.id)
-      console.log(data)
       this.setState(() => ({
-        details: data.results[0],
+        details: {
+          ...data.results[0],
+          duration: `${(Number(data.results[0].duration.split(':')[0][0]) === 0) ? data.results[0].duration.split(':')[0][1] : data.results[0].duration.split(':')[0]} hours ${data.results[0].duration.split(':')[1]} minutes`,
+        }
       }))
+      this.props.loading();
     } catch (err) {
       console.log(err);
       showMessage({
@@ -44,6 +49,7 @@ class DetailsComponent extends Component {
         duration: 2000,
         hideOnPress: true
       })
+      this.props.loading();
     }
   }
 
@@ -94,6 +100,8 @@ const mapStateToProps = (state) => ({
   ...state.home,
 });
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  loading
+}
 
 export const Details = connect(mapStateToProps, mapDispatchToProps)(DetailsComponent);

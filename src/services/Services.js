@@ -55,6 +55,10 @@ class Services {
         return http().get('/cities')
     }
 
+    buyTicket(token, data) {
+        return http(token).post('/transaction', data);
+    }
+
     getSelectedShowTimeId(showTimeDate, movieId, timeId, cinemaId) {
         return http().get(`/selectedShowTime/${showTimeDate}/${movieId}/${timeId}/${cinemaId}`)
     }

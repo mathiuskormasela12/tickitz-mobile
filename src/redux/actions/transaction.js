@@ -3,6 +3,10 @@ export const setTransaction = (payload) => ({
   payload
 });
 
+export const resetTransaction = () => ({
+  type: 'RESET_TRANSACTION',
+});
+
 export const setSeat = (seats) => ({
   type: 'SET_SEAT',
   payload: { seats }

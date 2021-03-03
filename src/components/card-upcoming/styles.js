@@ -42,4 +42,5 @@ export const Subtitle = styled.Text`
   text-align: center;
   font-size: 18px;
   font-family: Mulish-Regular;
+  text-transform: capitalize;
 `;

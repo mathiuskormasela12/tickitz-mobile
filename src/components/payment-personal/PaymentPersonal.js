@@ -3,9 +3,14 @@
 import React, {Fragment} from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import {showMessage} from 'react-native-flash-message';
+import http from '../../services/Services';
+import append from '../../helpers/append';
+import {PHOTO_URL} from '@env';
 
 // import actions
 import {setInput, setMessage} from '../../redux/actions/transaction';
+import loading from '../../redux/actions/loading';
 
 // import all components
 import {SimpleCard} from '../';
@@ -19,14 +24,23 @@ import push from '../../helpers/push';
 
 export function PaymentPersonal(props) {
   const state = useSelector(state => state.transaction);
+  const token = useSelector(state => state.auth.token);
+
   const dispatch = useDispatch();
 
   const handleInput = (name, value) => {
     dispatch(setInput(name, value));
   }
 
-  const order = () => {
-    if(!state.fullName || !state.email || !state.phoneNumber) {
+  const order = async () => {
+    if(!state.paymentMethod) {
+      showMessage({
+        message: 'Please choose your payment method',
+        type: 'warning',
+        duration: 3000,
+        hideOnPress: true
+      });
+    } else if(!state.fullName || !state.email || !state.phoneNumber) {
       dispatch(setMessage("Form can't be empty", 'warning'));
     } else if (state.email.match(/[^@$a-z0-9.]/gi) || !state.email.match(/@\b/g) || state.email.match(/\s/) || state.email.match(/\b[0-9]/) || !state.email.split('@').pop().includes('.')) {
       dispatch(setMessage("Incorrect email", 'warning')); 
@@ -34,7 +48,43 @@ export function PaymentPersonal(props) {
       dispatch(setMessage("Incorrect phone number", 'warning')); 
     } else {
       dispatch(setMessage(null, null))
-      push(props, 'Ticket');
+      dispatch(loading());
+      const formData = new URLSearchParams();
+        append(formData, {
+          showTimeId: state.showTimeId,
+          timeId: state.timeId,
+          cinemaId: state.cinemaId,
+          totalPayment: state.totalPayment,
+          paymentMethod: state.paymentMethod,
+          seats: state.seats.join(', '),
+          movieId: state.movieId,
+          showTimeDate: state.showTimeDate,
+          ticketTime: state.time,
+          cinemaName: state.cinemaName,
+          cinemaPoster: state.cinemaPoster.replace(PHOTO_URL, ''),
+          cinemaCity: state.cinemaCity,
+          movieTitle: state.movieTitle,
+        })
+      try {
+        const response = await http.buyTicket(token, formData);
+        dispatch(loading());
+        showMessage({
+          message: response.data.message,
+          type: 'success',
+          duration: 3000,
+          hideOnPress: true
+        });
+        push(props, 'Ticket');
+      } catch (err) {
+        console.log(err);
+        dispatch(loading());
+        showMessage({
+          message: err.response.data.message,
+          type: 'warning',
+          duration: 3000,
+          hideOnPress: true
+        });
+      }
     }
   }
   return (

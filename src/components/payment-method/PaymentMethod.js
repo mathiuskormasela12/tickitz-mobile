@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import * as variables from '../../style/variable';
 import {useDispatch} from 'react-redux';
+import {showMessage} from 'react-native-flash-message';
 
 // import actions
 import {setPaymentMethod} from '../../redux/actions/transaction';
@@ -31,6 +32,12 @@ export function PaymentMethod() {
   const dispatch = useDispatch();
 
   const setPayment = (value) => {
+    showMessage({
+      message: `${value} selected`,
+      type: 'success',
+      duration: 3000,
+      hideOnPress: true
+    })
     dispatch(setPaymentMethod(value));
   }
 
