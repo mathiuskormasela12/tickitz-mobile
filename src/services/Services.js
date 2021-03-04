@@ -55,6 +55,26 @@ class Services {
         return http().get('/cities')
     }
 
+    getUserDetail(token) {
+        return http(token).get('/auth/user')
+    }
+
+    resetPassword(data, id, email) {
+        return http().patch(`/auth/password/${id}/${email}`, data)
+    }
+
+    editUserDetail(token, data) {
+        return http(token).patch('/auth/user', data)
+    }
+
+    upload(token, data) {
+        return http(token).patch('/auth/user/upload', data)
+    }
+
+    getOrderHistory(token) {
+        return http(token).get('/transaction/history');
+    }
+
     buyTicket(token, data) {
         return http(token).post('/transaction', data);
     }

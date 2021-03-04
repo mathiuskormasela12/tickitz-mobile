@@ -1,9 +1,19 @@
 // ===== Profile Header
-import React, {Fragment} from 'react';
-import {Text, View, StyleSheet, Dimensions, Image} from 'react-native';
+import React, {Fragment, useEffect, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {Text, View, StyleSheet, Dimensions, Image, Modal, TouchableOpacity} from 'react-native';
+import {showMessage} from 'react-native-flash-message';
+import append from '../../helpers/append';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import http from '../../services/Services';
+import {PHOTO_URL} from '@env';
+
+// import actions
+import {setUserDetail, refresh} from '../../redux/actions/auth';
 
 // import all components
 import {SimpleCard} from '../';
+import Button from '../button/Button';
 
 // import assets
 import photo from '../../assets/img/profile.png';
@@ -11,9 +21,134 @@ import HorizontalFill from '../../assets/img/horizontal-fill.svg';
 import Star from '../../assets/img/star.svg';
 
 export function ProfileHeader() {
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+  const [isVisible, setVisible] = useState(false);
+
+  const handleImgLib = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+      },
+      async (response) => {
+        const formData = new FormData();
+        formData.append('poster', {
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName
+        });
+        try {
+          const {data} = await http.upload(auth.token, formData);
+          setVisible(!isVisible)
+          showMessage({
+            message: data.message,
+            type: data.success ? 'success' : 'warning',
+            duration: 2000,
+            hideOnPress: true
+          });
+          dispatch(refresh())
+        } catch (err) {
+          console.log(err);
+          setVisible(!isVisible)
+          showMessage({
+            message: err.response.data.message,
+            type: err.response.data.success ? 'success' : 'warning',
+            duration: 2000,
+            hideOnPress: true
+          });
+        }
+      },
+    )
+  }
+
+  const handleCamera = () => {
+    launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        maxHeight: 200,
+        maxWidth: 200,
+      },
+      async (response) => {
+        const formData = new FormData();
+        formData.append('poster', {
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName
+        });
+        try {
+          const {data} = await http.upload(auth.token, formData);
+          setVisible(!isVisible)
+          showMessage({
+            message: data.message,
+            type: data.success ? 'success' : 'warning',
+            duration: 2000,
+            hideOnPress: true
+          });
+          dispatch(refresh())
+        } catch (err) {
+          console.log(err);
+          setVisible(!isVisible)
+          showMessage({
+            message: err.response.data.message,
+            type: err.response.data.success ? 'success' : 'warning',
+            duration: 2000,
+            hideOnPress: true
+          });
+        }
+      },
+    )
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const {data} = await http.getUserDetail(auth.token);
+        dispatch(setUserDetail({
+          firstName: data.results.first_name,
+          lastName: data.results.last_name !== 'undefined' ? data.results.last_name : '',
+          email: data.results.email,
+          phoneNumber: data.results.phone,
+          poster: data.results.poster.split('/').pop() === 'null' ? null : data.results.poster,
+        }));
+      } catch (err) {
+        console.log(err);
+        showMessage({
+          message: err.response.data.message,
+          type: 'warning',
+          duration: 2000,
+          hideOnPress: true
+        });
+      }
+    }
+    fetchData();
+  }, [auth.isRefresh])
+
   return (
     <Fragment>
       <View style={style.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isVisible}
+      >
+        <View style={style.modalFlex}>
+          <View style={style.modal}>
+            <View style={style.containerModal}>
+              <Button primary height="55px" width="100%" onPress={handleImgLib}>
+                Choose From Gallery
+              </Button>
+              <Button primary height="55px" width="100%" onPress={handleCamera}>
+                Take a Photo
+              </Button>
+              <Button primary height="55px" width="100%" onPress={() => setVisible(!isVisible)}>
+                Close
+              </Button>
+            </View>
+          </View>
+        </View>
+      </Modal>
         <SimpleCard style={style.card}>
           <View style={style.head}>
             <View style={style.containerFixed}>
@@ -22,12 +157,22 @@ export function ProfileHeader() {
                   <Text style={style.textInfo}>info</Text>
                 </View>
                 <View style={[style.headerCol, style.right]}>
-                  <HorizontalFill />
+                  <TouchableOpacity onPress={() => setVisible(!isVisible)}>
+                    <HorizontalFill />
+                  </TouchableOpacity>
                 </View>
               </View>
               <View style={style.imageHeader}>
-                <Image source={photo} style={style.profile} />
-                <Text style={style.figcaption}>Mathius Kormasela</Text>
+                {
+                  !auth.poster ? (
+                    <Image source={photo} style={style.profile} />
+                  ) : (
+                    <Image source={{
+                      uri: auth.poster
+                    }} style={style.profile} />
+                  )
+                }
+                <Text style={style.figcaption}>{auth.fullName || '-'}</Text>
                 <Text style={style.caption}>Moviegoers</Text>
               </View>
             </View>
@@ -100,7 +245,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   profile: {
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     width: 200,
     height: 200,
     borderRadius: 200,
@@ -117,6 +262,7 @@ const style = StyleSheet.create({
     color: '#14142B',
     fontSize: 22,
     marginBottom: 12,
+    marginTop: 17,
     textTransform: 'capitalize',
   },
   caption: {
@@ -200,4 +346,29 @@ const style = StyleSheet.create({
       backgroundColor: '#5F2EEA',
     };
   },
+  modal: {
+    height: 300,
+    width: 300,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },  
+  modalFlex: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    height: (100 / 100) * Dimensions.get('screen').height,
+    width: (100 / 100) * Dimensions.get('screen').width,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  containerModal: {
+    width: '80%',
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  buttonMargin: {
+    marginBottom: 0,
+  }
 });

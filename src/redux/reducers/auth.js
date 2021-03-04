@@ -1,6 +1,11 @@
 // ===== Auth Reducer
 const initialState = {
-  token: null
+  token: null,
+  fullName: null,
+  email: null,
+  phoneNumber: null,
+  isRefresh: false,
+  poster: null,
 };
 
 const auth = (state = initialState, action) => {
@@ -16,6 +21,30 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         token: null
+      }
+    }
+
+    case 'SET_REFRESH': {
+      return {
+        ...state,
+        isRefresh: !state.isRefresh
+      }
+    }
+
+    case 'SET_USER_DETAIL': {
+      return {
+        ...state,
+        fullName: action.payload.firstName && `${action.payload.firstName}${action.payload.lastName && ` ${action.payload.lastName && action.payload.lastName}`}`,
+        email: action.payload.email,
+        phoneNumber: action.payload.phoneNumber,
+        poster: action.payload.poster,
+      }
+    }
+
+    case 'SET_INPUT_USER' : {
+      return {
+        ...state,
+        [action.payload.name]: action.payload.value,
       }
     }
 
