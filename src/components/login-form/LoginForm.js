@@ -58,34 +58,65 @@ class LoginFormComponent extends Component {
   }
 
   async handleSubmit() {
-    this.props.loading()
-    const formData = new FormData()
-    append(formData, {
-      email: this.state.email,
-      password: this.state.password,
-    })
-    try {
-      const {data} = await http.login(formData)
-      this.props.loading()
-      this.props.setToken(data.results.token)
+    const email = this.state.email.match(/[^@$a-z0-9.]/gi)
+    if(!this.state.email || !this.state.password) {
       showMessage({
-        message: data.message,
-        type: data.success ? 'success' : 'warning',
+        message: "Form can't be empty",
+        type: 'warning',
         duration: 2000,
         hideOnPress: true
-      })
-      setTimeout(() => {
-        push(this.props, 'Home')
-      }, 2000)
-    } catch (err) {
-      this.props.loading()
-      console.log(err)
+      });
+    } else if (email || !this.state.email.match(/@\b/g) || this.state.email.match(/\s/) || this.state.email.match(/\b[0-9]/) || !this.state.email.split('@').pop().includes('.')) {
       showMessage({
-        message: err.response.data.message,
-        type: err.response.data.success ? 'success' : 'warning',
-        duration: 3000,
+        message: 'Incorect email',
+        type: 'warning',
+        duration: 2000,
         hideOnPress: true
+      });
+    } else if (this.state.password.length > 15 || this.state.password.length < 5) {
+      showMessage({
+        message: 'Password min 5 character and max 15 character',
+        type: 'warning',
+        duration: 2000,
+        hideOnPress: true
+      });
+    } else if (this.state.password.match(/[a-z]/g) === null || this.state.password.match(/\d/g) === null || this.state.password.match(/[A-Z]/g) === null || this.state.password.match(/[^a-z0-9]/gi) === null) {
+      showMessage({
+        message: 'Password must include lower case and uppercase letters, numbers and symbol',
+        type: 'warning',
+        duration: 2000,
+        hideOnPress: true
+      });
+    } else {
+      this.props.loading()
+      const formData = new FormData()
+      append(formData, {
+        email: this.state.email,
+        password: this.state.password,
       })
+      try {
+        const {data} = await http.login(formData)
+        this.props.loading()
+        this.props.setToken(data.results.token)
+        showMessage({
+          message: data.message,
+          type: data.success ? 'success' : 'warning',
+          duration: 2000,
+          hideOnPress: true
+        })
+        setTimeout(() => {
+          push(this.props, 'Home')
+        }, 2000)
+      } catch (err) {
+        this.props.loading()
+        console.log(err)
+        showMessage({
+          message: err.response.data.message,
+          type: err.response.data.success ? 'success' : 'warning',
+          duration: 3000,
+          hideOnPress: true
+        })
+      }
     }
   }
 

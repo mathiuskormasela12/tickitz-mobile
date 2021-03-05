@@ -9,7 +9,7 @@ import append from '../../helpers/append';
 import jwtdecode from 'jwt-decode';
 
 // import actions
-import {setUserDetail, setInputUser, refresh} from '../../redux/actions/auth';
+import {refresh} from '../../redux/actions/auth';
 import loading from '../../redux/actions/loading';
 
 // import all components
@@ -20,50 +20,109 @@ import PasswordField from '../password-field/PasswordField';
 import Button from '../button/Button';
 
 class AccountSettingsComponent extends Component {
-  state = {
-    password: null,
-    passwordConfirm: null
+  constructor(props) {
+    super(props);
+    this.state = {
+      password: null,
+      passwordConfirm: null,
+      fullName: this.props.fullName,
+      email: this.props.email,
+      phoneNumber: this.props.phoneNumber,
+    }
+  }
+
+  fetchData = async () => {
+    try {
+      const {data} = await http.getUserDetail(this.props.token);
+      this.setState({
+        fullName: data.results.first_name && `${data.results.first_name}${data.results.last_name && ` ${data.results.last_name && data.results.last_name}`}`,
+        email: data.results.email,
+        phoneNumber: data.results.phone,
+      })
+      console.log('======== STATE =========')
+      console.log(this.state);
+      console.log(data.results)
+      console.log('======== STATE =========')
+    } catch (err) {
+      console.log(err);
+      showMessage({
+        message: err.response.data.message,
+        type: 'warning',
+        duration: 2000,
+        hideOnPress: true
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  componentDidUpdate(prevProps) {
+    if(this.props.isRefresh !== prevProps.isRefresh) {
+      this.fetchData();
+    }
   }
 
   handleInput = (name, value) => {
-    this.props.setInputUser(name, value);
-  }
-
-  handleInputText = (name, value) => {
     this.setState({
       [name]: value,
     })
   }
 
   editProfile = async () => {
-    this.props.loading();
-    const formData = new FormData();
-    append(formData, {
-      first_name: this.props.fullName ? this.props.fullName.split(' ')[0] : '',
-      last_name: this.props.fullName ? this.props.fullName.split(' ')[1] : '',
-      phone: this.props.phoneNumber,
-      email: this.props.email,
-    })
-    try {
-      const {data} = await http.editUserDetail(this.props.token, formData);
-      this.props.loading();
+    const email = this.state.email.match(/[^@$a-z0-9.]/gi)
+    if(!this.state.fullName || !this.state.phoneNumber || !this.state.email) {
       showMessage({
-        message: data.message,
-        type: 'success',
-        duration: 2000,
-        hideOnPress: true
-      });
-      this.props.refresh();
-    } catch (err) {
-      console.log(err.response.data);
-      this.props.loading();
-      showMessage({
-        message: err.response.data.message,
+        message: "Form can't be empty",
         type: 'warning',
         duration: 2000,
         hideOnPress: true
+      });
+    } else if (email || !this.state.email.match(/@\b/g) || this.state.email.match(/\s/) || this.state.email.match(/\b[0-9]/) || !this.state.email.split('@').pop().includes('.')) {
+      showMessage({
+        message: 'Incorect email',
+        type: 'warning',
+        duration: 2000,
+        hideOnPress: true
+      });
+    } else if(this.state.phoneNumber.match(/[^0-9]/gi) !== null) {
+      showMessage({
+        message: 'Incorect phone number',
+        type: 'warning',
+        duration: 2000,
+        hideOnPress: true
+      });
+    } else {
+      this.props.loading();
+      const formData = new FormData();
+      append(formData, {
+        first_name: this.state.fullName ? this.state.fullName.split(' ')[0] : '',
+        last_name: this.state.fullName ? this.state.fullName.split(' ')[1] : '',
+        phone: this.state.phoneNumber,
+        email: this.state.email,
       })
-      
+      try {
+        const {data} = await http.editUserDetail(this.props.token, formData);
+        this.props.loading();
+        showMessage({
+          message: data.message,
+          type: 'success',
+          duration: 2000,
+          hideOnPress: true
+        });
+        this.props.refresh();
+      } catch (err) {
+        console.log(err.response.data);
+        this.props.loading();
+        showMessage({
+          message: err.response.data.message,
+          type: 'warning',
+          duration: 2000,
+          hideOnPress: true
+        })
+        
+      }
     }
   }
 
@@ -146,7 +205,7 @@ class AccountSettingsComponent extends Component {
                         placeholder="Write Your Full Name"
                         placeholderColor="#A0A3BD"
                         height="50px"
-                        value={this.props.fullName}
+                        value={this.state.fullName}
                         onChangeText={(value) => this.handleInput('fullName', value)}
                       />
                     </View>
@@ -161,7 +220,7 @@ class AccountSettingsComponent extends Component {
                         placeholderColor="#A0A3BD"
                         height="50px"
                         keyboardType="email-address"
-                        value={this.props.email}
+                        value={this.state.email}
                         onChangeText={(value) => this.handleInput('email', value)}
                       />
                     </View>
@@ -175,7 +234,7 @@ class AccountSettingsComponent extends Component {
                         placeholder="Write Your Phone Number"
                         placeholderColor="#A0A3BD"
                         height={50}
-                        value={this.props.phoneNumber}
+                        value={this.state.phoneNumber}
                         onChangeText={(value) => this.handleInput('phoneNumber', value)}
                       />
                     </View>
@@ -204,7 +263,7 @@ class AccountSettingsComponent extends Component {
                     secureTextEntry
                     placeholderTextColor="#A0A3BD"
                     placeholder="Write your password"
-                    onChangeText={(value) => this.handleInputText('password', value)}
+                    onChangeText={(value) => this.handleInput('password', value)}
                   />
                 </View>
               </View>
@@ -216,7 +275,7 @@ class AccountSettingsComponent extends Component {
                     secureTextEntry
                     placeholderTextColor="#A0A3BD"
                     placeholder="Write your password"
-                    onChangeText={(value) => this.handleInputText('passwordConfirm', value)}
+                    onChangeText={(value) => this.handleInput('passwordConfirm', value)}
                   />
                 </View>
               </View>
@@ -238,9 +297,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  setUserDetail,
   loading,
-  setInputUser,
   refresh
 }
 

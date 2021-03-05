@@ -3,13 +3,12 @@ import React, {Fragment, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Text, View, StyleSheet, Dimensions, Image, Modal, TouchableOpacity} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import append from '../../helpers/append';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import http from '../../services/Services';
-import {PHOTO_URL} from '@env';
 
 // import actions
-import {setUserDetail, refresh} from '../../redux/actions/auth';
+import {refresh} from '../../redux/actions/auth';
+import loading from '../../redux/actions/loading';
 
 // import all components
 import {SimpleCard} from '../';
@@ -24,6 +23,10 @@ export function ProfileHeader() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const [isVisible, setVisible] = useState(false);
+  const [state, setState] = useState({
+    photo: null,
+    fullName: null,
+  })
 
   const handleImgLib = () => {
     launchImageLibrary(
@@ -32,31 +35,35 @@ export function ProfileHeader() {
         includeBase64: false,
       },
       async (response) => {
-        const formData = new FormData();
-        formData.append('poster', {
-          uri: response.uri,
-          type: response.type,
-          name: response.fileName
-        });
-        try {
-          const {data} = await http.upload(auth.token, formData);
-          setVisible(!isVisible)
-          showMessage({
-            message: data.message,
-            type: data.success ? 'success' : 'warning',
-            duration: 2000,
-            hideOnPress: true
+        if(response.uri) {
+          const formData = new FormData();
+          formData.append('poster', {
+            uri: response.uri,
+            type: response.type,
+            name: response.fileName
           });
-          dispatch(refresh())
-        } catch (err) {
-          console.log(err);
           setVisible(!isVisible)
-          showMessage({
-            message: err.response.data.message,
-            type: err.response.data.success ? 'success' : 'warning',
-            duration: 2000,
-            hideOnPress: true
-          });
+          dispatch(loading());
+          try {
+            const {data} = await http.upload(auth.token, formData);
+            dispatch(loading());
+            showMessage({
+              message: data.message,
+              type: data.success ? 'success' : 'warning',
+              duration: 2000,
+              hideOnPress: true
+            });
+            dispatch(refresh())
+          } catch (err) {
+            console.log(err);
+            dispatch(loading());
+            showMessage({
+              message: err.response.data.message,
+              type: err.response.data.success ? 'success' : 'warning',
+              duration: 2000,
+              hideOnPress: true
+            });
+          }
         }
       },
     )
@@ -71,31 +78,35 @@ export function ProfileHeader() {
         maxWidth: 200,
       },
       async (response) => {
-        const formData = new FormData();
-        formData.append('poster', {
-          uri: response.uri,
-          type: response.type,
-          name: response.fileName
-        });
-        try {
-          const {data} = await http.upload(auth.token, formData);
-          setVisible(!isVisible)
-          showMessage({
-            message: data.message,
-            type: data.success ? 'success' : 'warning',
-            duration: 2000,
-            hideOnPress: true
+        if(response.uri) {
+          const formData = new FormData();
+          formData.append('poster', {
+            uri: response.uri,
+            type: response.type,
+            name: response.fileName
           });
-          dispatch(refresh())
-        } catch (err) {
-          console.log(err);
           setVisible(!isVisible)
-          showMessage({
-            message: err.response.data.message,
-            type: err.response.data.success ? 'success' : 'warning',
-            duration: 2000,
-            hideOnPress: true
-          });
+          dispatch(loading());
+          try {
+            const {data} = await http.upload(auth.token, formData);
+            dispatch(loading());
+            showMessage({
+              message: data.message,
+              type: data.success ? 'success' : 'warning',
+              duration: 2000,
+              hideOnPress: true
+            });
+            dispatch(refresh())
+          } catch (err) {
+            console.log(err);
+            dispatch(loading());
+            showMessage({
+              message: err.response.data.message,
+              type: err.response.data.success ? 'success' : 'warning',
+              duration: 2000,
+              hideOnPress: true
+            });
+          }
         }
       },
     )
@@ -105,13 +116,11 @@ export function ProfileHeader() {
     const fetchData = async () => {
       try {
         const {data} = await http.getUserDetail(auth.token);
-        dispatch(setUserDetail({
-          firstName: data.results.first_name,
-          lastName: data.results.last_name !== 'undefined' ? data.results.last_name : '',
-          email: data.results.email,
-          phoneNumber: data.results.phone,
-          poster: data.results.poster.split('/').pop() === 'null' ? null : data.results.poster,
-        }));
+        setState(state => ({
+          ...state,
+          fullName: data.results.first_name && `${data.results.first_name}${data.results.last_name && ` ${data.results.last_name && data.results.last_name}`}`,
+          photo: data.results.poster.split('/').pop() === 'null' ? null : data.results.poster,
+        }))
       } catch (err) {
         console.log(err);
         showMessage({
@@ -164,15 +173,15 @@ export function ProfileHeader() {
               </View>
               <View style={style.imageHeader}>
                 {
-                  !auth.poster ? (
+                  !state.photo ? (
                     <Image source={photo} style={style.profile} />
                   ) : (
                     <Image source={{
-                      uri: auth.poster
+                      uri: state.photo
                     }} style={style.profile} />
                   )
                 }
-                <Text style={style.figcaption}>{auth.fullName || '-'}</Text>
+                <Text style={style.figcaption}>{state.fullName || '-'}</Text>
                 <Text style={style.caption}>Moviegoers</Text>
               </View>
             </View>
