@@ -19,7 +19,6 @@ import {
   Nav,
   Brand,
   Row,
-  Form,
   Collapse,
   CollapseItem,
   DropdownHead,
@@ -82,15 +81,6 @@ export default function Navbar() {
         </Navs>
         {toggle && (
           <Collapse>
-            <CollapseTopItem>
-              <Form>
-                <SearchField
-                  keyboardType="web-search"
-                  placeholder="Search..."
-                  placeholderColor="#A0A3BD"
-                />
-              </Form>
-            </CollapseTopItem>
             <CollapseItemDropdown
               style={dropdown ? styles.dropdownPadding : styles.dropdownHeight}>
               <TouchableWithoutFeedback onPress={handleDropdown}>

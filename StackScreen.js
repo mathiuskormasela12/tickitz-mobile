@@ -18,6 +18,7 @@ import Order from './src/screens/Order';
 import Payment from './src/screens/Payment';
 import Ticket from './src/screens/Ticket';
 import Profile from './src/screens/Profile';
+import ViewAllScreen from './src/screens/ViewAllScreen';
 import Navbar from './src/components/navbar/Navbar';
 import Loading from './src/components/loading/Loading';
 
@@ -62,6 +63,11 @@ export default function StackScreen() {
           <Stack.Screen
             name="Profile"
             component={Profile}
+            options={{header: () => <Navbar />}}
+          />
+          <Stack.Screen
+            name="View All"
+            component={ViewAllScreen}
             options={{header: () => <Navbar />}}
           />
           <Stack.Screen

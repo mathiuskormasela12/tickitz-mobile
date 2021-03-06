@@ -25,9 +25,9 @@ class AccountSettingsComponent extends Component {
     this.state = {
       password: null,
       passwordConfirm: null,
-      fullName: this.props.fullName,
-      email: this.props.email,
-      phoneNumber: this.props.phoneNumber,
+      fullName: null,
+      email: null,
+      phoneNumber: null,
     }
   }
 
@@ -35,7 +35,7 @@ class AccountSettingsComponent extends Component {
     try {
       const {data} = await http.getUserDetail(this.props.token);
       this.setState({
-        fullName: data.results.first_name && `${data.results.first_name}${data.results.last_name && ` ${data.results.last_name && data.results.last_name}`}`,
+        fullName: data.results.first_name && `${data.results.first_name}${String(data.results.last_name) !== 'undefined' ? ` ${data.results.last_name}` : ''}`,
         email: data.results.email,
         phoneNumber: data.results.phone,
       })

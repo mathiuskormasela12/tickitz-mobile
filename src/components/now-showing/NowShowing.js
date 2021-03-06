@@ -3,6 +3,7 @@
 import React, {Fragment, Component} from 'react';
 import {connect} from 'react-redux';
 import http from '../../services/Services';
+import push from '../../helpers/push';
 
 // import actions
 import loading from '../../redux/actions/loading';
@@ -11,7 +12,7 @@ import loading from '../../redux/actions/loading';
 import Container from '../container/Container';
 import {Header, Title, NowShowingStyle, Subtitle, Main, style} from './styles';
 import {CardNowShowing, MiniMessage, MiniLoading} from '../';
-import {ScrollView} from 'react-native';
+import {ScrollView, TouchableOpacity} from 'react-native';
 
 class NowShowingComponent extends Component {
   state = {
@@ -46,7 +47,9 @@ class NowShowingComponent extends Component {
           <Container>
             <Header>
               <Title>Now Showing</Title>
-              <Subtitle>View All</Subtitle>
+              <TouchableOpacity onPress={() => push(this.props, 'View All')}>
+                <Subtitle>View All</Subtitle>
+              </TouchableOpacity>
             </Header>
             {
               this.state.loading ? <MiniLoading /> : (this.state.nowShowing.length < 1 ? <MiniMessage message={this.state.messageNowShowing} /> : (

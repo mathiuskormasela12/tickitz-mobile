@@ -79,6 +79,10 @@ class Services {
         return http(token).post('/transaction', data);
     }
 
+    getAllMovies(data) {
+        return http().get(`/movies/?limit=2&by=${data.by}&sort=${data.sort}&page=${data.page}&search=${data.search}`);
+    }
+
     getSelectedShowTimeId(showTimeDate, movieId, timeId, cinemaId) {
         return http().get(`/selectedShowTime/${showTimeDate}/${movieId}/${timeId}/${cinemaId}`)
     }

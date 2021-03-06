@@ -118,7 +118,7 @@ export function ProfileHeader() {
         const {data} = await http.getUserDetail(auth.token);
         setState(state => ({
           ...state,
-          fullName: data.results.first_name && `${data.results.first_name}${data.results.last_name && ` ${data.results.last_name && data.results.last_name}`}`,
+          fullName: data.results.first_name && `${data.results.first_name}${String(data.results.last_name) !== 'undefined' ? ` ${data.results.last_name}` : ''}`,
           photo: data.results.poster.split('/').pop() === 'null' ? null : data.results.poster,
         }))
       } catch (err) {
