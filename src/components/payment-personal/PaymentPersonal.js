@@ -7,6 +7,7 @@ import {showMessage} from 'react-native-flash-message';
 import http from '../../services/Services';
 import append from '../../helpers/append';
 import {PHOTO_URL} from '@env';
+import PushNotification from 'react-native-push-notification';
 
 // import actions
 import {setInput, setMessage} from '../../redux/actions/transaction';
@@ -74,6 +75,11 @@ export function PaymentPersonal(props) {
           duration: 3000,
           hideOnPress: true
         });
+        PushNotification.localNotification({
+          channelId: "general",
+          title: "Ticket Notification",
+          message: "Successfully to by ticket",
+        })
         push(props, 'Ticket');
       } catch (err) {
         console.log(err);
