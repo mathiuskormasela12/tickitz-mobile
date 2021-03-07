@@ -36,33 +36,43 @@ export function ProfileHeader() {
       },
       async (response) => {
         if(response.uri) {
-          const formData = new FormData();
-          formData.append('poster', {
-            uri: response.uri,
-            type: response.type,
-            name: response.fileName
-          });
-          setVisible(!isVisible)
-          dispatch(loading());
-          try {
-            const {data} = await http.upload(auth.token, formData);
-            dispatch(loading());
+          if(response.fileSize > 3000000) {
+            setVisible(!isVisible)
             showMessage({
-              message: data.message,
-              type: data.success ? 'success' : 'warning',
+              message: 'Photo size must be lower than 3mb',
+              type: 'warning',
               duration: 2000,
               hideOnPress: true
             });
-            dispatch(refresh())
-          } catch (err) {
-            console.log(err);
-            dispatch(loading());
-            showMessage({
-              message: err.response.data.message,
-              type: err.response.data.success ? 'success' : 'warning',
-              duration: 2000,
-              hideOnPress: true
+          } else {
+            const formData = new FormData();
+            formData.append('poster', {
+              uri: response.uri,
+              type: response.type,
+              name: response.fileName
             });
+            setVisible(!isVisible)
+            dispatch(loading());
+            try {
+              const {data} = await http.upload(auth.token, formData);
+              dispatch(loading());
+              showMessage({
+                message: data.message,
+                type: data.success ? 'success' : 'warning',
+                duration: 2000,
+                hideOnPress: true
+              });
+              dispatch(refresh())
+            } catch (err) {
+              console.log(err);
+              dispatch(loading());
+              showMessage({
+                message: err.response.data.message,
+                type: err.response.data.success ? 'success' : 'warning',
+                duration: 2000,
+                hideOnPress: true
+              });
+            }
           }
         }
       },
