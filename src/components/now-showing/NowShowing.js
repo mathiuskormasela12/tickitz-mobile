@@ -18,28 +18,34 @@ class NowShowingComponent extends Component {
   state = {
     nowShowing: [],
     messageNowShowing: null,
-    loading: false
+    loading: false,
+  };
+
+  componentDidMount() {
+    this.fetchData();
   }
-  async componentDidMount() {
+
+  fetchData = async () => {
     this.setState((state) => ({
-      loading: !state.loading
-    }))
+      loading: !state.loading,
+    }));
     try {
-      const {data} = await http.getNowShowing()
+      const {data} = await http.getNowShowing();
       setTimeout(() => {
         this.setState((state) => ({
           nowShowing: data.results,
-          loading: !state.loading
-        }))
-      }, 500)
+          loading: !state.loading,
+        }));
+      }, 500);
     } catch (err) {
       console.log(err);
       this.setState((state) => ({
         messageNowShowing: err.response.data.message,
-        loading: !state.loading
-      }))
+        loading: !state.loading,
+      }));
     }
-  }
+  };
+
   render() {
     return (
       <Fragment>
@@ -51,19 +57,26 @@ class NowShowingComponent extends Component {
                 <Subtitle>View All</Subtitle>
               </TouchableOpacity>
             </Header>
-            {
-              this.state.loading ? <MiniLoading /> : (this.state.nowShowing.length < 1 ? <MiniMessage message={this.state.messageNowShowing} /> : (
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  <Main>
-                    {this.state.nowShowing.map((item, index) => (
-                      <Fragment key={String(index)}>
-                        <CardNowShowing style={style.card} {...this.props} poster={item.poster} id={item.id} />
-                      </Fragment>
-                    ))}
-                  </Main>
-                </ScrollView>
-              ))
-            }
+            {this.state.loading ? (
+              <MiniLoading />
+            ) : this.state.nowShowing.length < 1 ? (
+              <MiniMessage message={this.state.messageNowShowing} />
+            ) : (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <Main>
+                  {this.state.nowShowing.map((item, index) => (
+                    <Fragment key={String(index)}>
+                      <CardNowShowing
+                        style={style.card}
+                        {...this.props}
+                        poster={item.poster}
+                        id={item.id}
+                      />
+                    </Fragment>
+                  ))}
+                </Main>
+              </ScrollView>
+            )}
           </Container>
         </NowShowingStyle>
       </Fragment>
@@ -76,9 +89,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  loading
-}
+  loading,
+};
 
-const NowShowing = connect(mapStateToProps, mapDispatchToProps)(NowShowingComponent);
+const NowShowing = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NowShowingComponent);
 
 export {NowShowing};

@@ -29,30 +29,33 @@ import {
   styles,
 } from './styles';
 import Button from '../button/Button';
-import { TouchableWithoutFeedback } from 'react-native';
-
+import {TouchableWithoutFeedback} from 'react-native';
 
 class ShowTimeCardComponent extends Component {
   state = {
     selectedTime: null,
     selectedRealTime: null,
     timeId: null,
-  }
+  };
   navigate = async () => {
-    if(!this.state.timeId) {
+    if (!this.state.timeId) {
       showMessage({
         message: 'Please select your show time',
         type: 'warning',
         duration: 2000,
-        hideOnPress: true
-      })
-    }
-    else if(!this.props.token) {
+        hideOnPress: true,
+      });
+    } else if (!this.props.token) {
       push(this.props, 'Login');
     } else {
-      this.props.loading()
+      this.props.loading();
       try {
-        const {data} = await http.getSelectedShowTimeId(this.props.selectedDate, this.props.movieIdProps, this.state.timeId, this.props.cinemaIdProps);
+        const {data} = await http.getSelectedShowTimeId(
+          this.props.selectedDate,
+          this.props.movieIdProps,
+          this.state.timeId,
+          this.props.cinemaIdProps,
+        );
         this.props.loading();
         this.props.setTransaction({
           showTimeId: data.results.showTimeId,
@@ -75,9 +78,9 @@ class ShowTimeCardComponent extends Component {
           message: err.response.data.message,
           type: 'warning',
           duration: 2000,
-          hideOnPress: true
-        })
-        this.props.loading()
+          hideOnPress: true,
+        });
+        this.props.loading();
       }
     }
   };
@@ -86,45 +89,59 @@ class ShowTimeCardComponent extends Component {
     this.setState({
       selectedTime: time,
       selectedRealTime: realTime,
-      timeId
-    })
-  }
+      timeId,
+    });
+  };
 
   render() {
-    const modifiedActiveTimes = this.props.activeTimes.map((item) => moment(new Date(2021, 3, 1, `${item.split(':')[0]}`, `${item.split(':')[1]}`, `${item.split(':')[2]}`, '00')).format('hh:mma'));
+    const modifiedActiveTimes = this.props.activeTimes.map((item) =>
+      moment(
+        new Date(
+          2021,
+          3,
+          1,
+          `${item.split(':')[0]}`,
+          `${item.split(':')[1]}`,
+          `${item.split(':')[2]}`,
+          '00',
+        ),
+      ).format('hh:mma'),
+    );
 
     return (
       <Fragment>
         <Card>
           <Container>
             <Header>
-              <Image source={{
-                uri: this.props.cinemaPosterProps
-              }} />
+              <Image
+                source={{
+                  uri: this.props.cinemaPosterProps,
+                }}
+              />
               <Subtitle>{this.props.address}</Subtitle>
             </Header>
             <Main>
               {this.props.times.map((item, index) => (
                 <Times key={String(index)}>
-                  {
-                    item.time === this.state.selectedTime ? (
-                      <TouchableWithoutFeedback onPress={() => this.selectTime(item.time, item.realTime, item.id)}>
-                        <TimesText checked>{item.time}</TimesText>
-                      </TouchableWithoutFeedback>
-                    ) : modifiedActiveTimes.indexOf(item.time) !== -1 ? (
-                      (
-                        <TouchableWithoutFeedback onPress={() => this.selectTime(item.time, item.realTime, item.id)}>
-                          <TimesText enabled>{item.time}</TimesText>
-                        </TouchableWithoutFeedback>
-                      )
-                    ) : (
-                      (
-                        <TouchableWithoutFeedback>
-                          <TimesText>{item.time}</TimesText>
-                        </TouchableWithoutFeedback>
-                      )
-                    )
-                  }
+                  {item.time === this.state.selectedTime ? (
+                    <TouchableWithoutFeedback
+                      onPress={() =>
+                        this.selectTime(item.time, item.realTime, item.id)
+                      }>
+                      <TimesText checked>{item.time}</TimesText>
+                    </TouchableWithoutFeedback>
+                  ) : modifiedActiveTimes.indexOf(item.time) !== -1 ? (
+                    <TouchableWithoutFeedback
+                      onPress={() =>
+                        this.selectTime(item.time, item.realTime, item.id)
+                      }>
+                      <TimesText enabled>{item.time}</TimesText>
+                    </TouchableWithoutFeedback>
+                  ) : (
+                    <TouchableWithoutFeedback>
+                      <TimesText>{item.time}</TimesText>
+                    </TouchableWithoutFeedback>
+                  )}
                 </Times>
               ))}
             </Main>
@@ -163,12 +180,15 @@ class ShowTimeCardComponent extends Component {
 
 const mapStateToProps = (state) => ({
   ...state.auth,
-  ...state.transaction
+  ...state.transaction,
 });
 
 const mapDispatchToProps = {
   loading,
-  setTransaction
-}
+  setTransaction,
+};
 
-export const ShowTimeCard = connect(mapStateToProps, mapDispatchToProps)(ShowTimeCardComponent);
+export const ShowTimeCard = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ShowTimeCardComponent);

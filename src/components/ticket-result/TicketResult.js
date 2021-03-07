@@ -13,8 +13,18 @@ import {SimpleCard} from '../';
 import Barcode from '../../assets/img/barcode.svg';
 
 export function TicketResult() {
-  const state = useSelector(state => state.transaction);
-  const time = state.time ? new Date(2021, 3, 1, state.time.split(':')[0], state.time.split(':')[1], state.time.split(':')[2], 0).getTime() : null;
+  const state = useSelector((currentState) => currentState.transaction);
+  const time = state.time
+    ? new Date(
+        2021,
+        3,
+        1,
+        state.time.split(':')[0],
+        state.time.split(':')[1],
+        state.time.split(':')[2],
+        0,
+      ).getTime()
+    : null;
   return (
     <Fragment>
       <View style={style.container}>
@@ -39,11 +49,15 @@ export function TicketResult() {
                   </View>
                   <View style={style.col}>
                     <Text style={style.title}>Date</Text>
-                    <Text style={style.subtitle}>{moment(state.showTimeDate).format('DD MMM')}</Text>
+                    <Text style={style.subtitle}>
+                      {moment(state.showTimeDate).format('DD MMM')}
+                    </Text>
                   </View>
                   <View style={style.col}>
                     <Text style={style.title}>Time</Text>
-                    <Text style={style.subtitle}>{moment(time).format('hh:mma')}</Text>
+                    <Text style={style.subtitle}>
+                      {moment(time).format('hh:mma')}
+                    </Text>
                   </View>
                   <View style={style.col}>
                     <Text style={style.title}>Count</Text>

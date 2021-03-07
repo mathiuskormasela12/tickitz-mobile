@@ -2,19 +2,15 @@
 // import all modules
 import React, {Fragment} from 'react';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {ScrollView, Dimensions, StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
+import {Dimensions, StyleSheet} from 'react-native';
 
 // import all components
-import Hidden from '../components/hidden/Hidden';
-import HiddenWrapper from '../components/hidden-wrapper/HiddenWrapper';
 import DetailsAccount from './DetailsAccount';
 import OrderHistory from './OrderHistory';
 
 const initialLayout = {width: Dimensions.get('window').width};
 
 function Profile() {
-  const toggle = useSelector((state) => state.home.toggle);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {key: 'details', title: 'Details Account'},

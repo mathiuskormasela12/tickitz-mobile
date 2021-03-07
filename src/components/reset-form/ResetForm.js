@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import {connect} from 'react-redux';
-import { showMessage } from "react-native-flash-message";
+import {showMessage} from 'react-native-flash-message';
 import http from '../../services/Services';
 import push from '../../helpers/push';
 
@@ -33,40 +33,40 @@ class ResetFormComponent extends Component {
       email: '',
       type: null,
       message: null,
-    }
-    this.handleInput = this.handleInput.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    };
+    this.handleInput = this.handleInput.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInput(name, value) {
     this.setState({
-      [name]: value
-    })
+      [name]: value,
+    });
   }
 
   async handleSubmit() {
-    this.props.loading()
+    this.props.loading();
     try {
-      const {data} = await http.sendForgotPasswordLink(this.state.email)
-      this.props.loading()
+      const {data} = await http.sendForgotPasswordLink(this.state.email);
+      this.props.loading();
       showMessage({
         message: data.message,
         type: data.success ? 'success' : 'warning',
         duration: 2000,
-        hideOnPress: true
-      })
+        hideOnPress: true,
+      });
       setTimeout(() => {
-        push(this.props, 'Login')
-      }, 2000)
+        push(this.props, 'Login');
+      }, 2000);
     } catch (err) {
-      this.props.loading()
-      console.log(err)
+      this.props.loading();
+      console.log(err);
       showMessage({
         message: err.response.data.message,
         type: err.response.data.success ? 'success' : 'warning',
         duration: 3000,
-        hideOnPress: true
-      })
+        hideOnPress: true,
+      });
     }
   }
   render() {
@@ -89,7 +89,11 @@ class ResetFormComponent extends Component {
               </Field>
             </Control>
             <Control>
-              <Button primary width="100%" height="62px" onPress={this.handleSubmit}>
+              <Button
+                primary
+                width="100%"
+                height="62px"
+                onPress={this.handleSubmit}>
                 Active Now
               </Button>
             </Control>
@@ -101,11 +105,14 @@ class ResetFormComponent extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state.loading
-})
+  ...state.loading,
+});
 
 const mapDispatchToProps = {
-  loading
-}
+  loading,
+};
 
-export const ResetForm = connect(mapStateToProps, mapDispatchToProps)(ResetFormComponent)
+export const ResetForm = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ResetFormComponent);

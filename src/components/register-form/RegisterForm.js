@@ -3,8 +3,8 @@
 import React, {Component} from 'react';
 import {View, TouchableWithoutFeedback} from 'react-native';
 import {connect} from 'react-redux';
-import { showMessage } from "react-native-flash-message";
-import http from '../../services/Services'
+import {showMessage} from 'react-native-flash-message';
+import http from '../../services/Services';
 import append from '../../helpers/append';
 import push from '../../helpers/push';
 
@@ -40,83 +40,98 @@ class RegisterFormComponent extends Component {
       password: '',
       type: null,
       message: null,
-    }
-    this.handlePush = this.handlePush.bind(this)
-    this.handleInput = this.handleInput.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    };
+    this.handlePush = this.handlePush.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
   handlePush() {
     this.props.navigation.navigate('Login');
-  };
+  }
 
   handleInput(name, value) {
     this.setState({
-      [name]: value
-    })
+      [name]: value,
+    });
   }
 
   async handleSubmit() {
-    const email = this.state.email.match(/[^@$a-z0-9.]/gi)
-    if(!this.state.email || !this.state.password) {
+    const email = this.state.email.match(/[^@$a-z0-9.]/gi);
+    if (!this.state.email || !this.state.password) {
       showMessage({
         message: "Form can't be empty",
         type: 'warning',
         duration: 2000,
-        hideOnPress: true
+        hideOnPress: true,
       });
-    } else if (email || !this.state.email.match(/@\b/g) || this.state.email.match(/\s/) || this.state.email.match(/\b[0-9]/) || !this.state.email.split('@').pop().includes('.')) {
+    } else if (
+      email ||
+      !this.state.email.match(/@\b/g) ||
+      this.state.email.match(/\s/) ||
+      this.state.email.match(/\b[0-9]/) ||
+      !this.state.email.split('@').pop().includes('.')
+    ) {
       showMessage({
         message: 'Incorect email',
         type: 'warning',
         duration: 2000,
-        hideOnPress: true
+        hideOnPress: true,
       });
-    } else if (this.state.password.length > 15 || this.state.password.length < 5) {
+    } else if (
+      this.state.password.length > 15 ||
+      this.state.password.length < 5
+    ) {
       showMessage({
         message: 'Password min 5 character and max 15 character',
         type: 'warning',
         duration: 2000,
-        hideOnPress: true
+        hideOnPress: true,
       });
-    } else if (this.state.password.match(/[a-z]/g) === null || this.state.password.match(/\d/g) === null || this.state.password.match(/[A-Z]/g) === null || this.state.password.match(/[^a-z0-9]/gi) === null) {
+    } else if (
+      this.state.password.match(/[a-z]/g) === null ||
+      this.state.password.match(/\d/g) === null ||
+      this.state.password.match(/[A-Z]/g) === null ||
+      this.state.password.match(/[^a-z0-9]/gi) === null
+    ) {
       showMessage({
-        message: 'Password must include lower case and uppercase letters, numbers and symbol',
+        message:
+          'Password must include lower case and uppercase letters, numbers and symbol',
         type: 'warning',
         duration: 2000,
-        hideOnPress: true
+        hideOnPress: true,
       });
     } else {
-      this.props.loading()
-    const formData = new FormData()
-    append(formData, {
-      email: this.state.email,
-      password: this.state.password,
-      password_confirm: this.state.password,
-      role: 'user'
-    })
-    try {
-      const {data} = await http.register(formData)
-      this.props.loading()
-      showMessage({
-        message: data.message,
-        type: data.success ? 'success' : 'warning',
-        duration: 2000,
-        hideOnPress: true
-      })
-      setTimeout(() => {
-        push(this.props, 'Login')
-      }, 2000)
-    } catch (err) {
-      this.props.loading()
-      console.log(err)
-      showMessage({
-        message: err.response.data.message,
-        type: err.response.data.success ? 'success' : 'warning',
-        duration: 3000,
-        hideOnPress: true
-      })
-    }
+      this.props.loading();
+      const formData = new FormData();
+      append(formData, {
+        email: this.state.email,
+        password: this.state.password,
+        password_confirm: this.state.password,
+        role: 'user',
+      });
+      try {
+        const {data} = await http.register(formData);
+        this.props.loading();
+        showMessage({
+          message: data.message,
+          type: data.success ? 'success' : 'warning',
+          duration: 2000,
+          hideOnPress: true,
+        });
+        setTimeout(() => {
+          push(this.props, 'Login');
+        }, 2000);
+      } catch (err) {
+        this.props.loading();
+        console.log(err);
+        showMessage({
+          message: err.response.data.message,
+          type: err.response.data.success ? 'success' : 'warning',
+          duration: 3000,
+          hideOnPress: true,
+        });
+      }
     }
   }
 
@@ -151,7 +166,11 @@ class RegisterFormComponent extends Component {
               </Field>
             </Control>
             <Control>
-              <Button primary width="100%" height="62px" onPress={this.handleSubmit}>
+              <Button
+                primary
+                width="100%"
+                height="62px"
+                onPress={this.handleSubmit}>
                 Join For Free
               </Button>
             </Control>
@@ -173,11 +192,14 @@ class RegisterFormComponent extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state.loading
-})
+  ...state.loading,
+});
 
 const mapDispatchToProps = {
-  loading
-}
+  loading,
+};
 
-export const RegisterForm = connect(mapStateToProps, mapDispatchToProps)(RegisterFormComponent)
+export const RegisterForm = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RegisterFormComponent);

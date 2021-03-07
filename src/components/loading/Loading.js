@@ -1,29 +1,21 @@
 // ===== Loading
 import React, {Fragment, useEffect} from 'react';
 import {View, StyleSheet, ActivityIndicator, BackHandler} from 'react-native';
-import {useSelector} from 'react-redux'
 
 export default function Loading() {
-  const loading = useSelector(state => state.loading.loading);
-
-  useEffect(() => {
-    console.log('JAALAN')
-    console.log(loading)
-  }, [])
-
   const backAction = () => {
     return true;
   };
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', backAction);
-  }, [])
+  }, []);
 
   useEffect(() => {
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', backAction);
-    }
-  })
+    };
+  });
 
   return (
     <Fragment>
@@ -46,13 +38,13 @@ const style = StyleSheet.create({
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   box: {
     height: 150,
     width: 150,
     backgroundColor: 'white',
     borderRadius: 20,
-    justifyContent: 'center'
-  }
-})
+    justifyContent: 'center',
+  },
+});

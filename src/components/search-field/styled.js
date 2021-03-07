@@ -14,7 +14,7 @@ export const Container = styled.View`
   flex-direction: row-reverse;
   border: none;
   border-radius: 6px;
-  background-color: #EFF0F6;
+  background-color: #eff0f6;
 `;
 
 export const Edge = styled.View`

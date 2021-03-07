@@ -1,7 +1,15 @@
 // ===== Profile Header
 import React, {Fragment, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {Text, View, StyleSheet, Dimensions, Image, Modal, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  Image,
+  Modal,
+  TouchableOpacity,
+} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import http from '../../services/Services';
@@ -21,12 +29,12 @@ import Star from '../../assets/img/star.svg';
 
 export function ProfileHeader() {
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const [isVisible, setVisible] = useState(false);
   const [state, setState] = useState({
     photo: null,
     fullName: null,
-  })
+  });
 
   const handleImgLib = () => {
     launchImageLibrary(
@@ -35,23 +43,23 @@ export function ProfileHeader() {
         includeBase64: false,
       },
       async (response) => {
-        if(response.uri) {
-          if(response.fileSize > 3000000) {
-            setVisible(!isVisible)
+        if (response.uri) {
+          if (response.fileSize > 3000000) {
+            setVisible(!isVisible);
             showMessage({
               message: 'Photo size must be lower than 3mb',
               type: 'warning',
               duration: 2000,
-              hideOnPress: true
+              hideOnPress: true,
             });
           } else {
             const formData = new FormData();
             formData.append('poster', {
               uri: response.uri,
               type: response.type,
-              name: response.fileName
+              name: response.fileName,
             });
-            setVisible(!isVisible)
+            setVisible(!isVisible);
             dispatch(loading());
             try {
               const {data} = await http.upload(auth.token, formData);
@@ -60,9 +68,9 @@ export function ProfileHeader() {
                 message: data.message,
                 type: data.success ? 'success' : 'warning',
                 duration: 2000,
-                hideOnPress: true
+                hideOnPress: true,
               });
-              dispatch(refresh())
+              dispatch(refresh());
             } catch (err) {
               console.log(err);
               dispatch(loading());
@@ -70,14 +78,14 @@ export function ProfileHeader() {
                 message: err.response.data.message,
                 type: err.response.data.success ? 'success' : 'warning',
                 duration: 2000,
-                hideOnPress: true
+                hideOnPress: true,
               });
             }
           }
         }
       },
-    )
-  }
+    );
+  };
 
   const handleCamera = () => {
     launchCamera(
@@ -88,14 +96,14 @@ export function ProfileHeader() {
         maxWidth: 200,
       },
       async (response) => {
-        if(response.uri) {
+        if (response.uri) {
           const formData = new FormData();
           formData.append('poster', {
             uri: response.uri,
             type: response.type,
-            name: response.fileName
+            name: response.fileName,
           });
-          setVisible(!isVisible)
+          setVisible(!isVisible);
           dispatch(loading());
           try {
             const {data} = await http.upload(auth.token, formData);
@@ -104,9 +112,9 @@ export function ProfileHeader() {
               message: data.message,
               type: data.success ? 'success' : 'warning',
               duration: 2000,
-              hideOnPress: true
+              hideOnPress: true,
             });
-            dispatch(refresh())
+            dispatch(refresh());
           } catch (err) {
             console.log(err);
             dispatch(loading());
@@ -114,60 +122,78 @@ export function ProfileHeader() {
               message: err.response.data.message,
               type: err.response.data.success ? 'success' : 'warning',
               duration: 2000,
-              hideOnPress: true
+              hideOnPress: true,
             });
           }
         }
       },
-    )
-  }
+    );
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const {data} = await http.getUserDetail(auth.token);
-        setState(state => ({
-          ...state,
-          fullName: data.results.first_name && `${data.results.first_name}${String(data.results.last_name) !== 'undefined' ? ` ${data.results.last_name}` : ''}`,
-          photo: data.results.poster.split('/').pop() === 'null' ? null : data.results.poster,
-        }))
+        setState((currentState) => ({
+          ...currentState,
+          fullName:
+            data.results.first_name &&
+            `${data.results.first_name}${
+              String(data.results.last_name) !== 'undefined'
+                ? ` ${data.results.last_name}`
+                : ''
+            }`,
+          photo:
+            data.results.poster.split('/').pop() === 'null'
+              ? null
+              : data.results.poster,
+        }));
       } catch (err) {
         console.log(err);
         showMessage({
           message: err.response.data.message,
           type: 'warning',
           duration: 2000,
-          hideOnPress: true
+          hideOnPress: true,
         });
       }
-    }
+    };
     fetchData();
-  }, [auth.isRefresh])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.isRefresh]);
 
   return (
     <Fragment>
       <View style={style.container}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isVisible}
-      >
-        <View style={style.modalFlex}>
-          <View style={style.modal}>
-            <View style={style.containerModal}>
-              <Button primary height="55px" width="100%" onPress={handleImgLib}>
-                Choose From Gallery
-              </Button>
-              <Button primary height="55px" width="100%" onPress={handleCamera}>
-                Take a Photo
-              </Button>
-              <Button primary height="55px" width="100%" onPress={() => setVisible(!isVisible)}>
-                Close
-              </Button>
+        <Modal animationType="slide" transparent={true} visible={isVisible}>
+          <View style={style.modalFlex}>
+            <View style={style.modal}>
+              <View style={style.containerModal}>
+                <Button
+                  primary
+                  height="55px"
+                  width="100%"
+                  onPress={handleImgLib}>
+                  Choose From Gallery
+                </Button>
+                <Button
+                  primary
+                  height="55px"
+                  width="100%"
+                  onPress={handleCamera}>
+                  Take a Photo
+                </Button>
+                <Button
+                  primary
+                  height="55px"
+                  width="100%"
+                  onPress={() => setVisible(!isVisible)}>
+                  Close
+                </Button>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
         <SimpleCard style={style.card}>
           <View style={style.head}>
             <View style={style.containerFixed}>
@@ -182,15 +208,16 @@ export function ProfileHeader() {
                 </View>
               </View>
               <View style={style.imageHeader}>
-                {
-                  !state.photo ? (
-                    <Image source={photo} style={style.profile} />
-                  ) : (
-                    <Image source={{
-                      uri: state.photo
-                    }} style={style.profile} />
-                  )
-                }
+                {!state.photo ? (
+                  <Image source={photo} style={style.profile} />
+                ) : (
+                  <Image
+                    source={{
+                      uri: state.photo,
+                    }}
+                    style={style.profile}
+                  />
+                )}
                 <Text style={style.figcaption}>{state.fullName || '-'}</Text>
                 <Text style={style.caption}>Moviegoers</Text>
               </View>
@@ -372,7 +399,7 @@ const style = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-  },  
+  },
   modalFlex: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     height: (100 / 100) * Dimensions.get('screen').height,
@@ -389,5 +416,5 @@ const style = StyleSheet.create({
   },
   buttonMargin: {
     marginBottom: 0,
-  }
+  },
 });

@@ -19,57 +19,65 @@ class UpcomingMovieComponent extends Component {
     movies: [],
     message: null,
     loading: false,
-    month: 'september'
+    month: 'september',
+  };
+
+  componentDidMount() {
+    this.fetchDataStart();
   }
 
-  async componentDidMount() {
+  fetchDataStart = async () => {
     this.setState((state) => ({
-      loading: !state.loading
-    }))
+      loading: !state.loading,
+    }));
     try {
-      const {data} = await http.getUpcoming(this.state.month)
+      const {data} = await http.getUpcoming(this.state.month);
       setTimeout(() => {
         this.setState((state) => ({
           movies: data.results,
-          loading: !state.loading
-        }))
-      }, 500)
+          loading: !state.loading,
+        }));
+      }, 500);
     } catch (err) {
       console.log(err);
       this.setState((state) => ({
         message: err.response.data.message,
-        loading: !state.loading
-      }))
+        loading: !state.loading,
+      }));
     }
+  };
+
+  componentDidUpdate(props, state) {
+    this.fetchDataUpdate(state);
   }
 
-  async componentDidUpdate(props, state) {
-    if(state.month !== this.state.month) {
-      this.setState((state) => ({
-        loading: !state.loading
-      }))
+  fetchDataUpdate = async (state) => {
+    if (state.month !== this.state.month) {
+      this.setState((currentState) => ({
+        loading: !currentState.loading,
+      }));
       try {
-        const {data} = await http.getUpcoming(this.state.month)
+        const {data} = await http.getUpcoming(this.state.month);
         setTimeout(() => {
-          this.setState((state) => ({
+          this.setState((currentState) => ({
             movies: data.results,
-            loading: !state.loading
-          }))
-        }, 500)
+            loading: !currentState.loading,
+          }));
+        }, 500);
       } catch (err) {
         console.log(err);
-        this.setState((state) => ({
+        this.setState((currentState) => ({
           message: err.response.data.message,
-          loading: !state.loading,
-          movies: []
-        }))
+          loading: !currentState.loading,
+          movies: [],
+        }));
       }
     }
-  }
+  };
 
   handleMonth = (month) => {
-    this.setState({month})
-  }
+    this.setState({month});
+  };
 
   render() {
     const months = [
@@ -100,30 +108,47 @@ class UpcomingMovieComponent extends Component {
                 {months.map((item, index) => (
                   <View key={String(index)} style={styled.button}>
                     {item.toLowerCase() === this.state.month ? (
-                    <Button height="40px" width="120px" primary onPress={() => this.handleMonth(item.toLowerCase())}>
-                      {item}
-                    </Button>) : (
-                    <Button height="40px" width="120px" onPress={() => this.handleMonth(item.toLowerCase())}>
-                      {item}
-                    </Button>
+                      <Button
+                        height="40px"
+                        width="120px"
+                        primary
+                        onPress={() => this.handleMonth(item.toLowerCase())}>
+                        {item}
+                      </Button>
+                    ) : (
+                      <Button
+                        height="40px"
+                        width="120px"
+                        onPress={() => this.handleMonth(item.toLowerCase())}>
+                        {item}
+                      </Button>
                     )}
                   </View>
                 ))}
               </ScrollView>
             </Header>
-            {
-              this.state.loading ? <MiniLoading /> : (this.state.movies.length < 1 ? <MiniMessage message={this.state.message} /> : (
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  <Main>
+            {this.state.loading ? (
+              <MiniLoading />
+            ) : this.state.movies.length < 1 ? (
+              <MiniMessage message={this.state.message} />
+            ) : (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <Main>
                   {this.state.movies.map((item, index) => (
                     <Fragment key={String(index)}>
-                      <CardUpcoming style={styled.card} {...this.props} poster={item.poster} genres={item.genres} title={item.title} id={item.id} />
+                      <CardUpcoming
+                        style={styled.card}
+                        {...this.props}
+                        poster={item.poster}
+                        genres={item.genres}
+                        title={item.title}
+                        id={item.id}
+                      />
                     </Fragment>
                   ))}
-                  </Main>
-                </ScrollView>
-              ))
-            }
+                </Main>
+              </ScrollView>
+            )}
           </Container>
         </UpcomingStyle>
       </Fragment>
@@ -145,7 +170,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  loading
-}
+  loading,
+};
 
-export const UpcomingMovie = connect(mapStateToProps, mapDispatchToProps)(UpcomingMovieComponent);
+export const UpcomingMovie = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UpcomingMovieComponent);

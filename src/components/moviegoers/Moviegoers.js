@@ -44,8 +44,8 @@ class Movigoers extends Component {
               </Form>
               <Footer>
                 <Text>
-                  By joining you as a Tickitz member, we will always send you the
-                  latest updates via email .
+                  By joining you as a Tickitz member, we will always send you
+                  the latest updates via email .
                 </Text>
               </Footer>
             </Container>

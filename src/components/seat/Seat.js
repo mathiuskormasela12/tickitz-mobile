@@ -28,7 +28,7 @@ class SeatComponent extends Component {
   };
 
   navigate = () => {
-    if(this.state.selectedSeat.length > 0) {
+    if (this.state.selectedSeat.length > 0) {
       this.props.setSeat(this.state.selectedSeat);
       push(this.props, 'Payment');
     } else {
@@ -36,58 +36,59 @@ class SeatComponent extends Component {
         message: 'Please select your seat',
         type: 'warning',
         duration: 2000,
-        hideOnPress: true
-      })
+        hideOnPress: true,
+      });
     }
-  }
+  };
 
   getValue = (seat) => {
     this.setState((state) => {
-      console.log(seat.split(','))
-      if(state.selectedSeat.indexOf(seat) === -1) {
-        if(seat.includes('F10')) {
-          if(state.selectedSeat.indexOf('F10') === -1) {
+      console.log(seat.split(','));
+      if (state.selectedSeat.indexOf(seat) === -1) {
+        if (seat.includes('F10')) {
+          if (state.selectedSeat.indexOf('F10') === -1) {
             return {
-              selectedSeat: [
-                ...state.selectedSeat,
-                ...seat.split(',')
-              ]
-            }
+              selectedSeat: [...state.selectedSeat, ...seat.split(',')],
+            };
           } else {
             const modifiedSeat = [...state.selectedSeat];
             modifiedSeat.splice(state.selectedSeat.indexOf('F10'), 2);
             return {
-              selectedSeat: modifiedSeat
-            }
+              selectedSeat: modifiedSeat,
+            };
           }
         } else {
           return {
-            selectedSeat: [
-              ...state.selectedSeat,
-              seat
-            ]
-          }
+            selectedSeat: [...state.selectedSeat, seat],
+          };
         }
       } else {
         const modifiedSeat = [...state.selectedSeat];
         modifiedSeat.splice(state.selectedSeat.indexOf(seat), 1);
         return {
-          selectedSeat: modifiedSeat
-        }
+          selectedSeat: modifiedSeat,
+        };
       }
     });
   };
 
-  async componentDidMount() {
-    try {
-      const {data} = await http.getSoldSeat(this.props.token, this.props.showTimeId)
-      this.setState({
-        soldSeat: data.results
-      })
-    } catch (err) {
-      console.log(err)
-    }
+  componentDidMount() {
+    this.fetchData();
   }
+
+  fetchData = async () => {
+    try {
+      const {data} = await http.getSoldSeat(
+        this.props.token,
+        this.props.showTimeId,
+      );
+      this.setState({
+        soldSeat: data.results,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   render() {
     const seatNum = [1, 2, 3, 4, 5, 6, 7];
@@ -173,7 +174,9 @@ class SeatComponent extends Component {
                                   </TouchableWithoutFeedback>
                                 </View>
                               ) : !this.state.selectedSeat.some(
-                                  (item) => item.toLowerCase() === `${row.toLowerCase()}${col}`,
+                                  (item) =>
+                                    item.toLowerCase() ===
+                                    `${row.toLowerCase()}${col}`,
                                 ) ? (
                                 <Fragment>
                                   <View style={styles.doubleBoxCol}>
@@ -224,9 +227,7 @@ class SeatComponent extends Component {
                                     <View style={styles.boxCol}>
                                       <TouchableWithoutFeedback
                                         onPress={() =>
-                                          this.getValue(
-                                            `${row + col}`,
-                                          )
+                                          this.getValue(`${row + col}`)
                                         }>
                                         <View
                                           style={[styles.box, styles.disabled]}
@@ -241,9 +242,7 @@ class SeatComponent extends Component {
                                     <View style={styles.boxCol}>
                                       <TouchableWithoutFeedback
                                         onPress={() =>
-                                          this.getValue(
-                                            `${row + col}`,
-                                          )
+                                          this.getValue(`${row + col}`)
                                         }>
                                         <View
                                           style={[styles.box, styles.normal]}
@@ -256,9 +255,7 @@ class SeatComponent extends Component {
                                     <View style={styles.boxCol}>
                                       <TouchableWithoutFeedback
                                         onPress={() =>
-                                          this.getValue(
-                                            `${row + col}`,
-                                          )
+                                          this.getValue(`${row + col}`)
                                         }>
                                         <View
                                           style={[styles.box, styles.checked]}
@@ -319,7 +316,11 @@ class SeatComponent extends Component {
                   <Text style={styles.choosed}>Choosed</Text>
                 </View>
                 <View style={styles.colCard}>
-                  <Text style={styles.seats}>{this.state.selectedSeat.length < 1 ? '-' : this.state.selectedSeat.join(', ')}</Text>
+                  <Text style={styles.seats}>
+                    {this.state.selectedSeat.length < 1
+                      ? '-'
+                      : this.state.selectedSeat.join(', ')}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -627,7 +628,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   loading,
-  setSeat
+  setSeat,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SeatComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(SeatComponent);

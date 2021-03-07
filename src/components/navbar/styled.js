@@ -52,16 +52,6 @@ export const DropdownHead = styled.View`
   align-items: center;
 `;
 
-export const CollapseTopItem = styled.View`
-  width: 100%;
-  height: 80px;
-  justify-content: center;
-  align-items: center;
-  border-bottom-color: #dedede;
-  border-bottom-width: 0.5px;
-  border-style: solid;
-`;
-
 export const Form = styled.View`
   width: 90%;
   height: 100%;

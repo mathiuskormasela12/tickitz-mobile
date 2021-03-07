@@ -23,48 +23,57 @@ export function ViewAll(props) {
     prevLink: null,
     nextLink: null,
     page: 1,
-  })
+  });
 
   const handleSearch = (value) => {
-    setState(current => ({
+    setState((current) => ({
       ...current,
       keyword: value,
       isRefresh: !current.isRefresh,
       page: 1,
-    }))
-  }
+    }));
+  };
 
   const handleAsc = () => {
-    setState(currentState => ({
+    setState((currentState) => ({
       ...currentState,
       isAsc: !currentState.isAsc,
       isRefresh: !currentState.isRefresh,
       page: 1,
-    }))
-  }
-
-  const fetchData = async () => {
-    setState(current => ({
-      ...current,
-      loading: !current.loading
     }));
-    try {
-      const {data} = await http.getAllMovies({
-        search: state.keyword,
-        by: state.selectedSort,
-        sort: state.isAsc ? 'ASC' : 'DESC',
-        page: state.page,
-      });
+  };
 
-      // if(data.results.length < 1) {
-      //   setState(current => ({
-      //     ...current,
-      //     isRefresh: current.isRefresh,
-      //     message: 'Movie Not Found',
-      //     loading: !current.loading
-      //   }));
-      // } else {
-        setState(current => ({
+  const handleNextPage = () => {
+    setState((current) => ({
+      ...current,
+      page: Number(current.page) + 1,
+      isRefresh: !current.isRefresh,
+    }));
+  };
+
+  const handlePrevPage = () => {
+    setState((current) => ({
+      ...current,
+      page: Number(current.page) - 1,
+      isRefresh: !current.isRefresh,
+    }));
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setState((current) => ({
+        ...current,
+        loading: !current.loading,
+      }));
+      try {
+        const {data} = await http.getAllMovies({
+          search: state.keyword,
+          by: state.selectedSort,
+          sort: state.isAsc ? 'ASC' : 'DESC',
+          page: state.page,
+        });
+
+        setState((current) => ({
           ...current,
           isRefresh: current.isRefresh,
           message: data.message,
@@ -74,39 +83,21 @@ export function ViewAll(props) {
           nextLink: data.pageInfo.nextMovie,
           page: data.pageInfo.currentPage,
         }));
-      // }
-    } catch (err) {
-      console.log(err);
-      setState(current => ({
-        ...current,
-        isRefresh: current.isRefresh,
-        loading: !current.loading,
-        message: err.response.data.message,
-        prevLink: null,
-        nextLink: null,
-      }));
-    }
-  }
+      } catch (err) {
+        console.log(err);
+        setState((current) => ({
+          ...current,
+          isRefresh: current.isRefresh,
+          loading: !current.loading,
+          message: err.response.data.message,
+          prevLink: null,
+          nextLink: null,
+        }));
+      }
+    };
 
-  const handleNextPage = () => {
-    setState(current => ({
-      ...current,
-      page: Number(current.page) + 1,
-      isRefresh: !current.isRefresh,
-    }))
-  }
-
-  const handlePrevPage = () => {
-    setState(current => ({
-      ...current,
-      page: Number(current.page) - 1,
-      isRefresh: !current.isRefresh,
-    }))
-  }
-
-  useEffect(() => {
     fetchData();
-    console.log('HALo')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isRefresh]);
 
   return (
@@ -120,49 +111,43 @@ export function ViewAll(props) {
           <SimpleCard style={styles.form}>
             <View style={styles.containerFixed}>
               <View style={styles.containerSearch}>
-                <SearchField 
+                <SearchField
                   keyboardType="web-search"
                   placeholderColor="#4E4B66"
-                  placeholder="Search Movie ..." 
+                  placeholder="Search Movie ..."
                   onChangeText={handleSearch}
                 />
               </View>
               <View style={styles.pickerContainer}>
-                {
-                  (state.isAsc) ? (
-                    <Icon 
-                      name="arrow-up-outline" 
-                      style={styles.arrow} 
-                      size={22} 
-                      color="#6E7191" 
-                      onPress={handleAsc}
-                    />
-                  ) : (
-                    <Icon 
-                      name="arrow-down-outline" 
-                      style={styles.arrow} 
-                      size={22} 
-                      color="#6E7191" 
-                      onPress={handleAsc}
-                    />
-                  )
-                }
+                {state.isAsc ? (
+                  <Icon
+                    name="arrow-up-outline"
+                    style={styles.arrow}
+                    size={22}
+                    color="#6E7191"
+                    onPress={handleAsc}
+                  />
+                ) : (
+                  <Icon
+                    name="arrow-down-outline"
+                    style={styles.arrow}
+                    size={22}
+                    color="#6E7191"
+                    onPress={handleAsc}
+                  />
+                )}
                 <Picker
                   dropdownIconColor="#A0A3BD"
                   selectedValue={state.selectedSort}
                   onValueChange={(itemValue, itemIndex) =>
-                    setState(currentState => ({
+                    setState((currentState) => ({
                       ...currentState,
                       selectedSort: itemValue,
                       isRefresh: !currentState.isRefresh,
                     }))
                   }
                   style={styles.picker}>
-                  <Picker.Item
-                    label="ID"
-                    style={styles.item}
-                    value="id"
-                  />
+                  <Picker.Item label="ID" style={styles.item} value="id" />
                   <Picker.Item
                     label="Title"
                     style={styles.item}
@@ -182,58 +167,55 @@ export function ViewAll(props) {
               </View>
             </View>
           </SimpleCard>
-          {
-              state.loading ? <MiniLoading /> : (state.movies.length < 1 ? <MiniMessage message={state.message} /> : (
-                <View style={styles.row}>
-                  {state.movies.map((item, index) => (
-                    <Fragment key={String(index)}>
-                      {/* <CardUpcoming style={styled.card} {...this.props} poster={item.poster} genres={item.genres} title={item.title} id={item.id} /> */}
-                      <View style={[styles.col, styles.margin]}>
-                        <CardViewAll 
-                          {...props}
-                          poster={item.poster} 
-                          id={item.id} 
-                        />
-                      </View>
-                    </Fragment>
-                  ))}
-                </View>
-              ))
-            }
+          {state.loading ? (
+            <MiniLoading />
+          ) : state.movies.length < 1 ? (
+            <MiniMessage message={state.message} />
+          ) : (
+            <View style={styles.row}>
+              {state.movies.map((item, index) => (
+                <Fragment key={String(index)}>
+                  <View style={[styles.col, styles.margin]}>
+                    <CardViewAll {...props} poster={item.poster} id={item.id} />
+                  </View>
+                </Fragment>
+              ))}
+            </View>
+          )}
           <View style={styles.footer}>
             <View style={styles.row}>
               <View style={styles.col}>
-                {
-                  state.prevLink ? (
-                    <Button height="50px" width="100%" onPress={handlePrevPage}>
-                      Previous
-                    </Button>
-                  ) : (
-                    <Button height="50px" width="100%" disabled>
-                      Previous
-                    </Button>
-                  )
-                }
+                {state.prevLink ? (
+                  <Button height="50px" width="100%" onPress={handlePrevPage}>
+                    Previous
+                  </Button>
+                ) : (
+                  <Button height="50px" width="100%" disabled>
+                    Previous
+                  </Button>
+                )}
               </View>
               <View style={styles.col}>
-                {
-                  state.nextLink ? (
-                    <Button height="50px" width="100%" primary onPress={handleNextPage}>
-                      Next
-                    </Button>
-                  ) : (
-                    <Button height="50px" width="100%" disabled>
-                      Next
-                    </Button>
-                  )
-                }
+                {state.nextLink ? (
+                  <Button
+                    height="50px"
+                    width="100%"
+                    primary
+                    onPress={handleNextPage}>
+                    Next
+                  </Button>
+                ) : (
+                  <Button height="50px" width="100%" disabled>
+                    Next
+                  </Button>
+                )}
               </View>
             </View>
           </View>
         </View>
       </View>
     </Fragment>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -311,5 +293,5 @@ const styles = StyleSheet.create({
   },
   margin: {
     marginTop: 25,
-  }
-})
+  },
+});

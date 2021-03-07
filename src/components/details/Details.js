@@ -28,30 +28,38 @@ class DetailsComponent extends Component {
   state = {
     details: [],
     message: null,
+  };
+
+  componentDidMount() {
+    this.fetchData();
   }
 
-  async componentDidMount() {
+  fetchData = async () => {
     this.props.loading();
     try {
-      const {data} = await http.getMovieDetails(this.props.route.params.id)
+      const {data} = await http.getMovieDetails(this.props.route.params.id);
       this.setState(() => ({
         details: {
           ...data.results[0],
-          duration: `${(Number(data.results[0].duration.split(':')[0][0]) === 0) ? data.results[0].duration.split(':')[0][1] : data.results[0].duration.split(':')[0]} hours ${data.results[0].duration.split(':')[1]} minutes`,
-        }
-      }))
+          duration: `${
+            Number(data.results[0].duration.split(':')[0][0]) === 0
+              ? data.results[0].duration.split(':')[0][1]
+              : data.results[0].duration.split(':')[0]
+          } hours ${data.results[0].duration.split(':')[1]} minutes`,
+        },
+      }));
       this.props.loading();
     } catch (err) {
       console.log(err);
       showMessage({
-        message: data.message,
+        message: err.response.data.message,
         type: 'warning',
         duration: 2000,
-        hideOnPress: true
-      })
+        hideOnPress: true,
+      });
       this.props.loading();
     }
-  }
+  };
 
   render() {
     return (
@@ -66,7 +74,9 @@ class DetailsComponent extends Component {
             <Main>
               <Column>
                 <LittleTitle>Release date</LittleTitle>
-                <LittleSubtitle>{this.state.details.releaseDate}</LittleSubtitle>
+                <LittleSubtitle>
+                  {this.state.details.releaseDate}
+                </LittleSubtitle>
               </Column>
               <Column>
                 <LittleTitle>Directed by</LittleTitle>
@@ -78,16 +88,12 @@ class DetailsComponent extends Component {
               </Column>
               <Column>
                 <LittleTitle>Casts</LittleTitle>
-                <LittleSubtitle>
-                  {this.state.details.casts}
-                </LittleSubtitle>
+                <LittleSubtitle>{this.state.details.casts}</LittleSubtitle>
               </Column>
             </Main>
             <Footer>
               <SynopsisTitle>Synopsis</SynopsisTitle>
-              <Synopsis>
-              {this.state.details.synopsis}
-              </Synopsis>
+              <Synopsis>{this.state.details.synopsis}</Synopsis>
             </Footer>
           </Container>
         </Detail>
@@ -101,7 +107,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  loading
-}
+  loading,
+};
 
-export const Details = connect(mapStateToProps, mapDispatchToProps)(DetailsComponent);
+export const Details = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DetailsComponent);

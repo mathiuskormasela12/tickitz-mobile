@@ -1,5 +1,5 @@
 export default () => {
   return {
-    type: 'SET_LOADING'
-  }
-}
+    type: 'SET_LOADING',
+  };
+};

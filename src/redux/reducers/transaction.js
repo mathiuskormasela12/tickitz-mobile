@@ -36,51 +36,51 @@ const transaction = (state = initialState, action) => {
         cinemaName: action.payload.cinemaName,
         cinemaPoster: action.payload.cinemaPoster,
         cinemaId: action.payload.cinemaId,
-        cinemaCity: action.payload.cinemCity,
         movieId: action.payload.movieId,
         pricePerSeat: action.payload.pricePerSeat,
         cinemaCity: action.payload.cinemaCity,
       };
     }
 
-    case 'SET_SEAT' : {
+    case 'SET_SEAT': {
       return {
         ...state,
         seats: action.payload.seats,
         count: action.payload.seats.length,
-        totalPayment: Number(action.payload.seats.length) * Number(state.pricePerSeat),
-      }
+        totalPayment:
+          Number(action.payload.seats.length) * Number(state.pricePerSeat),
+      };
     }
 
-    case 'SET_PAYMENT_METHOD' : {
+    case 'SET_PAYMENT_METHOD': {
       return {
         ...state,
         paymentMethod: action.payload.paymentMethod,
-      }
+      };
     }
 
-    case 'SET_MESSAGE' : {
+    case 'SET_MESSAGE': {
       return {
         ...state,
         message: action.payload.message,
         type: action.payload.type,
-      }
+      };
     }
 
-    case 'SET_INPUT' : {
+    case 'SET_INPUT': {
       return {
         ...state,
         [action.payload.name]: action.payload.value,
-      }
+      };
     }
 
-    case 'SET_ORDER' : {
+    case 'SET_ORDER': {
       return {
         ...state,
         email: action.payload.email,
         phoneNumber: action.payload.phoneNumber,
         fullName: action.payload.fullName,
-      }
+      };
     }
 
     case 'RESET_TRANSACTION': {
@@ -99,7 +99,7 @@ const transaction = (state = initialState, action) => {
         email: null,
         message: null,
         type: null,
-      }
+      };
     }
 
     default: {

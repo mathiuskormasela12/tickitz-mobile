@@ -1,7 +1,6 @@
 // ===== Card Upcoming
 // import all modules
 import React, {Fragment} from 'react';
-import push from '../../helpers/push';
 
 // import all components
 import {Card, CardHead, Image, CardFooter, Title, Subtitle} from './styles';
@@ -9,16 +8,18 @@ import Button from '../button/Button';
 
 function CardUpcoming(props) {
   const push = (id) => {
-    props.navigation.navigate('Detail', { id });
+    props.navigation.navigate('Detail', {id});
   };
 
   return (
     <Fragment>
       <Card {...props}>
         <CardHead>
-          <Image source={{
-            uri: props.poster
-          }} />
+          <Image
+            source={{
+              uri: props.poster,
+            }}
+          />
         </CardHead>
         <CardFooter>
           <Title>{props.title}</Title>

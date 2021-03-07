@@ -48,37 +48,56 @@ class ShowTimesComponent extends Component {
 
   getAllCities = async () => {
     try {
-      const {data: cities } = await http.getAllCities(); 
+      const {data: cities} = await http.getAllCities();
       this.setState({
-        cities: cities.results
-      })
-    } catch (error) {
+        cities: cities.results,
+      });
+    } catch (err) {
       this.setState((state) => ({
-        message: err.response.data.message
-      }))
+        message: err.response.data.message,
+      }));
     }
-  }
+  };
 
   async componentDidMount() {
-    this.getAllCities()
+    this.getAllCities();
+    this.getShowTimesStart();
+  }
+
+  getShowTimesStart = async () => {
     this.setState((state) => ({
       loading: !state.loading,
-    }))
+    }));
     try {
-      const {data} = await http.getShowTimes(this.props.token, this.props.route.params.id, this.state.selectedDate, this.state.location)
-      const {data: times} = await http.getAllTimes(this.props.token)
+      const {data} = await http.getShowTimes(
+        this.props.token,
+        this.props.route.params.id,
+        this.state.selectedDate,
+        this.state.location,
+      );
+      const {data: times} = await http.getAllTimes(this.props.token);
       setTimeout(() => {
-        if(data.results.length < 1) {
+        if (data.results.length < 1) {
           this.setState((state) => ({
             loading: !state.loading,
             message: 'There is not show time',
-          }))
+          }));
         } else {
           const modifiedTime = times.results.map((item, index) => ({
             id: item.id,
             realTime: item.showTime,
-            time: moment(new Date(2021, 3, 1, `${item.showTime.split(':')[0]}`, `${item.showTime.split(':')[1]}`, `${item.showTime.split(':')[2]}`, '00')).format('hh:mma'),
-          }))
+            time: moment(
+              new Date(
+                2021,
+                3,
+                1,
+                `${item.showTime.split(':')[0]}`,
+                `${item.showTime.split(':')[1]}`,
+                `${item.showTime.split(':')[2]}`,
+                '00',
+              ),
+            ).format('hh:mma'),
+          }));
           this.setState((state) => ({
             showTimes: data.results,
             times: modifiedTime,
@@ -86,57 +105,73 @@ class ShowTimesComponent extends Component {
             activeTimes: data.results[0].time,
           }));
         }
-      }, 2000)
+      }, 2000);
     } catch (err) {
       console.log(err);
       this.setState((state) => ({
         loading: !state.loading,
-        message: err.response.data.message
-      }))
+        message: err.response.data.message,
+      }));
     }
-  }
+  };
 
-  async componentDidUpdate(props, state) {
-    if(state.selectedDate !== this.state.selectedDate || state.location !== this.state.location) {
-      this.setState((state) => ({
-        loading: !state.loading
-      }))
+  getShowTimesUpdate = async (state) => {
+    if (
+      state.selectedDate !== this.state.selectedDate ||
+      state.location !== this.state.location
+    ) {
+      this.setState((currentState) => ({
+        loading: !currentState.loading,
+      }));
       try {
-        const {data} = await http.getShowTimes(this.props.token, this.props.route.params.id, this.state.selectedDate, this.state.location)
-        const {data: times} = await http.getAllTimes(this.props.token)
-        if(data.results < 1) {
-          this.setState((state) => ({
+        const {data} = await http.getShowTimes(
+          this.props.token,
+          this.props.route.params.id,
+          this.state.selectedDate,
+          this.state.location,
+        );
+        const {data: times} = await http.getAllTimes(this.props.token);
+        if (data.results < 1) {
+          this.setState((currentState) => ({
             showTimes: data.results,
             message: 'There is not show time',
-            loading: !state.loading
+            loading: !currentState.loading,
           }));
         } else {
           const modifiedTime = times.results.map((item, index) => ({
             id: item.id,
             realTime: item.showTime,
-            time: moment(new Date(2021, 3, 1, `${item.showTime.split(':')[0]}`, `${item.showTime.split(':')[1]}`, `${item.showTime.split(':')[2]}`, '00')).format('hh:mma'),
-          }))
-          console.log('======== MOD =====')
-          console.log(data.results)
-          console.log('======== ACTIVE ======')
-        console.log(data.results)
-        console.log('======== ALL ======')
-        console.log(times.results)
-          this.setState((state) => ({
+            time: moment(
+              new Date(
+                2021,
+                3,
+                1,
+                `${item.showTime.split(':')[0]}`,
+                `${item.showTime.split(':')[1]}`,
+                `${item.showTime.split(':')[2]}`,
+                '00',
+              ),
+            ).format('hh:mma'),
+          }));
+          this.setState((currentState) => ({
             showTimes: data.results,
-            loading: !state.loading,
+            loading: !currentState.loading,
             times: modifiedTime,
-            activeTimes: data.results[0].time
+            activeTimes: data.results[0].time,
           }));
         }
       } catch (err) {
         console.log(err);
-        this.setState((state) => ({
-          loading: !state.loading,
-          message: err.response.data.message
+        this.setState((currentState) => ({
+          loading: !currentState.loading,
+          message: err.response.data.message,
         }));
       }
     }
+  };
+
+  componentDidUpdate(props, state) {
+    this.getShowTimesUpdate(state);
   }
 
   showDatePicker = () => {
@@ -174,7 +209,11 @@ class ShowTimesComponent extends Component {
                       <Calendar width="22" height="22" />
                     </AppendIcon>
                     <AppendText>
-                      <DateText>{this.state.selectedDate ? this.state.selectedDate : 'Set a Date'}</DateText>
+                      <DateText>
+                        {this.state.selectedDate
+                          ? this.state.selectedDate
+                          : 'Set a Date'}
+                      </DateText>
                     </AppendText>
                     <AppendIcon>
                       <Icon name="angle-down" size={15} style={styles.icon} />
@@ -198,32 +237,50 @@ class ShowTimesComponent extends Component {
                     onValueChange={(itemValue, itemIndex) =>
                       this.setState({location: itemValue})
                     }>
-                    {
-                      this.state.cities.map((item, index) => (
-                        <Picker.Item
-                          key={String(index)}
-                          label={item.substr(0, 1).toUpperCase().concat(item.substr(1))}
-                          style={styles.item}
-                          value={item.toLowerCase()}
-                        />
-                      ))
-                    }
+                    {this.state.cities.map((item, index) => (
+                      <Picker.Item
+                        key={String(index)}
+                        label={item
+                          .substr(0, 1)
+                          .toUpperCase()
+                          .concat(item.substr(1))}
+                        style={styles.item}
+                        value={item.toLowerCase()}
+                      />
+                    ))}
                   </Picker>
                 </View>
               </Column>
             </Form>
             <Row>
-              {
-                this.state.loading ? <MiniLoading /> : (this.state.showTimes.length < 1 ? <MiniMessage message={this.state.message} /> : (
-                  <Fragment>
-                    {this.state.showTimes.map((item, index) => (
-                      <Col key={String(index)}>
-                        <ShowTimeCard cinemaPosterProps={item.cinemaPoster} cinema={item.cinema} city={item.city} movieTitleProps={item.movieTitle} movieIdProps={item.movieId} categoryProps={item.category} cinemaIdProps={item.cinemaId} activeTimes={item.time} price={item.pricePerSeat} address={item.address} times={this.state.times} selectedDate={this.state.selectedDate} movieId={this.props.route.params.id}  {...this.props} />
-                      </Col>
-                    ))}
-                  </Fragment>
-                ))
-              }
+              {this.state.loading ? (
+                <MiniLoading />
+              ) : this.state.showTimes.length < 1 ? (
+                <MiniMessage message={this.state.message} />
+              ) : (
+                <Fragment>
+                  {this.state.showTimes.map((item, index) => (
+                    <Col key={String(index)}>
+                      <ShowTimeCard
+                        cinemaPosterProps={item.cinemaPoster}
+                        cinema={item.cinema}
+                        city={item.city}
+                        movieTitleProps={item.movieTitle}
+                        movieIdProps={item.movieId}
+                        categoryProps={item.category}
+                        cinemaIdProps={item.cinemaId}
+                        activeTimes={item.time}
+                        price={item.pricePerSeat}
+                        address={item.address}
+                        times={this.state.times}
+                        selectedDate={this.state.selectedDate}
+                        movieId={this.props.route.params.id}
+                        {...this.props}
+                      />
+                    </Col>
+                  ))}
+                </Fragment>
+              )}
             </Row>
             <Pagination>
               {[...Array(5)].map((item, index) => (
@@ -245,6 +302,9 @@ const mapStateToProps = (state) => ({
   ...state.auth,
 });
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {};
 
-export const ShowTimes = connect(mapStateToProps, mapDispatchToProps)(ShowTimesComponent);
+export const ShowTimes = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ShowTimesComponent);

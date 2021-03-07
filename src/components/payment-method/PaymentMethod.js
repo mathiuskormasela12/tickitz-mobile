@@ -36,10 +36,10 @@ export function PaymentMethod() {
       message: `${value} selected`,
       type: 'success',
       duration: 3000,
-      hideOnPress: true
-    })
+      hideOnPress: true,
+    });
     dispatch(setPaymentMethod(value));
-  }
+  };
 
   return (
     <Fragment>

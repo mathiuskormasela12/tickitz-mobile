@@ -14,7 +14,7 @@ export const Card = styled.View`
 
 export const CardHead = styled.View`
   width: 100%;
-  min-height: ${60 / 100 * 500}px;
+  min-height: ${(60 / 100) * 500}px;
 `;
 export const CardFooter = styled.View`
   width: 100%;
@@ -25,7 +25,7 @@ export const CardFooter = styled.View`
 
 export const Image = styled.Image`
   width: 100%;
-  height: ${60 / 100 * 500}px;
+  height: ${(60 / 100) * 500}px;
   resize-mode: stretch;
 `;
 

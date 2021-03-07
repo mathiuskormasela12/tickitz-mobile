@@ -5,7 +5,9 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 
 export function PriceNavbar() {
-  const totalPayment = useSelector(state => state.transaction.totalPayment);
+  const totalPayment = useSelector(
+    (currentState) => currentState.transaction.totalPayment,
+  );
 
   return (
     <Fragment>

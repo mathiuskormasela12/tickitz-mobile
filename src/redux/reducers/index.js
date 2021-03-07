@@ -10,7 +10,7 @@ import transaction from './transaction';
 const rootPersistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  blacklist: ['auth']
+  blacklist: ['auth'],
 };
 
 const persistConfig = {
@@ -23,7 +23,7 @@ const reducers = combineReducers({
   auth: persistReducer(persistConfig, auth),
   home,
   loading,
-  transaction
+  transaction,
 });
 
 export default persistReducer(rootPersistConfig, reducers);

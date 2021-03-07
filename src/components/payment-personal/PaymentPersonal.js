@@ -24,48 +24,57 @@ import Warning from '../../assets/img/warning.svg';
 import push from '../../helpers/push';
 
 export function PaymentPersonal(props) {
-  const state = useSelector(state => state.transaction);
-  const token = useSelector(state => state.auth.token);
+  const state = useSelector((currentState) => currentState.transaction);
+  const token = useSelector((currentState) => currentState.auth.token);
 
   const dispatch = useDispatch();
 
   const handleInput = (name, value) => {
     dispatch(setInput(name, value));
-  }
+  };
 
   const order = async () => {
-    if(!state.paymentMethod) {
+    if (!state.paymentMethod) {
       showMessage({
         message: 'Please choose your payment method',
         type: 'warning',
         duration: 3000,
-        hideOnPress: true
+        hideOnPress: true,
       });
-    } else if(!state.fullName || !state.email || !state.phoneNumber) {
+    } else if (!state.fullName || !state.email || !state.phoneNumber) {
       dispatch(setMessage("Form can't be empty", 'warning'));
-    } else if (state.email.match(/[^@$a-z0-9.]/gi) || !state.email.match(/@\b/g) || state.email.match(/\s/) || state.email.match(/\b[0-9]/) || !state.email.split('@').pop().includes('.')) {
-      dispatch(setMessage("Incorrect email", 'warning')); 
-    } else if(state.phoneNumber.match(/[a-z]/gi) || state.phoneNumber.match(/[^0-9]/gi)) {
-      dispatch(setMessage("Incorrect phone number", 'warning')); 
+    } else if (
+      state.email.match(/[^@$a-z0-9.]/gi) ||
+      !state.email.match(/@\b/g) ||
+      state.email.match(/\s/) ||
+      state.email.match(/\b[0-9]/) ||
+      !state.email.split('@').pop().includes('.')
+    ) {
+      dispatch(setMessage('Incorrect email', 'warning'));
+    } else if (
+      state.phoneNumber.match(/[a-z]/gi) ||
+      state.phoneNumber.match(/[^0-9]/gi)
+    ) {
+      dispatch(setMessage('Incorrect phone number', 'warning'));
     } else {
-      dispatch(setMessage(null, null))
+      dispatch(setMessage(null, null));
       dispatch(loading());
       const formData = new URLSearchParams();
-        append(formData, {
-          showTimeId: state.showTimeId,
-          timeId: state.timeId,
-          cinemaId: state.cinemaId,
-          totalPayment: state.totalPayment,
-          paymentMethod: state.paymentMethod,
-          seats: state.seats.join(', '),
-          movieId: state.movieId,
-          showTimeDate: state.showTimeDate,
-          ticketTime: state.time,
-          cinemaName: state.cinemaName,
-          cinemaPoster: state.cinemaPoster.replace(PHOTO_URL, ''),
-          cinemaCity: state.cinemaCity,
-          movieTitle: state.movieTitle,
-        })
+      append(formData, {
+        showTimeId: state.showTimeId,
+        timeId: state.timeId,
+        cinemaId: state.cinemaId,
+        totalPayment: state.totalPayment,
+        paymentMethod: state.paymentMethod,
+        seats: state.seats.join(', '),
+        movieId: state.movieId,
+        showTimeDate: state.showTimeDate,
+        ticketTime: state.time,
+        cinemaName: state.cinemaName,
+        cinemaPoster: state.cinemaPoster.replace(PHOTO_URL, ''),
+        cinemaCity: state.cinemaCity,
+        movieTitle: state.movieTitle,
+      });
       try {
         const response = await http.buyTicket(token, formData);
         dispatch(loading());
@@ -73,13 +82,13 @@ export function PaymentPersonal(props) {
           message: response.data.message,
           type: 'success',
           duration: 3000,
-          hideOnPress: true
+          hideOnPress: true,
         });
         PushNotification.localNotification({
-          channelId: "general",
-          title: "Ticket Notification",
-          message: "Successfully to by ticket",
-        })
+          channelId: 'general',
+          title: 'Ticket Notification',
+          message: 'Successfully to by ticket',
+        });
         push(props, 'Ticket');
       } catch (err) {
         console.log(err);
@@ -88,11 +97,11 @@ export function PaymentPersonal(props) {
           message: err.response.data.message,
           type: 'warning',
           duration: 3000,
-          hideOnPress: true
+          hideOnPress: true,
         });
       }
     }
-  }
+  };
   return (
     <Fragment>
       <View style={style.container}>
@@ -138,13 +147,15 @@ export function PaymentPersonal(props) {
                         placeholder="Write Your Phone Number"
                         placeholderColor="#A0A3BD"
                         height={50}
-                        onChangeText={(value) => handleInput('phoneNumber', value)}
+                        onChangeText={(value) =>
+                          handleInput('phoneNumber', value)
+                        }
                       />
                     </View>
                   </View>
                 </View>
               </View>
-              {(state.message) && (
+              {state.message && (
                 <View style={[style.row, style.alertMargin]}>
                   <View style={style.col}>
                     <View style={style.alert}>
@@ -165,11 +176,7 @@ export function PaymentPersonal(props) {
         </View>
         <View style={[style.row, style.btnMargin]}>
           <View style={style.col}>
-            <Button
-              height="55px"
-              width="100%"
-              primary
-              onPress={order}>
+            <Button height="55px" width="100%" primary onPress={order}>
               Pay Your Order
             </Button>
           </View>

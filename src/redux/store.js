@@ -5,7 +5,6 @@ import {persistStore} from 'redux-persist';
 import logger from 'redux-logger';
 import rootReducer from './reducers';
 
-
 const persistedStore = () => {
   const store = createStore(rootReducer, applyMiddleware(thunk, logger));
 

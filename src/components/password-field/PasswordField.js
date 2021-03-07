@@ -8,9 +8,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {PasswordFieldStyle, Container, Edge} from './styled';
 
 export default function PasswordField(props) {
-  const [shown, setShown] = useState(false)
+  const [shown, setShown] = useState(false);
   const handlePeekPassword = () => {
-    setShown(shown => !shown)
+    setShown((currentShown) => !currentShown);
   };
 
   return (

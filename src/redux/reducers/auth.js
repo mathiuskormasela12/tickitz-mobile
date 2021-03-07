@@ -9,22 +9,22 @@ const auth = (state = initialState, action) => {
     case 'SET_TOKEN': {
       return {
         ...state,
-        token: action.payload.token
+        token: action.payload.token,
       };
     }
 
     case 'LOGOUT': {
       return {
         ...state,
-        token: null
-      }
+        token: null,
+      };
     }
 
     case 'SET_REFRESH': {
       return {
         ...state,
-        isRefresh: !state.isRefresh
-      }
+        isRefresh: !state.isRefresh,
+      };
     }
 
     default: {

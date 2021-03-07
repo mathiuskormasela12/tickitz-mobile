@@ -10,9 +10,11 @@ function CardNowMoviePlain(props) {
     <Fragment>
       <Card {...props}>
         <CardHead>
-          <Image source={{
-            uri: props.poster
-          }} />
+          <Image
+            source={{
+              uri: props.poster,
+            }}
+          />
         </CardHead>
       </Card>
     </Fragment>

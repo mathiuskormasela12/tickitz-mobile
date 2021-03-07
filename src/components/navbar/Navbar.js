@@ -14,7 +14,6 @@ import {resetTransaction} from '../../redux/actions/transaction';
 
 // import all components
 import Container from '../container/Container';
-import SearchField from '../search-field/SearchField';
 import {
   Nav,
   Brand,
@@ -23,7 +22,6 @@ import {
   CollapseItem,
   DropdownHead,
   Navs,
-  CollapseTopItem,
   styles,
   DropdownList,
   CollapseItemDropdown,
@@ -50,7 +48,7 @@ export default function Navbar() {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(resetTransaction());
-    push({navigation}, 'Login')
+    push({navigation}, 'Login');
   };
 
   const handlePush = () => {
@@ -106,12 +104,14 @@ export default function Navbar() {
             {!token && (
               <Fragment>
                 <CollapseItem>
-                  <TouchableWithoutFeedback onPress={() => push({navigation}, 'Login')}>
+                  <TouchableWithoutFeedback
+                    onPress={() => push({navigation}, 'Login')}>
                     <Text>Login</Text>
                   </TouchableWithoutFeedback>
                 </CollapseItem>
                 <CollapseItem>
-                  <TouchableWithoutFeedback onPress={() => push({navigation}, 'Register')}>
+                  <TouchableWithoutFeedback
+                    onPress={() => push({navigation}, 'Register')}>
                     <Text>Register</Text>
                   </TouchableWithoutFeedback>
                 </CollapseItem>

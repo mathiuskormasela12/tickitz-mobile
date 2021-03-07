@@ -8,16 +8,18 @@ import {Card, CardHead, Image} from './styles';
 
 export function CardViewAll(props) {
   const push = (id) => {
-    props.navigation.navigate('Detail', { id });
+    props.navigation.navigate('Detail', {id});
   };
 
   return (
     <TouchableWithoutFeedback onPress={() => push(props.id)}>
       <Card {...props}>
         <CardHead>
-          <Image source={{
-            uri: props.poster
-          }} />
+          <Image
+            source={{
+              uri: props.poster,
+            }}
+          />
         </CardHead>
       </Card>
     </TouchableWithoutFeedback>

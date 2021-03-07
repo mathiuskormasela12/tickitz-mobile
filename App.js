@@ -11,15 +11,15 @@ import StackScreen from './StackScreen';
 
 PushNotification.createChannel(
   {
-    channelId: "general",
-    channelName: "General Notification",
-    channelDescription: "A channel to categorise your notifications",
-    playSound: false, 
-    soundName: "default",
-    importance: 4, 
+    channelId: 'general',
+    channelName: 'General Notification',
+    channelDescription: 'A channel to categorise your notifications',
+    playSound: false,
+    soundName: 'default',
+    importance: 4,
     vibrate: true,
   },
-  (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
+  (created) => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
 );
 
 export default function App() {
