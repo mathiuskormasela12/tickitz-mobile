@@ -38,7 +38,8 @@ class AccountSettingsComponent extends Component {
         fullName:
           data.results.first_name &&
           `${data.results.first_name}${
-            String(data.results.last_name) !== 'undefined'
+            String(data.results.last_name) !== 'undefined' &&
+            String(data.results.last_name) !== 'null'
               ? ` ${data.results.last_name}`
               : ''
           }`,

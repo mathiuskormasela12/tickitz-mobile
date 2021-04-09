@@ -2,6 +2,7 @@
 // import all modules
 import React, {Fragment, Component} from 'react';
 import {connect} from 'react-redux';
+import push from '../../helpers/push';
 import http from '../../services/Services';
 
 // import actions
@@ -12,7 +13,7 @@ import Container from '../container/Container';
 import {Header, Title, UpcomingStyle, Subtitle, Main} from './styles';
 import {CardUpcoming, MiniLoading, MiniMessage} from '../';
 import Button from '../button/Button';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 class UpcomingMovieComponent extends Component {
   state = {
@@ -100,8 +101,10 @@ class UpcomingMovieComponent extends Component {
         <UpcomingStyle>
           <Container>
             <Header>
-              <Title>Upcoming Movie</Title>
-              <Subtitle>View All</Subtitle>
+              <Title>Now Showing</Title>
+              <TouchableOpacity onPress={() => push(this.props, 'View All')}>
+                <Subtitle>View All</Subtitle>
+              </TouchableOpacity>
             </Header>
             <Header>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>

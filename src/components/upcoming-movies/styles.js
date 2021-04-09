@@ -3,7 +3,8 @@ import styled from 'styled-components/native';
 import * as variables from '../../style/variable';
 
 export const UpcomingStyle = styled.View`
-  padding-vertical: 50px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   background-color: ${variables.light};
 `;
 
@@ -25,6 +26,7 @@ export const Subtitle = styled.Text`
   font-weight: normal;
   color: ${variables.primary};
   font-size: 19px;
+  text-align: right;
 `;
 
 export const Main = styled.View`
